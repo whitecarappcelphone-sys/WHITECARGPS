@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS Tracker - Pro</title>
+    <meta name="description" content="White Car GPS: monitoreo inteligente, localización y seguimiento de vehículos en tiempo real.">
+    <meta name="application-name" content="White Car GPS">
+    <meta name="theme-color" content="#67B7EB">
+    <link rel="canonical" href="https://whitecarappcelphone-sys.github.io/WHITECARGPS/">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+
+    <!-- Vista previa al compartir el enlace -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="White Car GPS">
+    <meta property="og:title" content="White Car GPS | Monitoreo vehicular">
+    <meta property="og:description" content="Monitoreo inteligente, localización y seguimiento de tus vehículos.">
+    <meta property="og:url" content="https://whitecarappcelphone-sys.github.io/WHITECARGPS/">
+    <meta property="og:image" content="https://whitecarappcelphone-sys.github.io/WHITECARGPS/icon-512.png">
+    <meta property="og:image:secure_url" content="https://whitecarappcelphone-sys.github.io/WHITECARGPS/icon-512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="White Car GPS">
+    <meta property="og:locale" content="es_CO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="White Car GPS | Monitoreo vehicular">
+    <meta name="twitter:description" content="Monitoreo inteligente, localización y seguimiento de tus vehículos.">
+    <meta name="twitter:image" content="https://whitecarappcelphone-sys.github.io/WHITECARGPS/icon-512.png">
     
     <!-- LIBRERÍAS EXTERNAS AL PRINCIPIO -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -3588,6 +3613,13 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             cerrarModalPoliticas();
         }
     });
+
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .catch(error => console.error('No se pudo registrar el service worker:', error));
+        });
+    }
 
     console.log('GPS PRO CARGADO CORRECTAMENTE');  
 </script>
