@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS Tracker - Pro</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
     <!-- LIBRERÍAS EXTERNAS AL PRINCIPIO -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
@@ -27,24 +28,24 @@ html, body {
     padding: 0;
     overflow: hidden !important;
     font-family: Arial, sans-serif;
-    background: #FFFFFF;
-    color: #111;
+    background: #ffffff;
+    color: #ffffff;
 }
 
 /* ================================
-   VIDEO INTRO - 1080 x 637
+   VIDEO INTRO
    ================================ */
 #intro-video {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 1080px;
-    height: 637px;
-    max-width: 94vw;
-    max-height: 82vh;
+    width: min(100vw, 169.54vh);
+    height: auto;
     aspect-ratio: 1080 / 637;
+    max-width: 100vw;
+    max-height: 100vh;
     transform: translate(-50%, -50%);
-    background: #FFFFFF;
+    background: #ffffff;
     border: 3px solid #67B7EB;
     box-shadow: 0 0 4px #67B7EB, 0 0 8px rgba(103, 183, 235, 0.5);
     border-radius: 25px;
@@ -60,8 +61,6 @@ html, body {
     height: 100%;
     object-fit: contain;
     border-radius: 20px;
-    background: #FFFFFF;
-    display: block;
 }
 
 @keyframes salirHaciaArriba {
@@ -74,30 +73,27 @@ html, body {
 }
 
 /* ================================
-   PANTALLA DE LOGIN (FONDO VIDEO)
+   PANTALLA DE LOGIN
    ================================ */
 #pantalla-login {
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100%;
-    background: #FFFFFF;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    overflow: hidden;
 }
 
-#pantalla-login .bg-video {
+#login-background-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    display: block;
-    background: #FFFFFF;
 }
 
 #login-box {
@@ -106,7 +102,7 @@ html, body {
     width: 82%;
     max-width: 350px;
     padding: 15px 28px 28px 28px;
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.10);
     border: 2px solid #67B7EB;
     border-radius: 18px;
     box-shadow: 0 0 6px #67B7EB, 0 0 15px rgba(103, 183, 235, 0.8), 0 0 30px rgba(103, 183, 235, 0.5);
@@ -131,7 +127,7 @@ html, body {
     font-size: 14px;
     font-family: inherit;
     background: #ffffff;
-    color: #111;
+    color: #67B7EB;
 }
 
 #login-box select {
@@ -151,8 +147,8 @@ html, body {
     margin-top: 18px;
     border: none;
     border-radius: 10px;
-    background: #67B7EB;
-    color: #ffffff;
+    background: #ffffff;
+    color: #67B7EB;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
@@ -168,7 +164,7 @@ html, body {
     inset: 0;
     width: 100%;
     height: 100%;
-    background: #FFFFFF;
+    background: #ffffff;
     overflow: hidden !important;
     z-index: 1000;
 }
@@ -180,7 +176,7 @@ html, body {
     height: 100%;
     margin: 0;
     border: none;
-    background: #FFFFFF;
+    background: #ffffff;
     z-index: 1; 
 }
 
@@ -208,22 +204,22 @@ html, body {
 /* 1. TARJETA CABECERA */
 #tarjeta-gps {
     width: 100%;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(103, 183, 235, 0.55);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(103, 183, 235, 0.35);
     border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(103, 183, 235, 0.25), 0 0 8px rgba(103, 183, 235, 0.35);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.6), 0 0 8px rgba(103, 183, 235, 0.2);
     overflow: visible; 
 }
 
 .gps-tarjeta-cabecera {
     padding: 6px 15px; 
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.65);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     border-radius: 16px; 
-    border: 1px solid rgba(103, 183, 235, 0.55); 
+    border: 1px solid rgba(103, 183, 235, 0.35); 
 }
 
 .gps-vehiculo-img {
@@ -236,7 +232,7 @@ html, body {
     padding: 0;
     box-shadow: none;
     flex-shrink: 0;
-    filter: drop-shadow(0 4px 6px rgba(103, 183, 235, 0.35));
+    filter: drop-shadow(0 4px 6px rgba(255, 255, 255, 0.5));
     transform: scale(1.6); 
     transform-origin: center left; 
     margin-left: -50px;
@@ -258,7 +254,7 @@ html, body {
 }
 
 .gps-vehiculo-marca {
-    color: #5a7085;
+    color: #cccccc;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -271,18 +267,18 @@ html, body {
     font-weight: bold;
     letter-spacing: 0.5px;
 }
-.gps-ok { color: #00b44a; text-shadow: 0 0 5px rgba(0, 180, 74, 0.35); }
+.gps-ok { color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.6); }
 .gps-error { color: #67B7EB; text-shadow: 0 0 5px rgba(103, 183, 235, 0.6); }
 
 /* 2. TARJETA UBICACIÓN */
 .ubicacion-destacada {
     width: 100%;
     min-height: 50px;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.90);
     border-radius: 12px;
     padding: 8px 12px;
-    border: 1px solid rgba(103, 183, 235, 0.45);
-    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.20);
+    border: 1px solid rgba(103, 183, 235, 0.25);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -305,12 +301,12 @@ html, body {
 .velocidad-destacada, 
 .ignicion-destacada {
     width: 100%;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.90);
     border-radius: 12px;
     padding: 10px 6px;
     text-align: center;
-    border: 1px solid rgba(103, 183, 235, 0.45);
-    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.20);
+    border: 1px solid rgba(103, 183, 235, 0.25);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -327,13 +323,13 @@ html, body {
 
 .btn-extra {
     flex: 1;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(103, 183, 235, 0.6);
+    background: rgba(255, 255, 255, 0.90);
+    border: 1px solid rgba(103, 183, 235, 0.4);
     border-radius: 12px;
     color: #67B7EB;
     font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.20);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -341,15 +337,12 @@ html, body {
 }
 
 .btn-extra:hover {
-    background: rgba(103, 183, 235, 0.20);
+    background: rgba(103, 183, 235, 0.2);
     border-color: #67B7EB;
 }
 .btn-extra i.fa-key {
     color: #67B7EB !important;
     font-size: 20px;
-}
-.btn-extra i.fa-map {
-    color: #67B7EB !important;
 }
 
 /* ================================
@@ -372,19 +365,19 @@ html, body {
    POPUP Y MARCADORES GPS 
    ================================ */
 .gps-popup .leaflet-popup-content-wrapper {
-    background: rgba(255, 255, 255, 0.95) !important;
-    color: #1e3447 !important;
+    background: rgba(255, 255, 255, 0.65) !important;
+    color: #67B7EB !important;
     border: 2px solid #67B7EB !important;
     border-radius: 16px !important;
     box-shadow: 0 0 6px #67B7EB, 0 0 15px rgba(103, 183, 235, 0.8) !important;
 }
 .gps-popup .leaflet-popup-tip {
-    background: #FFFFFF !important;
+    background: #ffffff !important;
     border-right: 2px solid #67B7EB;
     border-bottom: 2px solid #67B7EB;
 }
 .gps-placa {
-    background: #FFFFFF !important;
+    background: #ffffff !important;
     color: #67B7EB !important;
     border: 1px solid #67B7EB !important;
     border-radius: 6px !important;
@@ -393,7 +386,7 @@ html, body {
     font-weight: bold !important;
 }
 .gps-estado-movimiento {
-    color: #1e3447 !important;
+    color: #67B7EB !important;
     font-size: 11px !important;
     font-weight: bold !important;
     margin-top: 4px !important;
@@ -415,29 +408,29 @@ html, body {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.85);
     z-index: 1000000;
     align-items: center;
     justify-content: center;
 }
 
 .modal-box {
-    background: #FFFFFF;
+    background: #ffffff;
     border: 2px solid #67B7EB;
     padding: 25px;
     border-radius: 18px;
     width: 90%;
     max-width: 400px;
     box-shadow: 0 0 15px rgba(103, 183, 235, 0.5);
-    color: #1e3447;
+    color: #67B7EB;
     text-align: center;
 }
 
 .modal-box h3 { color: #67B7EB; margin-top: 0; margin-bottom: 20px; }
-.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #5a7085; }
+.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #67B7EB; }
 .modal-box select, .modal-box input {
     width: 100%; padding: 10px; margin-bottom: 15px;
-    background: #FFFFFF; color: #1e3447; border: 1px solid #67B7EB;
+    background: #ffffff; color: #67B7EB; border: 1px solid #67B7EB;
     border-radius: 8px; outline: none;
 }
 .modal-box select:focus, .modal-box input:focus { box-shadow: 0 0 5px #67B7EB; }
@@ -446,12 +439,12 @@ html, body {
     border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 10px;
 }
 .modal-box button.btn-cancelar {
-    background: #FFFFFF; color: #33475b; border: 1px solid rgba(103,183,235,0.6); padding: 12px 20px;
+    background: #ffffff; color: #67B7EB; border: none; padding: 12px 20px;
     border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;
 }
 .modal-box button:hover { opacity: 0.9; }
 .leaflet-marker-shadow {
-    filter: brightness(0.9);
+    filter: brightness(0) invert(1);
 }
 
 /* ================================
@@ -464,25 +457,25 @@ html, body {
     padding: 4px 2px !important;
     margin: 0 !important;
 
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(103, 183, 235, 0.55) !important;
+    background: rgba(255, 255, 255, 0.90) !important;
+    border: 1px solid rgba(103, 183, 235, 0.35) !important;
     border-radius: 10px !important;
 
-    color: #1e3447 !important;
+    color: #ffffff !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 2px !important;
 
-    box-shadow: 0 3px 8px rgba(103, 183, 235, 0.25) !important;
+    box-shadow: 0 3px 8px rgba(255, 255, 255, 0.5) !important;
     cursor: pointer;
     transition: transform 0.1s ease, border-color 0.2s ease;
 }
 
 .btn-actualizar:hover {
     border-color: #67B7EB !important;
-    background: rgba(103, 183, 235, 0.22) !important;
+    background: rgba(103, 183, 235, 0.85) !important; /* Fondo azul visible */
 }
 
 .btn-actualizar i {
@@ -503,11 +496,7 @@ html, body {
 
 .btn-actualizar:active {
     transform: scale(0.92);
-    background: #67B7EB !important;
-}
-
-.btn-actualizar:active i, .btn-actualizar:active span {
-    color: #FFFFFF !important;
+    background: rgba(103, 183, 235, 0.95) !important; /* Color firme al presionar */
 }
 
 .btn-actualizar:active i {
@@ -515,7 +504,7 @@ html, body {
 }
   
 /* ================================
-   EFECTO SONAR #67B7EB INDEPENDIENTE
+   EFECTO SONAR AZUL INDEPENDIENTE
    ================================ */
 .gps-sonar-wave-icon {
     background: transparent !important;
@@ -568,7 +557,7 @@ html, body {
 
 <!-- PANTALLA LOGIN -->
 <div id="pantalla-login">
-    <video class="bg-video" autoplay muted loop playsinline>
+    <video id="login-background-video" autoplay muted loop playsinline>
         <source src="https://i.imgur.com/RVjMFb2.mp4" type="video/mp4">
     </video>
     <div id="login-box">
@@ -608,7 +597,7 @@ html, body {
                     <i class="fas fa-key" style="color: #67B7EB;"></i>
                 </button>
                 <button onclick="document.getElementById('modal-menu-mapa').style.display='flex'" class="btn-extra" title="Cambiar Mapa">
-                    <i class="fas fa-map" style="color: #67B7EB;"></i>
+                    <i class="fas fa-map"></i>
                 </button>
             </div>
         </div>
@@ -653,7 +642,7 @@ html, body {
 <div id="modal-alerta" class="modal-overlay">
     <div class="modal-box">
         <h3>Notificación</h3>
-        <p id="texto-alerta" style="margin-bottom:20px; color:#1e3447;"></p>
+        <p id="texto-alerta" style="margin-bottom:20px; color:#67B7EB;"></p>
         <button class="btn-descargar" onclick="cerrarModales()">ACEPTAR</button>
     </div>
 </div>
@@ -666,7 +655,7 @@ html, body {
             CERRAR SESIÓN
         </h3>
 
-        <p style="margin-bottom:20px; font-weight:bold; color:#1e3447; font-size:15px;">
+        <p style="margin-bottom:20px; font-weight:bold; color:#67B7EB; font-size:15px;">
             ¿ESTÁ SEGURO DE CERRAR SESIÓN?
         </p>
 
@@ -695,7 +684,7 @@ html, body {
 <div id="modal-confirmacion-motor" class="modal-overlay">
     <div class="modal-box">
         <h3 style="color:#ffcc00;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3>
-        <p style="margin-bottom:20px; font-weight:bold; color:#1e3447; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
+        <p style="margin-bottom:20px; font-weight:bold; color:#67B7EB; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
         <button class="btn-descargar" onclick="confirmarComando()">ACEPTAR</button>
         <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
     </div>
@@ -740,7 +729,7 @@ html, body {
     <div class="modal-box" style="max-width: 420px; max-height: 85vh; overflow-y: auto;">
         <h3><i class="fas fa-draw-polygon"></i> Gestión de Geocercas</h3>
         
-        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid rgba(103,183,235,0.4); padding-bottom: 10px;">
+        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid rgba(103,183,235,0.3); padding-bottom: 10px;">
             <strong style="color: #67B7EB; font-size: 14px; display: block; margin-bottom: 8px;">Nueva Geocerca</strong>
             
             <label>Nombre de la Geocerca:</label>
@@ -909,10 +898,10 @@ html, body {
             capaGeocercas = null;
         }
         mapaCentradoInicialmente = false;
-marcadoresVehiculos = {};
-marcadoresSonar = {};
-historialRutas = {};
-lineasRuta = {};
+        marcadoresVehiculos = {};
+        marcadoresSonar = {};
+        historialRutas = {};
+        lineasRuta = {};
 
         contenedor.innerHTML = '';
         mapa = L.map('mapa2', { zoomControl: false }).setView([4.60971, -74.08175], 12);
@@ -1016,9 +1005,9 @@ lineasRuta = {};
         ultimaLongitud = lng;
         
         if (!mapaCentradoInicialmente) {
-    mapa.setView([lat, lng], 16);
-    mapaCentradoInicialmente = true;
-}
+            mapa.setView([lat, lng], 16);
+            mapaCentradoInicialmente = true;
+        }
 
         if (!historialRutas[idDispositivo]) {
             historialRutas[idDispositivo] = [];
@@ -1102,11 +1091,11 @@ lineasRuta = {};
         let velocidadDestacada = `
             <div class="velocidad-destacada">
                 <div style="display:flex; align-items:center; justify-content:center; gap:5px;">
-                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter: hue-rotate(175deg) saturate(1.4);">
-                    <div style="color:#1e3447; font-size:18px; font-weight:bold; line-height:1;">
+                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter:hue-rotate(205deg) saturate(1.2);">
+                    <div style="color:#67B7EB; font-size:18px; font-weight:bold; line-height:1;">
                         ${velocidadKmh}
                     </div>
-                    <div style="color:#5a7085; font-size:10px; margin-top:5px;">km/h</div>
+                    <div style="color:#ccc; font-size:10px; margin-top:5px;">km/h</div>
                 </div>
                 <div style="color:#67B7EB; font-size:9px; margin-top:5px; letter-spacing:1px; font-weight:bold;">
                     VELOCIDAD
@@ -1121,13 +1110,13 @@ lineasRuta = {};
             ignicionDestacada = `
                 <div class="ignicion-destacada">
                     <img src="https://i.imgur.com/LQHjXWa.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto;">
-                    <div style="color:#00b44a; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">ENCENDIDO</div>
+                    <div style="color:#00ff66; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">ENCENDIDO</div>
                 </div>
             `;
         } else {
             ignicionDestacada = `
                 <div class="ignicion-destacada">
-                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter: hue-rotate(175deg) saturate(1.6) brightness(1.05);">
+                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter:hue-rotate(205deg) saturate(1.2);">
                     <div style="color:#67B7EB; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">APAGADO</div>
                 </div>
             `;
@@ -1136,8 +1125,8 @@ lineasRuta = {};
         obtenerNombreLugar(lat, lng).then(nombreLugar => {
             document.getElementById('ubicacion-flotante').innerHTML = `
                 <div class="ubicacion-destacada">
-                    <img src="https://i.imgur.com/1VCjVnA.gif" style="width:35px; height:35px; object-fit:contain; flex-shrink:0; filter: hue-rotate(175deg) saturate(1.4);">
-                    <div style="color:#1e3447; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
+                    <img src="https://i.imgur.com/1VCjVnA.gif" style="width:35px; height:35px; object-fit:contain; flex-shrink:0;">
+                    <div style="color:#67B7EB; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
                         ${nombreLugar}
                     </div>
                 </div>
@@ -1164,21 +1153,21 @@ lineasRuta = {};
         document.getElementById('ignicion-flotante').innerHTML = ignicionDestacada;
     }
     function volverAlVehiculo() {
-    if (!mapa || !dispositivoActualId) {
-        mostrarAlertaPersonalizada("No se ha detectado ningún vehículo.");
-        return;
+        if (!mapa || !dispositivoActualId) {
+            mostrarAlertaPersonalizada("No se ha detectado ningún vehículo.");
+            return;
+        }
+
+        const marcador = marcadoresVehiculos[dispositivoActualId];
+
+        if (marcador) {
+            const posicion = marcador.getLatLng();
+
+            mapa.setView(posicion, 18, {
+                animate: true
+            });
+        }
     }
-
-    const marcador = marcadoresVehiculos[dispositivoActualId];
-
-    if (marcador) {
-        const posicion = marcador.getLatLng();
-
-        mapa.setView(posicion, 18, {
-            animate: true
-        });
-    }
-}
     function cerrarSesion() {
         localStorage.removeItem('eagle_email');
         localStorage.removeItem('eagle_password');
@@ -1201,11 +1190,11 @@ lineasRuta = {};
         }
         
         marcadoresVehiculos = {};
-marcadoresSonar = {};
-historialRutas = {};
-lineasRuta = {};
-dispositivoActualId = null;
-mapaCentradoInicialmente = false;
+        marcadoresSonar = {};
+        historialRutas = {};
+        lineasRuta = {};
+        dispositivoActualId = null;
+        mapaCentradoInicialmente = false;
     }
 
     function abrirModalDescarga() {
@@ -1256,8 +1245,8 @@ mapaCentradoInicialmente = false;
             const dispResp = await fetch('https://whitecargps.duckdns.org/api/devices', { headers: authHeaders() });
             const dispositivos = await dispResp.json();
 
-            let csvContent = "sep=;n"; 
-            csvContent += "Vehiculo;Fecha/Hora;Latitud;Longitud;Velocidad (km/h);Ignicionn";
+            let csvContent = "sep=;\n"; 
+            csvContent += "Vehiculo;Fecha/Hora;Latitud;Longitud;Velocidad (km/h);Ignicion\n";
             let datosEncontrados = false;
 
             for (const disp of dispositivos) {
@@ -1273,7 +1262,7 @@ mapaCentradoInicialmente = false;
                         const fechaLocal = new Date(p.deviceTime).toLocaleString().replace(/,/g, '');
                         const ignicionTxt = p.attributes?.ignition ? "ENCENDIDO" : "APAGADO";
                         
-                        csvContent += `"${disp.name}";"${fechaLocal}";${p.latitude};${p.longitude};${velocidadKmh};"${ignicionTxt}"n`;
+                        csvContent += `"${disp.name}";"${fechaLocal}";${p.latitude};${p.longitude};${velocidadKmh};"${ignicionTxt}"\n`;
                     });
                 }
             }
@@ -1284,7 +1273,7 @@ mapaCentradoInicialmente = false;
                 return;
             }
 
-            const blob = new Blob(["uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const urlBlob = URL.createObjectURL(blob);
             link.setAttribute("href", urlBlob);
@@ -1313,7 +1302,7 @@ mapaCentradoInicialmente = false;
 
     async function cargarGeocercas() {
         const contenedor = document.getElementById('lista-geocercas');
-        contenedor.innerHTML = '<p style="color: #5a7085;">Cargando...</p>';
+        contenedor.innerHTML = '<p style="color: #ccc;">Cargando...</p>';
         
         try {
             const res = await fetch('https://whitecargps.duckdns.org/api/geofences', { headers: authHeaders() });
@@ -1333,11 +1322,11 @@ mapaCentradoInicialmente = false;
 
             geocercas.forEach(g => {
                 const div = document.createElement('div');
-                div.style.cssText = 'background: #FFFFFF; padding: 8px; margin-bottom: 6px; border: 1px solid rgba(103,183,235,0.45); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;';
+                div.style.cssText = 'background: #ffffff; padding: 8px; margin-bottom: 6px; border: 1px solid rgba(103,183,235,0.3); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;';
                 div.innerHTML = `
                     <div>
-                        <strong style="color: #1e3447; font-size: 12px;">${g.name}</strong>
-                        <div style="font-size: 10px; color: #5a7085;">${g.description || 'Sin descripción'}</div>
+                        <strong style="color: #67B7EB; font-size: 12px;">${g.name}</strong>
+                        <div style="font-size: 10px; color: #aaa;">${g.description || 'Sin descripción'}</div>
                     </div>
                     <button onclick="eliminarGeocerca(${g.id})" style="background: #67B7EB; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-trash"></i>
@@ -1346,7 +1335,7 @@ mapaCentradoInicialmente = false;
                 contenedor.appendChild(div);
 
                 if (g.area && g.area.startsWith('CIRCLE') && mapa && capaGeocercas) {
-                    const match = g.area.match(/CIRCLEs*(s*(-?d+.?d*)s+(-?d+.?d*)s*,s*(-?d+.?d*)s*)/i);
+                    const match = g.area.match(/CIRCLE\s*\(\s*(-?\d+\.?\d*)\s+(-?\d+\.?\d*)\s*,\s*(-?\d+\.?\d*)\s*\)/i);
                     if (match) {
                         const lat = parseFloat(match[1]);
                         const lng = parseFloat(match[2]);
