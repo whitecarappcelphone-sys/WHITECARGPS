@@ -492,21 +492,13 @@ html, body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.admin-vehicle-empty,
-.admin-vehicle-count {
+.admin-vehicle-empty {
     color: #ffffff;
     font-size: 10px;
 }
 
 .admin-vehicle-empty {
     padding: 9px;
-}
-
-.admin-vehicle-count {
-    display: block;
-    margin-top: 6px;
-    text-align: right;
-    opacity: 0.9;
 }
 
 #pantalla-mapa #resultado { display: none; }
@@ -946,7 +938,6 @@ html, body {
             </button>
         </div>
         <div id="admin-vehicle-options" role="listbox" aria-label="Vehículos disponibles"></div>
-        <span id="admin-vehicle-count" class="admin-vehicle-count">Cargando vehículos...</span>
     </div>
 
     <pre id="resultado"></pre>
@@ -2586,7 +2577,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     let dispositivoActualId = null;
     let dispositivosAdmin = [];
     let vehiculoAdminSeleccionadoId = null;
-    let mapaAdminEncuadrado = false;
     let comandoPendiente = null;
     let ultimaLatitud = null;
     let ultimaLongitud = null;
@@ -2647,7 +2637,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         if (!esCuentaAdministradora()) return;
 
         dispositivosAdmin = dispositivos;
-        document.getElementById('admin-vehicle-count').textContent = `${dispositivos.length} vehículos disponibles`;
 
         if (document.getElementById('admin-vehicle-options').classList.contains('visible')) {
             renderizarOpcionesVehiculosAdmin();
@@ -2696,6 +2685,11 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
     function mostrarOpcionesVehiculosAdmin() {
         if (!esCuentaAdministradora()) return;
+        const busqueda = document.getElementById('admin-vehicle-search').value.trim();
+        if (!busqueda) {
+            ocultarOpcionesVehiculosAdmin();
+            return;
+        }
         const opciones = document.getElementById('admin-vehicle-options');
         opciones.classList.add('visible');
         document.getElementById('admin-vehicle-search').setAttribute('aria-expanded', 'true');
@@ -2710,6 +2704,10 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     }
 
     function filtrarVehiculosAdmin() {
+        if (!document.getElementById('admin-vehicle-search').value.trim()) {
+            ocultarOpcionesVehiculosAdmin();
+            return;
+        }
         mostrarOpcionesVehiculosAdmin();
     }
 
@@ -2717,7 +2715,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         if (!esCuentaAdministradora()) return;
         const termino = document.getElementById('admin-vehicle-search').value.trim().toLocaleLowerCase();
         if (!termino) {
-            mostrarOpcionesVehiculosAdmin();
+            ocultarOpcionesVehiculosAdmin();
             return;
         }
 
@@ -2740,6 +2738,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         const dispositivo = dispositivosAdmin.find(item => String(item.id) === String(id));
         if (!dispositivo) return;
 
+        limpiarVehiculosAdminEnMapa(String(dispositivo.id));
         vehiculoAdminSeleccionadoId = String(dispositivo.id);
         dispositivoActualId = dispositivo.id;
         const campoBusqueda = document.getElementById('admin-vehicle-search');
@@ -2752,8 +2751,10 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
                 const respuesta = await fetch('https://whitecargps.duckdns.org/api/positions?id=' + dispositivo.positionId, {
                     headers: authHeaders()
                 });
+                if (String(vehiculoAdminSeleccionadoId) !== String(dispositivo.id)) return;
                 if (respuesta.ok) {
                     const posiciones = await respuesta.json();
+                    if (String(vehiculoAdminSeleccionadoId) !== String(dispositivo.id)) return;
                     if (posiciones.length) {
                         actualizarMapa(posiciones[0], dispositivo);
                         marcador = marcadoresVehiculos[dispositivo.id];
@@ -2773,6 +2774,22 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         mapa.setView(ubicacion, 18, { animate: true });
         marcador.openTooltip();
         mapaCentradoInicialmente = true;
+    }
+
+    function limpiarVehiculosAdminEnMapa(idMantener = null) {
+        if (!esCuentaAdministradora()) return;
+
+        [marcadoresVehiculos, marcadoresSonar, lineasRuta].forEach(grupo => {
+            Object.entries(grupo).forEach(([id, capa]) => {
+                if (idMantener !== null && String(id) === String(idMantener)) return;
+                if (mapa && capa) mapa.removeLayer(capa);
+                delete grupo[id];
+            });
+        });
+
+        Object.keys(historialRutas).forEach(id => {
+            if (idMantener === null || String(id) !== String(idMantener)) delete historialRutas[id];
+        });
     }
 
     document.getElementById('admin-vehicle-search').addEventListener('input', filtrarVehiculosAdmin);
@@ -2849,6 +2866,37 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             const dispositivos = await dispositivosResponse.json();
             if (esCuentaAdministradora()) {
                 actualizarVehiculosAdmin(dispositivos);
+
+                // Admin mode fetches coordinates only for the vehicle explicitly searched.
+                if (!vehiculoAdminSeleccionadoId) {
+                    ocultarCargaVehiculo();
+                    return;
+                }
+
+                const dispositivoSeleccionado = dispositivos.find(
+                    dispositivo => String(dispositivo.id) === String(vehiculoAdminSeleccionadoId)
+                );
+                if (!dispositivoSeleccionado || !dispositivoSeleccionado.positionId) {
+                    ocultarCargaVehiculo();
+                    return;
+                }
+                const idSeleccionado = String(dispositivoSeleccionado.id);
+
+                const respuestaPosicion = await fetch(
+                    'https://whitecargps.duckdns.org/api/positions?id=' + dispositivoSeleccionado.positionId,
+                    { headers: authHeaders() }
+                );
+                if (String(vehiculoAdminSeleccionadoId) !== idSeleccionado) return;
+                if (!respuestaPosicion.ok) throw new Error('Error al obtener la posición del vehículo.');
+
+                const posicionesSeleccionadas = await respuestaPosicion.json();
+                if (String(vehiculoAdminSeleccionadoId) !== idSeleccionado) return;
+                if (posicionesSeleccionadas.length) {
+                    actualizarMapa(posicionesSeleccionadas[0], dispositivoSeleccionado);
+                } else {
+                    ocultarCargaVehiculo();
+                }
+                return;
             }
 
             for (const dispositivo of dispositivos) {
@@ -2865,17 +2913,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
                 const posicion = posiciones[0];
                 posicionEncontrada = true;
                 actualizarMapa(posicion, dispositivo);
-            }
-            if (esCuentaAdministradora() && !mapaAdminEncuadrado && !vehiculoAdminSeleccionadoId) {
-                const marcadores = Object.values(marcadoresVehiculos);
-                if (marcadores.length) {
-                    const limites = L.featureGroup(marcadores).getBounds();
-                    if (limites.isValid()) {
-                        mapa.fitBounds(limites, { padding: [60, 60], maxZoom: 15 });
-                        mapaCentradoInicialmente = true;
-                        mapaAdminEncuadrado = true;
-                    }
-                }
             }
             if (!posicionEncontrada) ocultarCargaVehiculo();
         } catch (error) {
@@ -2905,7 +2942,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             capaGeocercas = null;
         }
         mapaCentradoInicialmente = false;
-        mapaAdminEncuadrado = false;
         marcadoresVehiculos = {};
         marcadoresSonar = {};
         historialRutas = {};
@@ -3217,6 +3253,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         }
     }
     function cerrarSesion() {
+        cerrarModales();
         localStorage.removeItem('eagle_email');
         localStorage.removeItem('eagle_password');
         localStorage.removeItem('eagle_marca');
@@ -3245,7 +3282,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         dispositivoActualId = null;
         dispositivosAdmin = [];
         vehiculoAdminSeleccionadoId = null;
-        mapaAdminEncuadrado = false;
         mapaCentradoInicialmente = false;
         configurarPanelAdmin();
     }
