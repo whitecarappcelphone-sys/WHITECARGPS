@@ -35,6 +35,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.css">
+    <script src="https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
 
 <style>
 /* ================================
@@ -271,14 +274,14 @@ html, body {
     display: flex;
     align-items: center;
     flex: 0 0 170px;
-    margin-left: -50px;
+    margin-left: -12px;
     transform: scale(1.6);
     transform-origin: center left;
 }
 
 .gps-vehiculo-arrow {
     position: absolute;
-    left: 0;
+    left: 12px;
     top: 50%;
     z-index: 2;
     color: #ffffff;
@@ -1896,7 +1899,7 @@ html, body {
     </select>
 
     <div class="logo-vehiculo" title="Logo">
-        <img src="https://i.imgur.com/nq80xwL.png" alt="Logo"
+        <img src="https://i.imgur.com/Ga8uSGQ.png" alt="Logo"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
         <i class="fas fa-car" style="display:none;"></i>
     </div>
@@ -2563,7 +2566,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;background:li
 <body>
 <div class="container">
     <div class="logo-area">
-        <div class="logo-icon"><img src="https://i.imgur.com/nq80xwL.png" alt="WHITE CAR GPS"></div>
+        <div class="logo-icon"><img src="https://i.imgur.com/Ga8uSGQ.png" alt="WHITE CAR GPS"></div>
         <p>Monitoreo inteligente · Localización · Control vehicular</p>
     </div>
     <div class="section-title">Información legal y condiciones del servicio</div>
@@ -2902,7 +2905,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     const EMAIL_ADMINISTRADOR = 'whitecarappcelphone@gmail.com';
     let mapa = null;
     let capaMapa = null;
-    let capaMapaReferencia = null;
     let capaGeocercas = null;
     let estiloMapaActual = 'normal'; 
     let marcadoresVehiculos = {};
@@ -3274,7 +3276,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             mapa.remove();
             mapa = null;
             capaMapa = null;
-            capaMapaReferencia = null;
             capaGeocercas = null;
         }
         mapaCentradoInicialmente = false;
@@ -3297,28 +3298,27 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         if (capaMapa) {
             mapa.removeLayer(capaMapa);
         }
-        if (capaMapaReferencia) {
-            mapa.removeLayer(capaMapaReferencia);
-            capaMapaReferencia = null;
+
+        if (estilo === 'oscuro') {
+            capaMapa = L.maplibreGL({
+                style: 'https://tiles.openfreemap.org/styles/dark',
+                maxZoom: 20,
+                attributionControl: {
+                    customAttribution: '<a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+                }
+            }).addTo(mapa);
+            estiloMapaActual = estilo;
+            return;
         }
-        
+
         let url = '';
         if (estilo === 'satelite') {
             url = 'https://mt1.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}';
         } else if (estilo === 'normal') {
             url = 'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
-        } else if (estilo === 'oscuro') {
-            url = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
         }
 
-        const atribucion = estilo === 'oscuro' ? 'Tiles &copy; Esri' : '&copy; MapData';
-        capaMapa = L.tileLayer(url, { maxZoom: 20, attribution: atribucion }).addTo(mapa);
-        if (estilo === 'oscuro') {
-            capaMapaReferencia = L.tileLayer(
-                'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
-                { maxZoom: 20, attribution: 'Labels &copy; Esri', pane: 'overlayPane' }
-            ).addTo(mapa);
-        }
+        capaMapa = L.tileLayer(url, { maxZoom: 20, attribution: '&copy; MapData' }).addTo(mapa);
         estiloMapaActual = estilo;
     }
 
@@ -3425,7 +3425,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         const colorMovimiento = posicion.attributes?.motion === true ? '#00ff00' : '#ffffff';
         // 1. Mantenemos tu icono de vehículo ORIGINAL intacto
         const iconoGPS = L.icon({
-            iconUrl: 'https://i.imgur.com/Ga8uSGQ.png',
+            iconUrl: 'https://i.imgur.com/ovIjZz9.png',
             iconSize: [95, 95],
             iconAnchor: [47.5, 75],
             tooltipAnchor: [0, -55],
@@ -3610,7 +3610,6 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             mapa.remove();
             mapa = null;
             capaMapa = null;
-            capaMapaReferencia = null;
             capaGeocercas = null;
         }
         
