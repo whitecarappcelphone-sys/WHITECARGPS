@@ -387,6 +387,123 @@ html, body {
     pointer-events: none;
 }
 
+#admin-vehicle-panel {
+    position: absolute;
+    top: 127px;
+    right: 15px;
+    z-index: 10001;
+    display: none;
+    width: min(245px, calc(100vw - 90px));
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 12px;
+    background: rgba(103, 183, 235, 0.96);
+    box-shadow: 0 4px 14px rgba(103, 183, 235, 0.55);
+}
+
+#admin-vehicle-panel label {
+    display: block;
+    margin-bottom: 7px;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.admin-search-wrap {
+    display: flex;
+    gap: 5px;
+}
+
+#admin-vehicle-search {
+    min-width: 0;
+    flex: 1;
+    height: 34px;
+    padding: 0 9px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 7px;
+    outline: none;
+    background: rgba(103, 183, 235, 0.85);
+    color: #ffffff;
+    font: inherit;
+    font-size: 11px;
+}
+
+#admin-vehicle-search::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#admin-vehicle-search:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.45);
+}
+
+.admin-search-submit {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ffffff;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #67B7EB;
+    cursor: pointer;
+}
+
+#admin-vehicle-options {
+    display: none;
+    max-height: 220px;
+    margin-top: 6px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 7px;
+    background: rgba(103, 183, 235, 0.98);
+}
+
+#admin-vehicle-options.visible {
+    display: block;
+}
+
+.admin-vehicle-option {
+    width: 100%;
+    display: block;
+    padding: 8px 9px;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    background: transparent;
+    color: #ffffff;
+    text-align: left;
+    font: inherit;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.admin-vehicle-option:hover,
+.admin-vehicle-option:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.admin-vehicle-empty,
+.admin-vehicle-count {
+    color: #ffffff;
+    font-size: 10px;
+}
+
+.admin-vehicle-empty {
+    padding: 9px;
+}
+
+.admin-vehicle-count {
+    display: block;
+    margin-top: 6px;
+    text-align: right;
+    opacity: 0.9;
+}
+
 #pantalla-mapa #resultado { display: none; }
 
 /* ================================
@@ -814,6 +931,18 @@ html, body {
         </button>
     </div>
 
+    <div id="admin-vehicle-panel">
+        <label for="admin-vehicle-search"><i class="fas fa-car"></i> Vehículos de la cuenta</label>
+        <div class="admin-search-wrap">
+            <input id="admin-vehicle-search" type="search" placeholder="Buscar por placa..." autocomplete="off" aria-controls="admin-vehicle-options" aria-expanded="false">
+            <button type="button" class="admin-search-submit" onclick="buscarVehiculoAdmin()" title="Buscar vehículo">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div id="admin-vehicle-options" role="listbox" aria-label="Vehículos disponibles"></div>
+        <span id="admin-vehicle-count" class="admin-vehicle-count">Cargando vehículos...</span>
+    </div>
+
     <pre id="resultado"></pre>
 </div>
 
@@ -959,7 +1088,7 @@ html, body {
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <iframe id="iframe-politicas" title="Políticas y condiciones de EAGLE TRACK GPS"></iframe>
+        <iframe id="iframe-politicas" title="Políticas y condiciones de WHITE CAR GPS"></iframe>
     </div>
 </div>
 
@@ -1010,14 +1139,15 @@ html, body {
 .fila-superior {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .titulo-area {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
@@ -1071,7 +1201,7 @@ html, body {
 
 .fila-controles label {
     font-size: 11.5px;
-    color: #bbb;
+    color: #ffffff;
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -1110,8 +1240,8 @@ html, body {
     color: #67B7EB;
     border: none;
     border-radius: 8px;
-    padding: 7px 20px;
-    font-size: 13px;
+    padding: 5px 9px;
+    font-size: 10px;
     font-weight: bold;
     cursor: pointer;
     letter-spacing: 0.5px;
@@ -1119,8 +1249,9 @@ html, body {
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     box-shadow: 0 0 10px rgba(255,255,255,0.4);
+    flex-shrink: 0;
 }
 .btn-buscar:hover { background: #ffffff; }
 .btn-buscar:active { transform: scale(0.96); }
@@ -1538,11 +1669,10 @@ html, body {
         <div class="titulo-area">
             <i class="fas fa-route" style="color:#ff0000; font-size:18px;"></i>
             <h1>RECORRIDO DEL VEHÍCULO</h1>
+            <button class="btn-buscar" onclick="cargarRecorrido()">
+                <i class="fas fa-search"></i> BUSCAR
+            </button>
         </div>
-        <!-- BOTÓN BUSCAR EN EL LUGAR DONDE ESTABA "VOLVER" -->
-        <button class="btn-buscar" onclick="cargarRecorrido()">
-            <i class="fas fa-search"></i> BUSCAR
-        </button>
     </div>
 
     <!-- FILA DE CONTROLES: DESDE Y HASTA JUNTO A SUS CAMPOS CORRESPONDIENTES -->
@@ -1550,7 +1680,7 @@ html, body {
         <div class="grupo-control">
 
     <label for="selector-vehiculo">
-        <i class="fas fa-car" style="color:#ff4444;"></i> Vehículo:
+        <i class="fas fa-car" style="color:#ffffff;"></i> Vehículo:
     </label>
 
     <select id="selector-vehiculo">
@@ -1558,7 +1688,7 @@ html, body {
     </select>
 
     <div class="logo-vehiculo" title="Logo">
-        <img src="https://i.imgur.com/fp4GnRx.png" alt="Logo"
+        <img src="https://i.imgur.com/nq80xwL.png" alt="Logo"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
         <i class="fas fa-car" style="display:none;"></i>
     </div>
@@ -1566,12 +1696,12 @@ html, body {
 </div>
 
         <div class="grupo-control">
-            <label for="input-desde"><i class="fas fa-calendar-alt" style="color:#ff4444;"></i> Desde:</label>
+            <label for="input-desde"><i class="fas fa-calendar-alt" style="color:#ffffff;"></i> Desde:</label>
             <input type="datetime-local" id="input-desde">
         </div>
 
         <div class="grupo-control">
-            <label for="input-hasta"><i class="fas fa-calendar-alt" style="color:#ff4444;"></i> Hasta:</label>
+            <label for="input-hasta"><i class="fas fa-calendar-alt" style="color:#ffffff;"></i> Hasta:</label>
             <input type="datetime-local" id="input-hasta">
         </div>
     </div>
@@ -2431,6 +2561,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     });
   
     // Variables Globales del Mapa y Dispositivos
+    const EMAIL_ADMINISTRADOR = 'whitecarappcelphone@gmail.com';
     let mapa = null;
     let capaMapa = null;
     let capaGeocercas = null;
@@ -2441,6 +2572,9 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     let lineasRuta = {};
     
     let dispositivoActualId = null;
+    let dispositivosAdmin = [];
+    let vehiculoAdminSeleccionadoId = null;
+    let mapaAdminEncuadrado = false;
     let comandoPendiente = null;
     let ultimaLatitud = null;
     let ultimaLongitud = null;
@@ -2459,6 +2593,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         if (emailGuardado && passwordGuardado && marcaGuardada && tipoGuardado) {
             document.getElementById('email').value = emailGuardado;
             document.getElementById('password').value = passwordGuardado;
+            configurarPanelAdmin();
             
             document.getElementById('pantalla-login').style.display = 'none';
             document.getElementById('pantalla-mapa').style.display = 'block';
@@ -2480,6 +2615,168 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             'Authorization': 'Basic ' + btoa(email + ':' + password)
         };
     }
+
+    function esCuentaAdministradora() {
+        return document.getElementById('email').value.trim().toLowerCase() === EMAIL_ADMINISTRADOR;
+    }
+
+    function configurarPanelAdmin() {
+        const panel = document.getElementById('admin-vehicle-panel');
+        const esAdmin = esCuentaAdministradora();
+        panel.style.display = esAdmin ? 'block' : 'none';
+        if (!esAdmin) {
+            document.getElementById('admin-vehicle-options').classList.remove('visible');
+            document.getElementById('admin-vehicle-search').value = '';
+            document.getElementById('admin-vehicle-search').setAttribute('aria-expanded', 'false');
+        }
+    }
+
+    function actualizarVehiculosAdmin(dispositivos) {
+        if (!esCuentaAdministradora()) return;
+
+        dispositivosAdmin = dispositivos;
+        document.getElementById('admin-vehicle-count').textContent = `${dispositivos.length} vehículos disponibles`;
+
+        if (document.getElementById('admin-vehicle-options').classList.contains('visible')) {
+            renderizarOpcionesVehiculosAdmin();
+        }
+    }
+
+    function etiquetaVehiculoAdmin(dispositivo) {
+        return dispositivo.name || dispositivo.attributes?.plate || dispositivo.attributes?.registration || `Vehículo #${dispositivo.id}`;
+    }
+
+    function coincideVehiculoAdmin(dispositivo, termino) {
+        if (!termino) return true;
+        return [
+            dispositivo.name,
+            dispositivo.attributes?.plate,
+            dispositivo.attributes?.registration,
+            dispositivo.uniqueId,
+            dispositivo.id
+        ].filter(Boolean).some(valor => String(valor).toLocaleLowerCase().includes(termino));
+    }
+
+    function renderizarOpcionesVehiculosAdmin() {
+        const contenedor = document.getElementById('admin-vehicle-options');
+        const busqueda = document.getElementById('admin-vehicle-search').value.trim().toLocaleLowerCase();
+        const coincidencias = dispositivosAdmin.filter(dispositivo => coincideVehiculoAdmin(dispositivo, busqueda));
+
+        contenedor.innerHTML = '';
+        if (!coincidencias.length) {
+            const vacio = document.createElement('div');
+            vacio.className = 'admin-vehicle-empty';
+            vacio.textContent = 'No se encontraron vehículos.';
+            contenedor.appendChild(vacio);
+            return;
+        }
+
+        coincidencias.forEach(dispositivo => {
+            const opcion = document.createElement('button');
+            opcion.type = 'button';
+            opcion.className = 'admin-vehicle-option';
+            opcion.setAttribute('role', 'option');
+            opcion.textContent = etiquetaVehiculoAdmin(dispositivo);
+            opcion.addEventListener('click', () => seleccionarVehiculoAdmin(dispositivo.id));
+            contenedor.appendChild(opcion);
+        });
+    }
+
+    function mostrarOpcionesVehiculosAdmin() {
+        if (!esCuentaAdministradora()) return;
+        const opciones = document.getElementById('admin-vehicle-options');
+        opciones.classList.add('visible');
+        document.getElementById('admin-vehicle-search').setAttribute('aria-expanded', 'true');
+        renderizarOpcionesVehiculosAdmin();
+    }
+
+    function ocultarOpcionesVehiculosAdmin() {
+        const opciones = document.getElementById('admin-vehicle-options');
+        if (!opciones) return;
+        opciones.classList.remove('visible');
+        document.getElementById('admin-vehicle-search').setAttribute('aria-expanded', 'false');
+    }
+
+    function filtrarVehiculosAdmin() {
+        mostrarOpcionesVehiculosAdmin();
+    }
+
+    async function buscarVehiculoAdmin() {
+        if (!esCuentaAdministradora()) return;
+        const termino = document.getElementById('admin-vehicle-search').value.trim().toLocaleLowerCase();
+        if (!termino) {
+            mostrarOpcionesVehiculosAdmin();
+            return;
+        }
+
+        const coincidencias = dispositivosAdmin.filter(dispositivo => coincideVehiculoAdmin(dispositivo, termino));
+        const exacto = coincidencias.find(dispositivo =>
+            [dispositivo.name, dispositivo.attributes?.plate, dispositivo.attributes?.registration, dispositivo.uniqueId, dispositivo.id]
+                .filter(Boolean).some(valor => String(valor).trim().toLocaleLowerCase() === termino)
+        );
+
+        if (exacto || coincidencias.length === 1) {
+            await seleccionarVehiculoAdmin((exacto || coincidencias[0]).id);
+            return;
+        }
+
+        mostrarOpcionesVehiculosAdmin();
+    }
+
+    async function seleccionarVehiculoAdmin(id) {
+        if (!esCuentaAdministradora()) return;
+        const dispositivo = dispositivosAdmin.find(item => String(item.id) === String(id));
+        if (!dispositivo) return;
+
+        vehiculoAdminSeleccionadoId = String(dispositivo.id);
+        dispositivoActualId = dispositivo.id;
+        const campoBusqueda = document.getElementById('admin-vehicle-search');
+        campoBusqueda.value = etiquetaVehiculoAdmin(dispositivo);
+        ocultarOpcionesVehiculosAdmin();
+
+        let marcador = marcadoresVehiculos[dispositivo.id];
+        if (!marcador && dispositivo.positionId) {
+            try {
+                const respuesta = await fetch('https://whitecargps.duckdns.org/api/positions?id=' + dispositivo.positionId, {
+                    headers: authHeaders()
+                });
+                if (respuesta.ok) {
+                    const posiciones = await respuesta.json();
+                    if (posiciones.length) {
+                        actualizarMapa(posiciones[0], dispositivo);
+                        marcador = marcadoresVehiculos[dispositivo.id];
+                    }
+                }
+            } catch (error) {
+                console.error('No se pudo cargar la ubicación del vehículo seleccionado:', error);
+            }
+        }
+
+        if (!marcador) {
+            mostrarAlertaPersonalizada('La ubicación de este vehículo aún no está disponible.');
+            return;
+        }
+
+        const ubicacion = marcador.getLatLng();
+        mapa.setView(ubicacion, 18, { animate: true });
+        marcador.openTooltip();
+        mapaCentradoInicialmente = true;
+    }
+
+    document.getElementById('admin-vehicle-search').addEventListener('input', filtrarVehiculosAdmin);
+    document.getElementById('admin-vehicle-search').addEventListener('focus', mostrarOpcionesVehiculosAdmin);
+    document.getElementById('admin-vehicle-search').addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            buscarVehiculoAdmin();
+        } else if (event.key === 'Escape') {
+            ocultarOpcionesVehiculosAdmin();
+        }
+    });
+    document.addEventListener('click', event => {
+        const panel = document.getElementById('admin-vehicle-panel');
+        if (panel && !panel.contains(event.target)) ocultarOpcionesVehiculosAdmin();
+    });
     
     // Función central para reemplazar todos los alerts nativos
     function mostrarAlertaPersonalizada(mensaje) {
@@ -2521,6 +2818,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
         document.getElementById('pantalla-login').style.display = 'none';
         document.getElementById('pantalla-mapa').style.display = 'block';
+        configurarPanelAdmin();
 
         crearMapaReal();
         obtenerPosicionActual();
@@ -2537,6 +2835,9 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             });
 
             const dispositivos = await dispositivosResponse.json();
+            if (esCuentaAdministradora()) {
+                actualizarVehiculosAdmin(dispositivos);
+            }
 
             for (const dispositivo of dispositivos) {
                 const positionId = dispositivo.positionId;
@@ -2552,6 +2853,17 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
                 const posicion = posiciones[0];
                 posicionEncontrada = true;
                 actualizarMapa(posicion, dispositivo);
+            }
+            if (esCuentaAdministradora() && !mapaAdminEncuadrado && !vehiculoAdminSeleccionadoId) {
+                const marcadores = Object.values(marcadoresVehiculos);
+                if (marcadores.length) {
+                    const limites = L.featureGroup(marcadores).getBounds();
+                    if (limites.isValid()) {
+                        mapa.fitBounds(limites, { padding: [60, 60], maxZoom: 15 });
+                        mapaCentradoInicialmente = true;
+                        mapaAdminEncuadrado = true;
+                    }
+                }
             }
             if (!posicionEncontrada) ocultarCargaVehiculo();
         } catch (error) {
@@ -2580,6 +2892,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             capaGeocercas = null;
         }
         mapaCentradoInicialmente = false;
+        mapaAdminEncuadrado = false;
         marcadoresVehiculos = {};
         marcadoresSonar = {};
         historialRutas = {};
@@ -2684,7 +2997,9 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         const lng = posicion.longitude;
         const idDispositivo = dispositivo.id;
         
-        dispositivoActualId = idDispositivo;
+        if (!esCuentaAdministradora() || !vehiculoAdminSeleccionadoId || String(vehiculoAdminSeleccionadoId) === String(idDispositivo)) {
+            dispositivoActualId = idDispositivo;
+        }
         ultimaLatitud = lat;
         ultimaLongitud = lng;
         
@@ -2882,7 +3197,11 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         historialRutas = {};
         lineasRuta = {};
         dispositivoActualId = null;
+        dispositivosAdmin = [];
+        vehiculoAdminSeleccionadoId = null;
+        mapaAdminEncuadrado = false;
         mapaCentradoInicialmente = false;
+        configurarPanelAdmin();
     }
 
     function abrirModalDescarga() {
@@ -3156,7 +3475,15 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     function abrirModalPoliticas() {
         const modal = document.getElementById('modal-politicas');
         const iframe = document.getElementById('iframe-politicas');
-        const contenido = document.getElementById('politicas-html').value;
+        const contenido = document.getElementById('politicas-html').value
+            .replace(/EAGLE TRACK GPS/gi, 'WHITE CAR GPS')
+            .replace(/https:\/\/i\.imgur\.com\/fp4GnRx\.png/g, 'https://i.imgur.com/nq80xwL.png')
+            .replace(/#ff174f/gi, '#67B7EB')
+            .replace(/rgba\(\s*255\s*,\s*23\s*,\s*79\s*,\s*([^)]+)\)/gi, 'rgba(103,183,235,$1)')
+            .replace(/rgba\(\s*255\s*,\s*0\s*,\s*55\s*,\s*([^)]+)\)/gi, 'rgba(103,183,235,$1)')
+            .replace(/#(?:080808|070707|121212|090909|101010|151515|0b0b0b)\b/gi, '#67B7EB')
+            .replace(/rgba\(\s*0\s*,\s*0\s*,\s*0\s*,\s*\.78\s*\)/gi, 'rgba(103,183,235,.88)')
+            .replace(/#(?:a7a7a7|c9c9c9|bdbdbd|727272|777|666|999|888)\b/gi, '#ffffff');
 
         iframe.srcdoc = contenido;
         modal.style.display = 'flex';
