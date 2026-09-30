@@ -4,418 +4,2781 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS Tracker - Pro</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- LIBRERÍAS EXTERNAS AL PRINCIPIO -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<style>
-*{box-sizing:border-box}
-html,body{width:100%;height:100%;min-width:0;min-height:0;margin:0;padding:0;overflow:hidden!important;font-family:Arial,sans-serif;background:#67B7EB;color:#fff}
-/* VIDEO INTRO 1080x637 */
-#intro-video{position:fixed;top:50%;left:50%;width:1080px;height:637px;max-width:94vw;max-height:82vh;aspect-ratio:1080/637;transform:translate(-50%,-50%);background:#67B7EB;border:3px solid #FFFFFF;box-shadow:0 0 4px #FFFFFF,0 0 8px rgba(255,255,255,.5);border-radius:25px;z-index:999999;display:flex;align-items:center;justify-content:center;overflow:hidden}
-#intro-video video{width:100%;height:100%;object-fit:contain;border-radius:20px;background:#67B7EB;display:block}
-@keyframes salirHaciaArriba{from{transform:translate(-50%,-50%);opacity:1}to{transform:translate(-50%,-150%);opacity:0}}
-@keyframes salirHaciaArribaMobile{from{transform:translateX(-50%);opacity:1}to{transform:translateX(-50%) translateY(-160%);opacity:0}}
-#intro-video.saliendo{animation:salirHaciaArriba .8s ease-in-out forwards}
-/* VIDEO ABAJO EN MOVILES */
-@media (max-width:768px){
-  #intro-video{top:auto;bottom:14px;left:50%;transform:translateX(-50%);width:94vw;height:auto;max-height:46vh;aspect-ratio:1080/637;border-radius:18px}
-  #intro-video video{border-radius:14px}
-  #intro-video.saliendo{animation:salirHaciaArribaMobile .8s ease-in-out forwards}
-}
-/* LOGIN FONDO VIDEO */
-#pantalla-login{position:fixed;inset:0;width:100vw;height:100%;background:#67B7EB;display:flex;align-items:center;justify-content:center;z-index:9999;overflow:hidden}
-#pantalla-login .bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;display:block;background:#67B7EB}
-#login-box{position:relative;z-index:1;width:82%;max-width:350px;padding:15px 28px 28px 28px;background:rgba(103,183,235,.88);border:2px solid #FFFFFF;border-radius:18px;box-shadow:0 0 6px #FFFFFF,0 0 15px rgba(255,255,255,.8),0 0 30px rgba(255,255,255,.5);text-align:center;backdrop-filter:blur(5px)}
-#login-box h2{margin:0 0 30px 0;color:#FFFFFF;font-size:23px}
-#login-box input,#login-box select{width:100%;height:48px;padding:0 15px;margin:8px 0;border:none;border-radius:10px;outline:none;font-size:14px;font-family:inherit;background:#fff;color:#1e3447}
-#login-box select{appearance:none;-webkit-appearance:none;background:#fff url('data:image/svg+xml;utf8,<svg fill="%2367B7EB" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 10px center;cursor:pointer}
-#login-box input:focus,#login-box select:focus{border:2px solid #FFFFFF;box-shadow:0 0 8px rgba(255,255,255,.8)}
-#login-box button{width:100%;height:48px;margin-top:18px;border:none;border-radius:10px;background:#FFFFFF;color:#67B7EB;font-size:15px;font-weight:bold;cursor:pointer}
-#login-box button:hover{opacity:.9}
-/* MAPA */
-#pantalla-mapa{position:fixed;inset:0;width:100%;height:100%;background:#67B7EB;overflow:hidden!important;z-index:1000}
-#mapa2{position:absolute;inset:0;width:100%;height:100%;margin:0;border:none;background:#67B7EB;z-index:1}
-#hud-container{position:absolute;bottom:45px;left:50%;transform:translateX(-50%);width:94%;max-width:450px;z-index:999999;display:flex;flex-direction:column;gap:2px;pointer-events:none}
-#hud-container>*{pointer-events:auto}
-#tarjeta-gps{width:100%;background:rgba(103,183,235,.92);border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.25),0 0 8px rgba(255,255,255,.45);overflow:visible}
-.gps-tarjeta-cabecera{padding:6px 15px;background:rgba(103,183,235,.75);display:flex;align-items:center;justify-content:space-between;gap:10px;border-radius:16px;border:1px solid rgba(255,255,255,.7)}
-.gps-vehiculo-img{width:170px;height:auto;max-height:90px;object-fit:contain;background:transparent;border:none;padding:0;box-shadow:none;flex-shrink:0;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35));transform:scale(1.6);transform-origin:center left;margin-left:-50px}
-.gps-vehiculo-info{display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-grow:1}
-.gps-vehiculo{color:#FFFFFF;font-size:20px;font-weight:bold;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,.25)}
-.gps-vehiculo-marca{color:#fff;font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;margin:2px 0}
-.gps-estado{font-size:11px;font-weight:bold;letter-spacing:.5px}
-.gps-ok{color:#00ff66;text-shadow:0 0 5px rgba(0,255,102,.6)}
-.gps-error{color:#FFFFFF;text-shadow:0 0 5px rgba(255,255,255,.6)}
-.ubicacion-destacada{width:100%;min-height:50px;background:rgba(103,183,235,.92);border-radius:12px;padding:8px 12px;border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;gap:10px}
-#sensores-flotantes{display:flex;flex-direction:row;gap:8px;width:100%}
-#velocidad-flotante,#ignicion-flotante{flex:1;display:flex}
-.velocidad-destacada,.ignicion-destacada{width:100%;background:rgba(103,183,235,.92);border-radius:12px;padding:10px 6px;text-align:center;border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 10px rgba(0,0,0,.2);display:flex;flex-direction:column;justify-content:center;align-items:center}
-#controles-extra-flotantes{width:50px;display:flex;flex-direction:column;gap:8px}
-.btn-extra{flex:1;background:rgba(103,183,235,.92);border:1px solid rgba(255,255,255,.7);border-radius:12px;color:#FFFFFF;font-size:18px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;transition:all .2s}
-.btn-extra:hover{background:rgba(255,255,255,.22);border-color:#FFFFFF}
-.btn-extra i.fa-key{color:#FFFFFF!important;font-size:20px}
-.btn-extra i.fa-map{color:#FFFFFF!important}
-/* CONTROLES IZQUIERDA + DERECHA */
-#controles-mapa{position:absolute;top:15px;left:15px;z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-#controles-recorrido{position:absolute;top:15px;right:15px;z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-#pantalla-mapa #resultado{display:none}
-.gps-popup .leaflet-popup-content-wrapper{background:rgba(103,183,235,.95)!important;color:#fff!important;border:2px solid #FFFFFF!important;border-radius:16px!important;box-shadow:0 0 6px #FFFFFF,0 0 15px rgba(255,255,255,.8)!important}
-.gps-popup .leaflet-popup-tip{background:#67B7EB!important;border-right:2px solid #FFFFFF;border-bottom:2px solid #FFFFFF}
-.gps-placa{background:#67B7EB!important;color:#FFFFFF!important;border:1px solid #FFFFFF!important;border-radius:6px!important;padding:4px 8px!important;font-size:12px!important;font-weight:bold!important}
-.gps-estado-movimiento{color:#fff!important;font-size:11px!important;font-weight:bold!important;margin-top:4px!important;text-align:center!important;text-shadow:0 0 4px rgba(0,0,0,.5)}
-.gps-placa-estado{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important}
-.gps-placa-estado::before{display:none!important}
-/* MODALES */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(103,183,235,.72);z-index:1000000;align-items:center;justify-content:center}
-#modal-alerta{z-index:1000003!important}
-#modal-recorridos{z-index:1000001}
-.modal-box{background:#67B7EB;border:2px solid #FFFFFF;padding:25px;border-radius:18px;width:90%;max-width:400px;box-shadow:0 0 15px rgba(255,255,255,.5);color:#fff;text-align:center}
-.modal-box h3{color:#FFFFFF;margin-top:0;margin-bottom:20px}
-.modal-box label{display:block;text-align:left;margin-bottom:5px;font-size:13px;color:#fff}
-.modal-box select,.modal-box input{width:100%;padding:10px;margin-bottom:15px;background:#FFFFFF;color:#1e3447;border:1px solid #FFFFFF;border-radius:8px;outline:none}
-.modal-box select:focus,.modal-box input:focus{box-shadow:0 0 5px #FFFFFF}
-.modal-box button.btn-descargar{background:#FFFFFF;color:#67B7EB;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;width:100%;font-weight:bold;margin-bottom:10px}
-.modal-box button.btn-cancelar{background:rgba(255,255,255,.15);color:#fff;border:1px solid #FFFFFF;padding:12px 20px;border-radius:8px;cursor:pointer;width:100%;font-weight:bold}
-.modal-box button:hover{opacity:.9}
-.leaflet-marker-shadow{filter:brightness(1.1)}
-.btn-actualizar{pointer-events:auto;width:52px!important;height:50px!important;padding:4px 2px!important;margin:0!important;background:rgba(103,183,235,.95)!important;border:1px solid rgba(255,255,255,.7)!important;border-radius:10px!important;color:#fff!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;box-shadow:0 3px 8px rgba(0,0,0,.25)!important;cursor:pointer;transition:transform .1s ease,border-color .2s ease}
-.btn-actualizar:hover{border-color:#FFFFFF!important;background:rgba(255,255,255,.22)!important}
-.btn-actualizar i{font-size:16px!important;color:#FFFFFF!important}
-.btn-actualizar span{color:#FFFFFF!important;font-size:6.5px!important;font-weight:bold;letter-spacing:.3px;text-align:center;line-height:1.1;white-space:normal;text-transform:uppercase}
-.btn-actualizar:active{transform:scale(.92);background:#FFFFFF!important}
-.btn-actualizar:active i,.btn-actualizar:active span{color:#67B7EB!important}
-.btn-actualizar:active i{transform:rotate(360deg)}
-/* SONAR BLANCO */
-.gps-sonar-wave-icon{background:transparent!important;border:none!important}
-.sonar-wave{position:absolute;top:0;left:0;width:30px;height:30px;margin-top:-15px;margin-left:-15px;border-radius:50%;background:rgba(255,255,255,.4);border:2px solid #FFFFFF;box-shadow:0 0 15px #FFFFFF,inset 0 0 10px #FFFFFF;pointer-events:none;animation:animacionSonar 2s infinite cubic-bezier(.215,.61,.355,1)}
-@keyframes animacionSonar{0%{transform:scale(.2);opacity:1;box-shadow:0 0 10px #FFFFFF}60%{opacity:.8;box-shadow:0 0 25px #FFFFFF,0 0 45px rgba(255,255,255,.6)}100%{transform:scale(4.5);opacity:0;box-shadow:0 0 60px rgba(255,255,255,0)}}
 
-/* ===== MODAL RECORRIDOS ===== */
-#modal-recorridos{display:none;position:fixed;inset:0;background:rgba(103,183,235,.78);z-index:1000001;align-items:center;justify-content:center;padding:10px}
-.modal-recorridos-box{width:100%;max-width:920px;height:92vh;background:#67B7EB;border:2px solid #FFFFFF;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 18px rgba(255,255,255,.55)}
-.rec-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(103,183,235,1);border-bottom:1px solid rgba(255,255,255,.6)}
-.rec-header h2{margin:0;color:#fff;font-size:16px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
-.rec-header h2 i{color:#fff}
-.rec-close{background:#fff;color:#67B7EB;border:none;border-radius:8px;padding:7px 14px;font-weight:bold;cursor:pointer;font-size:13px}
-.rec-body{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
-#rec-panel-superior{background:rgba(103,183,235,.96);border-bottom:1px solid rgba(255,255,255,.45);padding:10px 14px;display:flex;flex-direction:column;gap:8px;backdrop-filter:blur(8px)}
-.rec-fila-superior{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.rec-titulo-area{display:flex;align-items:center;gap:8px}
-.rec-titulo-area h1{color:#fff;font-size:16px;font-weight:bold;letter-spacing:1px;white-space:nowrap;margin:0}
-.rec-fila-controles{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.rec-grupo{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.rec-logo{width:34px;height:34px;display:flex;align-items:center;justify-content:center;overflow:visible;flex-shrink:0;margin-left:8px;margin-right:6px}
-.rec-logo img{width:300%;height:300%;object-fit:contain;transform:translate(30px,5px)}
-.rec-logo i{color:#fff;font-size:17px;text-shadow:0 0 6px rgba(255,255,255,.6)}
-.rec-fila-controles label{font-size:11.5px;color:#fff;white-space:nowrap;display:flex;align-items:center;gap:4px}
-.rec-fila-controles input[type="datetime-local"]{background:#fff;color:#1e3447;border:1px solid #fff;border-radius:6px;padding:5px 8px;font-size:12px;outline:none;font-family:inherit}
-.rec-fila-controles select{background:#fff;color:#1e3447;border:1px solid #fff;border-radius:6px;padding:5px 8px;font-size:12px;outline:none;font-family:inherit;cursor:pointer;max-width:170px}
-.rec-btn-buscar{background:#fff;color:#67B7EB;border:none;border-radius:8px;padding:7px 20px;font-size:13px;font-weight:bold;cursor:pointer;letter-spacing:.5px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;box-shadow:0 0 10px rgba(255,255,255,.4)}
-.rec-btn-buscar:active{transform:scale(.96)}
-#rec-mapa-wrap{flex:1;position:relative;min-height:0;background:#67B7EB}
-#rec-mapa{position:absolute;inset:0;width:100%;height:100%;z-index:1;background:#67B7EB}
-#rec-leyenda{position:absolute;bottom:40px;right:12px;z-index:1000;background:rgba(103,183,235,.92);border:1px solid rgba(255,255,255,.6);border-radius:10px;padding:9px 12px;font-size:11px;color:#fff;backdrop-filter:blur(6px)}
-#rec-leyenda h4{color:#fff;font-size:12px;margin:0 0 6px 0;display:flex;align-items:center;gap:5px}
-.rec-ley-item{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.rec-ley-punto{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-#rec-barra-estado{background:rgba(103,183,235,.96);border-top:1px solid rgba(255,255,255,.4);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#fff;gap:8px;flex-wrap:wrap}
-#rec-barra-estado .stat-highlight{color:#fff;font-weight:bold;text-shadow:0 0 4px rgba(0,0,0,.3)}
-.rec-extremo-wrap{background:transparent!important;border:none!important}
-.rec-cont{display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}
-.rec-etq{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:3px 8px;font-size:11px;font-weight:800;color:#fff;border-radius:4px;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;border:1.5px solid #fff;margin-bottom:2px}
-.rec-inicio{background:#009933;box-shadow:0 0 10px rgba(0,255,80,.8)}
-.rec-final{background:#cc0000;box-shadow:0 0 10px rgba(255,0,0,.8)}
-.rec-dot{width:13px;height:13px;border-radius:50%;border:2px solid #fff}
-.popup-recorrido .leaflet-popup-content-wrapper{background:rgba(103,183,235,.97)!important;color:#fff!important;border:1.5px solid #fff!important;border-radius:8px!important;box-shadow:0 0 10px rgba(255,255,255,.4),0 4px 18px rgba(0,0,0,.4)!important;padding:0!important}
-.popup-recorrido .leaflet-popup-content{margin:0!important;min-width:220px!important;max-width:245px!important}
-.popup-recorrido .leaflet-popup-tip{background:#67B7EB!important;border-right:1.5px solid #fff;border-bottom:1.5px solid #fff}
-.rec-pop-head{background:rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.35);padding:5px 9px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between}
-.rec-pop-head-izq{display:flex;align-items:center;gap:5px}
-.rec-pop-head i{color:#fff;font-size:11px}
-.rec-pop-titulo{color:#fff;font-size:11px;font-weight:bold;letter-spacing:.5px}
-.rec-badge{font-size:9px;font-weight:800;padding:1px 6px;border-radius:3px;color:#fff;letter-spacing:.5px}
-.rec-badge-ini{background:#00aa44;border:1px solid #fff}
-.rec-badge-fin{background:#dd0000;border:1px solid #fff}
-.rec-pop-body{padding:6px 9px 7px 9px;display:flex;flex-direction:column;gap:4px}
-.rec-fecha{display:flex;align-items:center;gap:6px;font-size:10.5px;color:#fff;background:rgba(255,255,255,.12);padding:3px 6px;border-radius:4px}
-.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 5px}
-.rec-grid-item{display:flex;flex-direction:column;background:rgba(255,255,255,.1);padding:3px 5px;border-radius:4px;border:1px solid rgba(255,255,255,.25)}
-.rec-grid-item .lm{font-size:9px;color:#fff;display:flex;align-items:center;gap:3px;margin-bottom:1px}
-.rec-grid-item .vm{font-size:10.5px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rec-dir{display:flex;align-items:flex-start;gap:5px;font-size:9.5px;color:#fff;background:rgba(255,255,255,.12);padding:3px 6px;border-radius:4px;border-left:2px solid #fff;line-height:1.2}
-.rec-est-on{color:#00ff66!important;text-shadow:0 0 4px rgba(0,255,102,.5)}
-.rec-est-off{color:#fff!important;text-shadow:0 0 4px rgba(0,0,0,.4)}
-.rec-est-mov{color:#00eaff!important;text-shadow:0 0 4px rgba(0,234,255,.5)}
-.rec-est-det{color:#ffdd55!important;text-shadow:0 0 4px rgba(0,0,0,.4)}
-#rec-loading{position:absolute;inset:0;z-index:2000;background:rgba(103,183,235,.85);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px}
-#rec-loading.activo{display:flex}
-.rec-spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:recgirar .8s linear infinite}
-@keyframes recgirar{to{transform:rotate(360deg)}}
-#rec-loading-text{color:#fff;font-size:13px;font-weight:bold;letter-spacing:.5px}
-@media (max-width:600px){.rec-titulo-area h1{font-size:14px}.rec-fila-controles{gap:8px}.rec-fila-controles input[type="datetime-local"]{font-size:11px;padding:4px 6px}#rec-leyenda{bottom:36px;right:8px;padding:7px 9px;font-size:10px}.modal-recorridos-box{height:94vh}}
+<style>
+/* ================================
+   ESTILOS GENERALES Y RESET
+   ================================ */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important;
+    font-family: Arial, sans-serif;
+    background: #67B7EB;
+    color: #67B7EB;
+}
+
+/* ================================
+   VIDEO INTRO
+   ================================ */
+#intro-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(100vw, 169.54vh);
+    height: auto;
+    aspect-ratio: 1080 / 637;
+    max-width: 100vw;
+    max-height: 100vh;
+    transform: translate(-50%, -50%);
+    background: #67B7EB;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.5);
+    border-radius: 25px;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#intro-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+}
+
+@keyframes salirHaciaArriba {
+    from { transform: translate(-50%, -50%); opacity: 1; }
+    to { transform: translate(-50%, -150%); opacity: 0; }
+}
+
+#intro-video.saliendo {
+    animation: salirHaciaArriba 0.8s ease-in-out forwards;
+}
+
+@media (max-width: 600px) {
+    #intro-video {
+        top: auto;
+        bottom: 0;
+        transform: translateX(-50%);
+    }
+
+    #intro-video.saliendo {
+        animation: salirHaciaArribaMovil 0.8s ease-in-out forwards;
+    }
+
+    @keyframes salirHaciaArribaMovil {
+        from { transform: translateX(-50%); opacity: 1; }
+        to { transform: translate(-50%, -150%); opacity: 0; }
+    }
+}
+
+/* ================================
+   PANTALLA DE LOGIN
+   ================================ */
+#pantalla-login {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100%;
+    background: #67B7EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#login-background-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+#login-box {
+    position: relative;
+    z-index: 1;
+    width: 82%;
+    max-width: 350px;
+    padding: 15px 28px 28px 28px;
+    background: rgba(103, 183, 235, 0.10);
+    border: 2px solid #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 0 6px #ffffff, 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5);
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+#login-box h2 {
+    margin: 0 0 30px 0;
+    color: #ffffff;
+    font-size: 23px;
+}
+
+#login-box input, #login-box select {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    background: #67B7EB;
+    color: #ffffff;
+}
+
+#login-box select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #67B7EB url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 10px center;
+    cursor: pointer;
+}
+
+#login-box input:focus, #login-box select:focus { 
+    border: 2px solid #ffffff; 
+}
+
+#login-box button {
+    width: 100%;
+    height: 48px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 10px;
+    background: #67B7EB;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#login-box button:hover { opacity: 0.9; }
+
+/* ================================
+   PANTALLA MAPA
+   ================================ */
+#pantalla-mapa {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: #67B7EB;
+    overflow: hidden !important;
+    z-index: 1000;
+}
+
+#mapa2 {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+    background: #67B7EB;
+    z-index: 1; 
+}
+
+/* ================================
+   HUD CONTENEDOR SUPERIOR
+   ================================ */
+#hud-container {
+    position: absolute;
+    bottom: 45px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 94%;
+    max-width: 450px;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    pointer-events: none;
+}
+
+#hud-container > * {
+    pointer-events: auto;
+}
+
+/* 1. TARJETA CABECERA */
+#tarjeta-gps {
+    width: 100%;
+    background: rgba(103, 183, 235, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(103, 183, 235, 0.6), 0 0 8px rgba(255, 255, 255, 0.2);
+    overflow: visible; 
+}
+
+.gps-tarjeta-cabecera {
+    padding: 6px 15px; 
+    background: rgba(103, 183, 235, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-radius: 16px; 
+    border: 1px solid rgba(255, 255, 255, 0.35); 
+}
+
+.gps-vehiculo-img {
+    width: 170px;
+    height: auto;
+    max-height: 90px; 
+    object-fit: contain;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    flex-shrink: 0;
+    filter: drop-shadow(0 4px 6px rgba(103, 183, 235, 0.5));
+    transform: scale(1.6); 
+    transform-origin: center left; 
+    margin-left: -50px;
+}
+
+.gps-vehiculo-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    flex-grow: 1;
+}
+
+.gps-vehiculo {
+    color: #ffffff;
+    font-size: 20px; 
+    font-weight: bold;
+    line-height: 1.1;
+}
+
+.gps-vehiculo-marca {
+    color: #cccccc;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 2px 0; 
+}
+
+.gps-estado {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+.gps-ok { color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.6); }
+.gps-error { color: #ffffff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.6); }
+
+/* 2. TARJETA UBICACIÓN */
+.ubicacion-destacada {
+    width: 100%;
+    min-height: 50px;
+    background: rgba(103, 183, 235, 0.90);
+    border-radius: 12px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* 3. SENSORES Y BOTONES DE CONTROL (FILA INFERIOR) */
+#sensores-flotantes {
+    display: flex;
+    flex-direction: row;
+    gap: 8px; 
+    width: 100%;
+}
+
+#velocidad-flotante, #ignicion-flotante {
+    flex: 1;
+    display: flex;
+}
+
+.velocidad-destacada, 
+.ignicion-destacada {
+    width: 100%;
+    background: rgba(103, 183, 235, 0.90);
+    border-radius: 12px;
+    padding: 10px 6px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* BOTONES EXTRA: MOTOR Y MAPA */
+#controles-extra-flotantes {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-extra {
+    flex: 1;
+    background: rgba(103, 183, 235, 0.90);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-extra:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+}
+.btn-extra i.fa-key {
+    color: #ffffff !important;
+    font-size: 20px;
+}
+
+/* ================================
+   CONTROLES DEL MAPA (LATERAL IZQUIERDO UNIFICADO)
+   ================================ */
+#controles-mapa {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+#controles-mapa-derecha {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+#pantalla-mapa #resultado { display: none; }
+
+/* ================================
+   POPUP Y MARCADORES GPS 
+   ================================ */
+.gps-popup .leaflet-popup-content-wrapper {
+    background: rgba(103, 183, 235, 0.65) !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 0 6px #ffffff, 0 0 15px rgba(255, 255, 255, 0.8) !important;
+}
+.gps-popup .leaflet-popup-tip {
+    background: #67B7EB !important;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+.gps-placa {
+    background: #67B7EB !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+.gps-estado-movimiento {
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    margin-top: 4px !important;
+    text-align: center !important;
+    text-shadow: 0 0 4px rgba(103, 183, 235, 0.8);
+}
+.gps-placa-estado {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+.gps-placa-estado::before { display: none !important; }
+
+/* ================================
+   MODALES UNIVERSALES
+   ================================ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(103, 183, 235, 0.85);
+    z-index: 1000000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    background: #67B7EB;
+    border: 2px solid #ffffff;
+    padding: 25px;
+    border-radius: 18px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    text-align: center;
+}
+
+.modal-box h3 { color: #ffffff; margin-top: 0; margin-bottom: 20px; }
+.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #ffffff; }
+.modal-box select, .modal-box input {
+    width: 100%; padding: 10px; margin-bottom: 15px;
+    background: #67B7EB; color: #ffffff; border: 1px solid #ffffff;
+    border-radius: 8px; outline: none;
+}
+.modal-box select:focus, .modal-box input:focus { box-shadow: 0 0 5px #ffffff; }
+.modal-box button.btn-descargar {
+    background: #ffffff; color: #67B7EB; border: none; padding: 12px 20px;
+    border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 10px;
+}
+.modal-box button.btn-cancelar {
+    background: #67B7EB; color: #ffffff; border: none; padding: 12px 20px;
+    border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;
+}
+.modal-box button:hover { opacity: 0.9; }
+.leaflet-marker-shadow {
+    filter: brightness(0) invert(1);
+}
+
+/* ================================
+   BOTONES DE ACCIÓN UNIFICADOS
+   ================================ */
+.btn-actualizar {
+    pointer-events: auto;
+    width: 52px !important;
+    height: 50px !important;
+    padding: 4px 2px !important;
+    margin: 0 !important;
+
+    background: rgba(103, 183, 235, 0.90) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border-radius: 10px !important;
+
+    color: #67B7EB !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+
+    box-shadow: 0 3px 8px rgba(103, 183, 235, 0.5) !important;
+    cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.2s ease;
+}
+
+.btn-actualizar:hover {
+    border-color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.85) !important; /* Fondo blanco visible */
+}
+
+.btn-actualizar i {
+    font-size: 16px !important;
+    color: #ffffff !important;
+}
+
+.btn-actualizar span {
+    color: #ffffff !important;
+    font-size: 6.5px !important;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    text-align: center;
+    line-height: 1.1;
+    white-space: normal;
+    text-transform: uppercase;
+}
+
+.btn-actualizar:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.95) !important; /* Color firme al presionar */
+}
+
+.btn-actualizar:active i {
+    transform: rotate(360deg);
+}
+  
+/* ================================
+   EFECTO SONAR AZUL INDEPENDIENTE
+   ================================ */
+.gps-sonar-wave-icon {
+    background: transparent !important;
+    border: none !important;
+}
+
+.sonar-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 15px #ffffff, inset 0 0 10px #ffffff;
+    pointer-events: none;
+    animation: animacionSonar 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.modal-recorridos-overlay {
+    z-index: 1100000;
+}
+
+.modal-recorridos-box {
+    width: min(96vw, 1500px);
+    height: min(94vh, 1000px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+    background: #67B7EB;
+    border: 2px solid #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.55);
+}
+
+.modal-recorridos-header {
+    min-height: 44px;
+    padding: 6px 10px 6px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #67B7EB;
+    color: #ffffff;
+}
+
+.modal-recorridos-header strong {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.modal-recorridos-close {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #67B7EB;
+    cursor: pointer;
+}
+
+#iframe-recorridos {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    background: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .modal-recorridos-box {
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .modal-recorridos-header {
+        min-height: 40px;
+    }
+}
+
+@keyframes animacionSonar {
+    0% {
+        transform: scale(0.2);
+        opacity: 1;
+        box-shadow: 0 0 10px #ffffff;
+    }
+    60% {
+        opacity: 0.8;
+        box-shadow: 0 0 25px #ffffff, 0 0 45px rgba(255, 255, 255, 0.6);
+    }
+    100% {
+        transform: scale(4.5);
+        opacity: 0;
+        box-shadow: 0 0 60px rgba(255, 255, 255, 0);
+    }
+}  
+  
 </style>
 </head>
 <body>
-<div id="intro-video"><video autoplay muted playsinline><source src="https://i.imgur.com/PDxtaCF.mp4" type="video/mp4"></video></div>
-<div id="pantalla-login">
-<video class="bg-video" autoplay muted loop playsinline><source src="https://i.imgur.com/RVjMFb2.mp4" type="video/mp4"></video>
-<div id="login-box">
-<input id="email" type="email" placeholder="Correo" />
-<input id="password" type="password" placeholder="Contraseña" />
-<input id="marca" type="text" placeholder="Marca del vehículo (ej: Chevrolet)" />
-<select id="tipo-vehiculo"><option value="" disabled selected>Selecciona tipo de vehículo</option><option value="https://i.imgur.com/YOlWbRx.gif">SEDAN</option><option value="https://i.imgur.com/eWbyUvB.gif">SUV</option><option value="https://i.imgur.com/uyDPY1U.gif">PICKUP</option><option value="https://i.imgur.com/7SCvnfI.gif">VAN</option><option value="https://i.imgur.com/oyRYTXx.gif">NKR</option></select>
-<button onclick="entrarAlMapa()">INGRESAR</button>
-</div>
-</div>
-<div id="pantalla-mapa" style="display:none;">
-<div id="mapa2"></div>
-<div id="hud-container"><div id="tarjeta-gps"></div><div id="ubicacion-flotante"></div>
-<div id="sensores-flotantes"><div id="velocidad-flotante"></div><div id="ignicion-flotante"></div>
-<div id="controles-extra-flotantes">
-<button onclick="document.getElementById('modal-menu-motor').style.display='flex'" class="btn-extra" title="Control de Motor"><i class="fas fa-key" style="color:#fff;"></i></button>
-<button onclick="document.getElementById('modal-menu-mapa').style.display='flex'" class="btn-extra" title="Cambiar Mapa"><i class="fas fa-map" style="color:#fff;"></i></button>
-</div></div></div>
-<div id="controles-mapa">
-<button onclick="obtenerPosicionActual()" class="btn-actualizar" title="Refrescar"><i class="fas fa-sync-alt"></i><span>Refrescar</span></button>
-<button onclick="volverAlVehiculo()" class="btn-actualizar" title="Volver al vehículo"><i class="fas fa-crosshairs"></i><span>Vehículo</span></button>
-<button onclick="abrirModalDescarga()" class="btn-actualizar" title="Historial"><i class="fas fa-history"></i><span>Historial</span></button>
-<button onclick="abrirConfirmacionSesion()" class="btn-actualizar" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
-<button onclick="abrirModalGeocerca()" class="btn-actualizar" title="Geocerca"><i class="fas fa-draw-polygon"></i><span>Geocerca</span></button>
-<button onclick="abrirStreetView()" class="btn-actualizar" title="Street View"><i class="fas fa-street-view"></i><span>Street View</span></button>
-</div>
-<div id="controles-recorrido">
-<button onclick="abrirModalRecorridos()" class="btn-actualizar" title="Recorridos"><i class="fas fa-route"></i><span>Recorridos</span></button>
-</div>
-<pre id="resultado"></pre>
-</div>
-<div id="modal-alerta" class="modal-overlay"><div class="modal-box"><h3>Notificación</h3><p id="texto-alerta" style="margin-bottom:20px;color:#fff;"></p><button class="btn-descargar" onclick="cerrarModales()">ACEPTAR</button></div></div>
-<div id="modal-confirmar-sesion" class="modal-overlay"><div class="modal-box"><h3><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</h3><p style="margin-bottom:20px;font-weight:bold;color:#fff;font-size:15px;">¿ESTÁ SEGURO DE CERRAR SESIÓN?</p><button class="btn-descargar" onclick="confirmarCerrarSesion()">ACEPTAR</button><button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button></div></div>
-<div id="modal-menu-motor" class="modal-overlay"><div class="modal-box"><h3>Control de Motor</h3><button class="btn-descargar" onclick="iniciarComando('engineStop')" style="background:#fff;color:#67B7EB;border:1px solid #fff;">APAGAR VEHÍCULO</button><button class="btn-descargar" onclick="iniciarComando('engineResume')" style="background:#007722;color:#fff;border:1px solid #00ff66;">ENCENDER VEHÍCULO</button><button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button></div></div>
-<div id="modal-confirmacion-motor" class="modal-overlay"><div class="modal-box"><h3 style="color:#fff;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3><p style="margin-bottom:20px;font-weight:bold;color:#fff;font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p><button class="btn-descargar" onclick="confirmarComando()">ACEPTAR</button><button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button></div></div>
-<div id="modal-menu-mapa" class="modal-overlay"><div class="modal-box"><h3>Seleccionar Mapa</h3><button class="btn-cancelar" onclick="cambiarMapa('satelite')" style="margin-bottom:10px;">MAPA SATÉLITE (ORIGINAL)</button><button class="btn-cancelar" onclick="cambiarMapa('normal')" style="margin-bottom:10px;">MAPA NORMAL (CALLES)</button><button class="btn-cancelar" onclick="cambiarMapa('oscuro')" style="margin-bottom:10px;">MAPA OSCURO</button><button class="btn-descargar" onclick="cerrarModales()" style="margin-top:5px;">CERRAR</button></div></div>
-<div id="modal-descarga" class="modal-overlay"><div class="modal-box"><h3>Descargar Historial</h3><select id="rango-descarga" onchange="toggleFechasPersonalizadas()"><option value="hoy">Hoy</option><option value="ayer">Ayer</option><option value="semana">La semana pasada</option><option value="personalizado">Personalizar...</option></select><div id="fechas-personalizadas" style="display:none;"><label>Desde:</label><input type="datetime-local" id="fecha-desde"><label>Hasta:</label><input type="datetime-local" id="fecha-hasta"></div><button class="btn-descargar" onclick="ejecutarDescarga()">DESCARGAR EXCEL (CSV)</button><button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button></div></div>
-<div id="modal-geocerca" class="modal-overlay"><div class="modal-box" style="max-width:420px;max-height:85vh;overflow-y:auto;"><h3><i class="fas fa-draw-polygon"></i> Gestión de Geocercas</h3><div style="text-align:left;margin-bottom:15px;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:10px;"><strong style="color:#fff;font-size:14px;display:block;margin-bottom:8px;">Nueva Geocerca</strong><label>Nombre de la Geocerca:</label><input type="text" id="geo-nombre" placeholder="Ej: Zona Residencial / Oficina"><label>Descripción:</label><input type="text" id="geo-desc" placeholder="Ej: Alerta de salida"><label>Radio de cobertura (Metros):</label><input type="number" id="geo-radio" value="200" min="10" placeholder="200"><button class="btn-descargar" onclick="guardarGeocerca()">CREAR Y GUARDAR GEOCERCA</button></div><div style="text-align:left;"><strong style="color:#fff;font-size:14px;display:block;margin-bottom:8px;">Geocercas Registradas</strong><div id="lista-geocercas" style="max-height:160px;overflow-y:auto;font-size:12px;"><p style="color:#fff;">Cargando geocercas...</p></div></div><button class="btn-cancelar" onclick="cerrarModales()" style="margin-top:15px;">CERRAR</button></div></div>
 
-<!-- MODAL RECORRIDOS -->
-<div id="modal-recorridos" class="modal-overlay">
-<div class="modal-recorridos-box">
-<div class="rec-header"><h2><i class="fas fa-route"></i> RECORRIDOS</h2><button class="rec-close" onclick="cerrarModales()">CERRAR ✕</button></div>
-<div class="rec-body">
-<div id="rec-panel-superior">
-<div class="rec-fila-superior"><div class="rec-titulo-area"><i class="fas fa-route" style="color:#fff;font-size:18px;"></i><h1>RECORRIDO DEL VEHÍCULO</h1></div><button class="rec-btn-buscar" onclick="cargarRecorridoRec()"><i class="fas fa-search"></i> BUSCAR</button></div>
-<div class="rec-fila-controles">
-<div class="rec-grupo"><label for="rec-selector-vehiculo"><i class="fas fa-car" style="color:#fff;"></i> Vehículo:</label><select id="rec-selector-vehiculo"><option value="">-- Cargando... --</option></select><div class="rec-logo" title="Logo"><img src="https://i.imgur.com/fp4GnRx.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"><i class="fas fa-car" style="display:none;"></i></div></div>
-<div class="rec-grupo"><label for="rec-input-desde"><i class="fas fa-calendar-alt" style="color:#fff;"></i> Desde:</label><input type="datetime-local" id="rec-input-desde"></div>
-<div class="rec-grupo"><label for="rec-input-hasta"><i class="fas fa-calendar-alt" style="color:#fff;"></i> Hasta:</label><input type="datetime-local" id="rec-input-hasta"></div>
+<!-- VIDEO INTRO -->
+<div id="intro-video">
+    <video autoplay muted playsinline>
+        <source src="https://i.imgur.com/PDxtaCF.mp4" type="video/mp4">
+    </video>
 </div>
+
+<!-- PANTALLA LOGIN -->
+<div id="pantalla-login">
+    <video id="login-background-video" autoplay muted loop playsinline>
+        <source src="https://i.imgur.com/RVjMFb2.mp4" type="video/mp4">
+    </video>
+    <div id="login-box">
+        <input id="email" type="email" placeholder="Correo" />
+        <input id="password" type="password" placeholder="Contraseña" />
+        
+        <input id="marca" type="text" placeholder="Marca del vehículo (ej: Chevrolet)" />
+        <select id="tipo-vehiculo">
+            <option value="" disabled selected>Selecciona tipo de vehículo</option>            
+            <option value="https://i.imgur.com/YOlWbRx.gif">SEDAN</option>            
+            <option value="https://i.imgur.com/eWbyUvB.gif">SUV</option>
+            <option value="https://i.imgur.com/uyDPY1U.gif">PICKUP</option>
+            <option value="https://i.imgur.com/7SCvnfI.gif">VAN</option>
+            <option value="https://i.imgur.com/oyRYTXx.gif">NKR</option>
+        </select>
+        
+        <button onclick="entrarAlMapa()">INGRESAR</button>
+    </div>
 </div>
-<div id="rec-mapa-wrap">
-<div id="rec-mapa"></div>
-<div id="rec-leyenda"><h4><i class="fas fa-info-circle"></i> Leyenda</h4>
-<div class="rec-ley-item"><span class="rec-etq rec-inicio" style="padding:1px 5px;font-size:9px;border-width:1px;">INICIO</span><span>Punto de partida</span></div>
-<div class="rec-ley-item"><span class="rec-etq rec-final" style="padding:1px 5px;font-size:9px;border-width:1px;">FINAL</span><span>Punto de llegada</span></div>
-<div class="rec-ley-item"><div class="rec-ley-punto" style="background:#00ff66;box-shadow:0 0 6px #00ff66;"></div><span>Encendido / En Movimiento</span></div>
-<div class="rec-ley-item"><div class="rec-ley-punto" style="background:#ffaa00;box-shadow:0 0 6px #ffaa00;"></div><span>Encendido / Detenido</span></div>
-<div class="rec-ley-item"><div class="rec-ley-punto" style="background:#ff4444;box-shadow:0 0 6px #ff4444;"></div><span>Apagado</span></div>
-<div class="rec-ley-item"><div style="width:12px;height:3px;background:#fff;border-radius:2px;flex-shrink:0;"></div><span>Ruta conectada</span></div>
+
+<!-- PANTALLA MAPA -->
+<div id="pantalla-mapa" style="display: none;">
+    <div id="mapa2"></div>
+
+    <div id="hud-container">
+        <!-- 1. Tarjeta superior grande -->
+        <div id="tarjeta-gps"></div>
+        <!-- 2. Tarjeta de ubicación debajo -->
+        <div id="ubicacion-flotante"></div>
+        <!-- 3. Cajas simétricas y botones de acción -->
+        <div id="sensores-flotantes">
+            <div id="velocidad-flotante"></div>
+            <div id="ignicion-flotante"></div>
+            <!-- COLUMNA BOTONES EXTRA (MOTOR Y MAPA) -->
+            <div id="controles-extra-flotantes">
+                <button onclick="document.getElementById('modal-menu-motor').style.display='flex'" class="btn-extra" title="Control de Motor">
+                    <i class="fas fa-key" style="color: #ffffff;"></i>
+                </button>
+                <button onclick="document.getElementById('modal-menu-mapa').style.display='flex'" class="btn-extra" title="Cambiar Mapa">
+                    <i class="fas fa-map"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTROLES UNIFICADOS VERTICALES -->
+    <div id="controles-mapa">
+        <button onclick="obtenerPosicionActual()" class="btn-actualizar" title="Refrescar">
+            <i class="fas fa-sync-alt"></i>
+            <span>Refrescar</span>
+        </button>
+        <button onclick="volverAlVehiculo()" class="btn-actualizar" title="Volver al vehículo">
+            <i class="fas fa-crosshairs"></i>
+            <span>Vehículo</span>
+        </button>
+        <button onclick="abrirModalDescarga()" class="btn-actualizar" title="Historial">
+            <i class="fas fa-history"></i>
+            <span>Historial</span>
+        </button>
+        <button onclick="abrirConfirmacionSesion()" class="btn-actualizar" title="Cerrar Sesión">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Cerrar Sesión</span>
+        </button>
+        <button onclick="abrirModalGeocerca()" class="btn-actualizar" title="Geocerca">
+            <i class="fas fa-draw-polygon"></i>
+            <span>Geocerca</span>
+        </button>
+        <button onclick="abrirStreetView()" class="btn-actualizar" title="Street View">
+            <i class="fas fa-street-view"></i>
+            <span>Street View</span>
+        </button>
+    </div>
+
+    <div id="controles-mapa-derecha">
+        <button onclick="abrirModalRecorridos()" class="btn-actualizar" title="Recorridos">
+            <i class="fas fa-route"></i>
+            <span>Recorridos</span>
+        </button>
+    </div>
+
+    <pre id="resultado"></pre>
 </div>
-<div id="rec-loading"><div class="rec-spinner"></div><div id="rec-loading-text">Cargando recorrido...</div></div>
+
+<!-- ==============================================
+     COLECCIÓN DE MODALES (SIN ALERTA NATIVA)
+     ============================================== -->
+
+<!-- MODAL ALERTA GLOBAL -->
+<div id="modal-alerta" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Notificación</h3>
+        <p id="texto-alerta" style="margin-bottom:20px; color:#ffffff;"></p>
+        <button class="btn-descargar" onclick="cerrarModales()">ACEPTAR</button>
+    </div>
 </div>
-<div id="rec-barra-estado"><span id="rec-stat-izq">Sin datos cargados</span><span id="rec-stat-der"></span></div>
+  <!-- MODAL CONFIRMAR CIERRE DE SESIÓN -->
+<div id="modal-confirmar-sesion" class="modal-overlay">
+    <div class="modal-box">
+        
+        <h3>
+            <i class="fas fa-sign-out-alt"></i>
+            CERRAR SESIÓN
+        </h3>
+
+        <p style="margin-bottom:20px; font-weight:bold; color:#ffffff; font-size:15px;">
+            ¿ESTÁ SEGURO DE CERRAR SESIÓN?
+        </p>
+
+        <button class="btn-descargar" onclick="confirmarCerrarSesion()">
+            ACEPTAR
+        </button>
+
+        <button class="btn-cancelar" onclick="cerrarModales()">
+            CANCELAR
+        </button>
+
+    </div>
 </div>
+
+<!-- MODAL MENU MOTOR -->
+<div id="modal-menu-motor" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Control de Motor</h3>
+        <button class="btn-descargar" onclick="iniciarComando('engineStop')" style="background:#ffffff; border:1px solid #ffffff;">APAGAR VEHÍCULO</button>
+        <button class="btn-descargar" onclick="iniciarComando('engineResume')" style="background:#007722; border:1px solid #00ff66;">ENCENDER VEHÍCULO</button>
+        <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
+    </div>
 </div>
+
+<!-- MODAL CONFIRMACION MOTOR -->
+<div id="modal-confirmacion-motor" class="modal-overlay">
+    <div class="modal-box">
+        <h3 style="color:#ffcc00;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3>
+        <p style="margin-bottom:20px; font-weight:bold; color:#ffffff; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
+        <button class="btn-descargar" onclick="confirmarComando()">ACEPTAR</button>
+        <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
+    </div>
+</div>
+
+<!-- MODAL MAPAS -->
+<div id="modal-menu-mapa" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Seleccionar Mapa</h3>
+        <button class="btn-cancelar" onclick="cambiarMapa('satelite')" style="margin-bottom:10px;">MAPA SATÉLITE (ORIGINAL)</button>
+        <button class="btn-cancelar" onclick="cambiarMapa('normal')" style="margin-bottom:10px;">MAPA NORMAL (CALLES)</button>
+        <button class="btn-cancelar" onclick="cambiarMapa('oscuro')" style="margin-bottom:10px;">MAPA OSCURO</button>
+        <button class="btn-descargar" onclick="cerrarModales()" style="margin-top:5px;">CERRAR</button>
+    </div>
+</div>
+
+<!-- MODAL DESCARGA (HISTORIAL) -->
+<div id="modal-descarga" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Descargar Historial</h3>
+        <select id="rango-descarga" onchange="toggleFechasPersonalizadas()">
+            <option value="hoy">Hoy</option>
+            <option value="ayer">Ayer</option>
+            <option value="semana">La semana pasada</option>
+            <option value="personalizado">Personalizar...</option>
+        </select>
+        
+        <div id="fechas-personalizadas" style="display:none;">
+            <label>Desde:</label>
+            <input type="datetime-local" id="fecha-desde">
+            <label>Hasta:</label>
+            <input type="datetime-local" id="fecha-hasta">
+        </div>
+        
+        <button class="btn-descargar" onclick="ejecutarDescarga()">DESCARGAR EXCEL (CSV)</button>
+        <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
+    </div>
+</div>
+
+<!-- MODAL GEOCERCA -->
+<div id="modal-geocerca" class="modal-overlay">
+    <div class="modal-box" style="max-width: 420px; max-height: 85vh; overflow-y: auto;">
+        <h3><i class="fas fa-draw-polygon"></i> Gestión de Geocercas</h3>
+        
+        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px;">
+            <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 8px;">Nueva Geocerca</strong>
+            
+            <label>Nombre de la Geocerca:</label>
+            <input type="text" id="geo-nombre" placeholder="Ej: Zona Residencial / Oficina">
+            
+            <label>Descripción:</label>
+            <input type="text" id="geo-desc" placeholder="Ej: Alerta de salida">
+            
+            <label>Radio de cobertura (Metros):</label>
+            <input type="number" id="geo-radio" value="200" min="10" placeholder="200">
+            
+            <button class="btn-descargar" onclick="guardarGeocerca()">CREAR Y GUARDAR GEOCERCA</button>
+        </div>
+
+        <div style="text-align: left;">
+            <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 8px;">Geocercas Registradas</strong>
+            <div id="lista-geocercas" style="max-height: 160px; overflow-y: auto; font-size: 12px;">
+                <p style="color: #888;">Cargando geocercas...</p>
+            </div>
+        </div>
+
+        <button class="btn-cancelar" onclick="cerrarModales()" style="margin-top: 15px;">CERRAR</button>
+    </div>
+</div>
+
+<!-- MODAL DE RECORRIDOS -->
+<div id="modal-recorridos" class="modal-overlay modal-recorridos-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Recorridos del vehículo" onclick="if (event.target === this) cerrarModalRecorridos()">
+    <div class="modal-recorridos-box">
+        <div class="modal-recorridos-header">
+            <strong><i class="fas fa-route"></i> RECORRIDOS DEL VEHÍCULO</strong>
+            <button type="button" class="modal-recorridos-close" onclick="cerrarModalRecorridos()" aria-label="Cerrar recorridos">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <iframe id="iframe-recorridos" title="Historial de recorridos" allow="geolocation"></iframe>
+    </div>
+</div>
+
+<textarea id="recorridos-html" hidden><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recorrido del Vehículo</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #67B7EB;
+    color: #e0e0e0;
+}
+
+/* ── MAPA ── */
+#mapa-recorrido {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+}
+
+/* ── PANEL SUPERIOR ── */
+#panel-superior {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(103,183,235,0.92);
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(103,183,235,0.7);
+}
+
+.fila-superior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.titulo-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fila-superior h1 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.fila-controles {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.grupo-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+/* ── LOGO DEL VEHÍCULO ── */
+.logo-vehiculo {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    flex-shrink: 0;
+    margin-left: 18px;
+    margin-right: 10px;
+}
+
+.logo-vehiculo img {
+    width: 300%;
+    height: 300%;
+    object-fit: contain;
+    transform: translate(30px, 5px);
+}
+
+.logo-vehiculo i {
+    color: #ffffff;
+    font-size: 17px;
+    text-shadow: 0 0 6px rgba(255,255,255,0.6);
+}
+
+.fila-controles label {
+    font-size: 11.5px;
+    color: #bbb;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.fila-controles input[type="datetime-local"] {
+    background: #67B7EB;
+    color: #eee;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 12px;
+    outline: none;
+    font-family: inherit;
+}
+.fila-controles input[type="datetime-local"]:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 4px rgba(255,255,255,0.4);
+}
+
+.fila-controles select {
+    background: #67B7EB;
+    color: #eee;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 12px;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.btn-buscar {
+    background: #ffffff;
+    color: #67B7EB;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+.btn-buscar:hover { background: #ffffff; }
+.btn-buscar:active { transform: scale(0.96); }
+
+/* ── BARRA DE ESTADO ── */
+#barra-estado {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(103,183,235,0.92);
+    border-top: 1px solid rgba(255,255,255,0.25);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #888;
+    backdrop-filter: blur(6px);
+}
+
+#barra-estado .stat-highlight {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+/* ── LEYENDA ── */
+#leyenda {
+    position: fixed;
+    bottom: 40px; right: 12px;
+    z-index: 1000;
+    background: rgba(103,183,235,0.90);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 11px;
+    backdrop-filter: blur(6px);
+}
+
+#leyenda h4 {
+    color: #ff0000;
+    font-size: 12px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.leyenda-punto {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ── RECUADROS DE INICIO Y FINAL EN EL MAPA ── */
+.marcador-extremo-wrap {
+    background: transparent !important;
+    border: none !important;
+}
+
+.contenedor-recuadro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    filter: drop-shadow(0 3px 6px rgba(103,183,235,0.85));
+}
+
+.recuadro-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff;
+    border-radius: 4px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border: 1.5px solid #ffffff;
+    margin-bottom: 2px;
+}
+
+.recuadro-inicio {
+    background: #009933;
+    box-shadow: 0 0 10px rgba(0, 255, 80, 0.8);
+}
+
+.recuadro-final {
+    background: #cc0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
+
+.punto-circulo-extremo {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+}
+
+/* ── POPUP COMPACTO Y ORGANIZADO ── */
+.popup-recorrido .leaflet-popup-content-wrapper {
+    background: rgba(103, 183, 235, 0.95) !important;
+    color: #ffffff !important;
+    border: 1.5px solid #ff0000 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 10px rgba(255,255,255,0.4), 0 4px 18px rgba(103,183,235,0.85) !important;
+    padding: 0 !important;
+}
+.popup-recorrido .leaflet-popup-content {
+    margin: 0 !important;
+    min-width: 220px !important;
+    max-width: 245px !important;
+}
+.popup-recorrido .leaflet-popup-tip {
+    background: #67B7EB !important;
+    border-right: 1.5px solid #ff0000;
+    border-bottom: 1.5px solid #ff0000;
+}
+
+.popup-cabecera {
+    background: rgba(255,0,0,0.16);
+    border-bottom: 1px solid rgba(255,0,0,0.3);
+    padding: 5px 9px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.popup-cabecera-izq {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.popup-cabecera i {
+    color: #ff0000;
+    font-size: 11px;
+}
+
+.popup-cabecera .popup-titulo {
+    color: #ff3333;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.popup-badge-extremo {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+.popup-badge-inicio {
+    background: #00aa44;
+    border: 1px solid #55ff88;
+    box-shadow: 0 0 6px rgba(0,255,100,0.5);
+}
+.popup-badge-final {
+    background: #dd0000;
+    border: 1px solid #ff7777;
+    box-shadow: 0 0 6px rgba(255,0,0,0.5);
+}
+
+.popup-cuerpo {
+    padding: 6px 9px 7px 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.popup-fecha-fila {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    color: #eee;
+    background: rgba(255,255,255,0.04);
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.popup-fecha-fila i {
+    color: #ff4444;
+    font-size: 10px;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 5px;
+}
+
+.popup-grid-item {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.03);
+    padding: 3px 5px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.popup-grid-item .label-mini {
+    font-size: 9px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 1px;
+}
+
+.popup-grid-item .valor-mini {
+    font-size: 10.5px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.popup-direccion-fila {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    font-size: 9.5px;
+    color: #bbb;
+    background: rgba(255,0,0,0.06);
+    padding: 3px 6px;
+    border-radius: 4px;
+    border-left: 2px solid #ff0000;
+    line-height: 1.2;
+}
+
+.popup-direccion-fila i {
+    color: #ff4444;
+    font-size: 9px;
+    margin-top: 1px;
+}
+
+.popup-estado-encendido {
+    color: #00ff66 !important;
+    text-shadow: 0 0 4px rgba(0,255,102,0.5);
+}
+.popup-estado-apagado {
+    color: #ff4444 !important;
+    text-shadow: 0 0 4px rgba(255,68,68,0.5);
+}
+.popup-estado-movimiento {
+    color: #00ccff !important;
+    text-shadow: 0 0 4px rgba(0,204,255,0.5);
+}
+.popup-estado-detenido {
+    color: #ffaa00 !important;
+    text-shadow: 0 0 4px rgba(255,170,0,0.5);
+}
+
+/* ── LOADING OVERLAY ── */
+#loading-overlay {
+    position: fixed; inset: 0;
+    z-index: 2000;
+    background: rgba(103,183,235,0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#loading-overlay.activo { display: flex; }
+
+.spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(255,0,0,0.2);
+    border-top-color: #ff0000;
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar { to { transform: rotate(360deg); } }
+
+#loading-text {
+    color: #ff4444;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* ── MODAL ALERTA ── */
+.modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(103,183,235,0.85);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.activo { display: flex; }
+
+.modal-box {
+    background: #67B7EB;
+    border: 2px solid #ff0000;
+    padding: 22px;
+    border-radius: 16px;
+    width: 88%; max-width: 360px;
+    box-shadow: 0 0 12px rgba(255,0,0,0.5);
+    color: #fff;
+    text-align: center;
+}
+.modal-box h3 { color: #ff0000; margin: 0 0 14px 0; font-size: 16px; }
+.modal-box p { margin-bottom: 18px; font-size: 13px; color: #ccc; }
+.modal-box button {
+    background: #cc0000; color: #fff; border: none;
+    padding: 10px 20px; border-radius: 8px;
+    cursor: pointer; font-weight: bold; width: 100%;
+    font-size: 14px;
+}
+.modal-box button:hover { background: #ff0000; }
+
+/* ── SIN CREDENCIALES ── */
+#pantalla-sin-auth {
+    position: fixed; inset: 0;
+    z-index: 5000;
+    background: #67B7EB;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 30px;
+}
+#pantalla-sin-auth.activo { display: flex; }
+
+#pantalla-sin-auth h2 {
+    color: #ff0000;
+    font-size: 20px;
+}
+#pantalla-sin-auth p {
+    color: #999;
+    font-size: 13px;
+    max-width: 320px;
+    line-height: 1.4;
+}
+#pantalla-sin-auth a {
+    color: #ff4444;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+}
+#pantalla-sin-auth a:hover {
+    text-decoration: underline;
+}
+
+.btn-demo-auth {
+    background: #67B7EB;
+    color: #00ff66;
+    border: 1px solid #00bb44;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 5px;
+}
+.btn-demo-auth:hover {
+    background: #004d1a;
+    color: #fff;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+    .fila-superior h1 { font-size: 14px; }
+    .fila-controles { gap: 8px; }
+    .fila-controles input[type="datetime-local"] { font-size: 11px; padding: 4px 6px; }
+    #leyenda { bottom: 36px; right: 8px; padding: 7px 9px; font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PANTALLA SIN CREDENCIALES -->
+<div id="pantalla-sin-auth">
+    <i class="fas fa-exclamation-triangle" style="font-size:40px; color:#ff0000;"></i>
+    <h2>Sin Credenciales</h2>
+    <p>Debes iniciar sesión primero en la página principal para acceder al historial de recorrido.</p>
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Volver al Login</a>
+    <button class="btn-demo-auth" onclick="iniciarModoDemo()">
+        <i class="fas fa-play-circle"></i> Probar Demo de Recorrido
+    </button>
+</div>
+
+<!-- LOADING -->
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <div id="loading-text">Cargando recorrido...</div>
+</div>
+
+<!-- MAPA -->
+<div id="mapa-recorrido"></div>
+
+<!-- PANEL SUPERIOR -->
+<div id="panel-superior">
+    <div class="fila-superior">
+        <div class="titulo-area">
+            <i class="fas fa-route" style="color:#ff0000; font-size:18px;"></i>
+            <h1>RECORRIDO DEL VEHÍCULO</h1>
+        </div>
+        <!-- BOTÓN BUSCAR EN EL LUGAR DONDE ESTABA "VOLVER" -->
+        <button class="btn-buscar" onclick="cargarRecorrido()">
+            <i class="fas fa-search"></i> BUSCAR
+        </button>
+    </div>
+
+    <!-- FILA DE CONTROLES: DESDE Y HASTA JUNTO A SUS CAMPOS CORRESPONDIENTES -->
+    <div class="fila-controles">
+        <div class="grupo-control">
+
+    <label for="selector-vehiculo">
+        <i class="fas fa-car" style="color:#ff4444;"></i> Vehículo:
+    </label>
+
+    <select id="selector-vehiculo">
+        <option value="">-- Cargando... --</option>
+    </select>
+
+    <div class="logo-vehiculo" title="Logo">
+        <img src="https://i.imgur.com/fp4GnRx.png" alt="Logo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+        <i class="fas fa-car" style="display:none;"></i>
+    </div>
+
+</div>
+
+        <div class="grupo-control">
+            <label for="input-desde"><i class="fas fa-calendar-alt" style="color:#ff4444;"></i> Desde:</label>
+            <input type="datetime-local" id="input-desde">
+        </div>
+
+        <div class="grupo-control">
+            <label for="input-hasta"><i class="fas fa-calendar-alt" style="color:#ff4444;"></i> Hasta:</label>
+            <input type="datetime-local" id="input-hasta">
+        </div>
+    </div>
+</div>
+
+<!-- LEYENDA -->
+<div id="leyenda">
+    <h4><i class="fas fa-info-circle"></i> Leyenda</h4>
+    <div class="leyenda-item">
+        <span class="recuadro-etiqueta recuadro-inicio" style="padding:1px 5px; font-size:9px; border-width:1px;">INICIO</span>
+        <span>Punto de partida</span>
+    </div>
+    <div class="leyenda-item">
+        <span class="recuadro-etiqueta recuadro-final" style="padding:1px 5px; font-size:9px; border-width:1px;">FINAL</span>
+        <span>Punto de llegada</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="leyenda-punto" style="background:#00ff66; box-shadow:0 0 6px #00ff66;"></div>
+        <span>Encendido / En Movimiento</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="leyenda-punto" style="background:#ffaa00; box-shadow:0 0 6px #ffaa00;"></div>
+        <span>Encendido / Detenido</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="leyenda-punto" style="background:#ff4444; box-shadow:0 0 6px #ff4444;"></div>
+        <span>Apagado</span>
+    </div>
+    <div class="leyenda-item">
+        <div style="width:12px; height:3px; background:#ff0000; border-radius:2px; flex-shrink:0;"></div>
+        <span>Ruta conectada</span>
+    </div>
+</div>
+
+<!-- BARRA ESTADO INFERIOR -->
+<div id="barra-estado">
+    <span id="stat-izq">Sin datos cargados</span>
+    <span id="stat-der"></span>
+</div>
+
+<!-- MODAL ALERTA -->
+<div id="modal-alerta" class="modal-overlay">
+    <div class="modal-box">
+        <h3><i class="fas fa-bell"></i> Notificación</h3>
+        <p id="texto-alerta"></p>
+        <button onclick="document.getElementById('modal-alerta').classList.remove('activo')">ACEPTAR</button>
+    </div>
 </div>
 
 <script>
-const videoIntro=document.querySelector('#intro-video video');
-const pantallaIntro=document.getElementById('intro-video');
-videoIntro.addEventListener('ended',()=>{pantallaIntro.classList.add('saliendo');setTimeout(()=>{pantallaIntro.style.display='none'},800)});
-let mapa=null,capaMapa=null,capaGeocercas=null,estiloMapaActual='satelite';
-let marcadoresVehiculos={},marcadoresSonar={},historialRutas={},lineasRuta={};
-let dispositivoActualId=null,comandoPendiente=null,ultimaLatitud=null,ultimaLongitud=null;
-let mapaCentradoInicialmente=false;
-window.addEventListener('load',()=>{
-  const e=localStorage.getItem('eagle_email'),p=localStorage.getItem('eagle_password'),m=localStorage.getItem('eagle_marca'),t=localStorage.getItem('eagle_tipo_gif');
-  if(m)document.getElementById('marca').value=m;
-  if(t)document.getElementById('tipo-vehiculo').value=t;
-  if(e&&p&&m&&t){document.getElementById('email').value=e;document.getElementById('password').value=p;document.getElementById('pantalla-login').style.display='none';document.getElementById('pantalla-mapa').style.display='block';crearMapaReal();}
-});
-setInterval(()=>{obtenerPosicionActual()},10000);
-function authHeaders(){const e=document.getElementById('email').value.trim(),p=document.getElementById('password').value;return{'Authorization':'Basic '+btoa(e+':'+p)}}
-function mostrarAlertaPersonalizada(m){const recAbierto=document.getElementById('modal-recorridos')&&document.getElementById('modal-recorridos').style.display==='flex';document.querySelectorAll('.modal-overlay').forEach(x=>{if(x.id!=='modal-recorridos'&&x.id!=='modal-alerta')x.style.display='none'});comandoPendiente=null;document.getElementById('texto-alerta').innerText=m;document.getElementById('modal-alerta').style.display='flex';if(recAbierto){document.getElementById('modal-recorridos').style.display='flex'}}
-function abrirConfirmacionSesion(){cerrarModales();document.getElementById('modal-confirmar-sesion').style.display='flex'}
-function confirmarCerrarSesion(){cerrarSesion()}
-function cerrarModales(){document.querySelectorAll('.modal-overlay').forEach(x=>x.style.display='none');comandoPendiente=null}
-function entrarAlMapa(){const e=document.getElementById('email').value.trim(),p=document.getElementById('password').value,m=document.getElementById('marca').value.trim(),t=document.getElementById('tipo-vehiculo').value;if(!e||!p||!m||!t){mostrarAlertaPersonalizada("Por favor, completa todos los campos.");return}localStorage.setItem('eagle_email',e);localStorage.setItem('eagle_password',p);localStorage.setItem('eagle_marca',m);localStorage.setItem('eagle_tipo_gif',t);document.getElementById('pantalla-login').style.display='none';document.getElementById('pantalla-mapa').style.display='block';crearMapaReal()}
-async function obtenerPosicionActual(){const r=document.getElementById('resultado');r.innerText='Consultando posiciones...';try{const dr=await fetch('https://whitecargps.duckdns.org/api/devices',{headers:authHeaders()});const ds=await dr.json();for(const d of ds){if(!d.positionId)continue;const pr=await fetch('https://whitecargps.duckdns.org/api/positions?id='+d.positionId,{headers:authHeaders()});const ps=await pr.json();if(!ps.length)continue;actualizarMapa(ps[0],d)}}catch(e){r.innerText='ERROR: '+e}}
-function crearMapaReal(){const c=document.getElementById('mapa2');c.style.display='block';if(mapa){mapa.remove();mapa=null;capaMapa=null;capaGeocercas=null}mapaCentradoInicialmente=false;marcadoresVehiculos={};marcadoresSonar={};historialRutas={};lineasRuta={};c.innerHTML='';mapa=L.map('mapa2',{zoomControl:false}).setView([4.60971,-74.08175],12);capaGeocercas=L.layerGroup().addTo(mapa);aplicarEstiloMapa(estiloMapaActual)}
-function aplicarEstiloMapa(e){if(capaMapa)mapa.removeLayer(capaMapa);let u='';if(e==='satelite')u='https://mt1.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}';else if(e==='normal')u='https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';else if(e==='oscuro')u='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';capaMapa=L.tileLayer(u,{maxZoom:20,attribution:'&copy; MapData'}).addTo(mapa);estiloMapaActual=e}
-function cambiarMapa(e){aplicarEstiloMapa(e);cerrarModales()}
-function iniciarComando(t){if(!dispositivoActualId){mostrarAlertaPersonalizada("No se ha detectado ningún dispositivo activo.");return}comandoPendiente=t;document.getElementById('modal-menu-motor').style.display='none';document.getElementById('modal-confirmacion-motor').style.display='flex'}
-async function confirmarComando(){if(!dispositivoActualId||!comandoPendiente)return;document.getElementById('modal-confirmacion-motor').style.display='none';try{const r=await fetch('https://whitecargps.duckdns.org/api/commands/send',{method:'POST',headers:{...authHeaders(),'Content-Type':'application/json'},body:JSON.stringify({deviceId:dispositivoActualId,type:comandoPendiente})});if(r.ok)mostrarAlertaPersonalizada('Comando enviado con éxito al vehículo.');else mostrarAlertaPersonalizada(`Error al enviar. Estado del servidor: ${r.status}`)}catch(e){mostrarAlertaPersonalizada('Error de conexión al enviar el comando.')}comandoPendiente=null}
-async function obtenerNombreLugar(a,o){try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${a}&lon=${o}&zoom=18&addressdetails=1`);const d=await r.json();const ad=d.address||{};const pa=[ad.city,ad.town,ad.municipality,ad.suburb,ad.neighbourhood,ad.road,ad.building].filter(Boolean);return pa.length?pa.join(', '):'Ubicación desconocida'}catch(e){return'Ubicación desconocida'}}
-function actualizarMapa(posicion,dispositivo){
-if(!mapa)crearMapaReal();
-const lat=posicion.latitude,lng=posicion.longitude,idDispositivo=dispositivo.id;
-dispositivoActualId=idDispositivo;ultimaLatitud=lat;ultimaLongitud=lng;
-if(!mapaCentradoInicialmente){mapa.setView([lat,lng],16);mapaCentradoInicialmente=true}
-if(!historialRutas[idDispositivo])historialRutas[idDispositivo]=[];
-historialRutas[idDispositivo].push([lat,lng]);
-if(!lineasRuta[idDispositivo]){lineasRuta[idDispositivo]=L.polyline(historialRutas[idDispositivo],{color:'#FFFFFF',weight:4,opacity:.9,lineJoin:'round'}).addTo(mapa)}else{lineasRuta[idDispositivo].setLatLngs(historialRutas[idDispositivo])}
-const placaVehiculo=dispositivo.name||'SIN PLACA';
-const estadoMovimiento=posicion.attributes?.motion===true?'EN MOVIMIENTO':'DETENIDO';
-const colorMovimiento=posicion.attributes?.motion===true?'#00ff00':'#FFFFFF';
-const iconoGPS=L.icon({iconUrl:'https://i.imgur.com/ovIjZz9.png',iconSize:[95,95],iconAnchor:[47.5,75],tooltipAnchor:[0,-55],shadowUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',shadowSize:[95,95],shadowAnchor:[47.5,75]});
-const iconoSonar=L.divIcon({className:'gps-sonar-wave-icon',html:'<div class="sonar-wave"></div>',iconSize:[0,0],iconAnchor:[0,0]});
-if(!marcadoresSonar[idDispositivo]){marcadoresSonar[idDispositivo]=L.marker([lat,lng],{icon:iconoSonar,zIndexOffset:-1000,interactive:false}).addTo(mapa)}else{marcadoresSonar[idDispositivo].setLatLng([lat,lng])}
-const tooltipHTML=`<div><div class="gps-placa">${placaVehiculo}</div><div class="gps-estado-movimiento"><span style="color:${colorMovimiento} !important;">●</span><span> ${estadoMovimiento}</span></div></div>`;
-if(!marcadoresVehiculos[idDispositivo]){let nm=L.marker([lat,lng],{icon:iconoGPS}).addTo(mapa);nm.bindTooltip(tooltipHTML,{permanent:true,direction:'top',offset:[0,-25],className:'gps-placa-estado'});marcadoresVehiculos[idDispositivo]=nm}else{let me=marcadoresVehiculos[idDispositivo];me.setLatLng([lat,lng]);me.setTooltipContent(tooltipHTML)}
-const velocidadKmh=posicion.speed!==undefined?(posicion.speed*1.852).toFixed(1):'0.0';
-let velocidadDestacada=`<div class="velocidad-destacada"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px;height:45px;object-fit:contain;filter:brightness(0) invert(1);"><div style="color:#fff;font-size:18px;font-weight:bold;line-height:1;">${velocidadKmh}</div><div style="color:#fff;font-size:10px;margin-top:5px;opacity:.9;">km/h</div></div><div style="color:#fff;font-size:9px;margin-top:5px;letter-spacing:1px;font-weight:bold;">VELOCIDAD</div></div>`;
-let ignicionDestacada='';const ignicion=posicion.attributes?.ignition===true||(posicion.speed&&posicion.speed>0);
-if(ignicion){ignicionDestacada=`<div class="ignicion-destacada"><img src="https://i.imgur.com/LQHjXWa.png" style="width:50px;height:30px;object-fit:contain;display:block;margin:auto;"><div style="color:#00ff66;font-size:11px;font-weight:bold;margin-top:6px;letter-spacing:1px;">ENCENDIDO</div></div>`}else{ignicionDestacada=`<div class="ignicion-destacada"><img src="https://i.imgur.com/Jrl77a5.png" style="width:50px;height:30px;object-fit:contain;display:block;margin:auto;filter:brightness(0) invert(1);"><div style="color:#fff;font-size:11px;font-weight:bold;margin-top:6px;letter-spacing:1px;">APAGADO</div></div>`}
-obtenerNombreLugar(lat,lng).then(n=>{document.getElementById('ubicacion-flotante').innerHTML=`<div class="ubicacion-destacada"><img src="https://i.imgur.com/1VCjVnA.gif" style="width:35px;height:35px;object-fit:contain;flex-shrink:0;filter:brightness(0) invert(1);"><div style="color:#fff;font-size:11px;font-weight:bold;line-height:1.3;text-align:center;word-wrap:break-word;">${n}</div></div>`});
-const marcaGuardada=localStorage.getItem('eagle_marca')||'SIN MARCA';const gifGuardado=localStorage.getItem('eagle_tipo_gif')||'https://i.imgur.com/v8fX3x1.gif';
-document.getElementById('tarjeta-gps').innerHTML=`<div class="gps-tarjeta-cabecera"><img src="${gifGuardado}" class="gps-vehiculo-img" alt="Vehículo"><div class="gps-vehiculo-info"><div class="gps-vehiculo">${dispositivo.name||'SIN PLACA'}</div><div class="gps-vehiculo-marca">${marcaGuardada}</div><div class="gps-estado ${posicion.valid?'gps-ok':'gps-error'}">● ${posicion.valid?'GPS ACTIVO':'GPS SIN SEÑAL'}</div></div></div>`;
-document.getElementById('velocidad-flotante').innerHTML=velocidadDestacada;document.getElementById('ignicion-flotante').innerHTML=ignicionDestacada;
-}
-function volverAlVehiculo(){if(!mapa||!dispositivoActualId){mostrarAlertaPersonalizada("No se ha detectado ningún vehículo.");return}const m=marcadoresVehiculos[dispositivoActualId];if(m){mapa.setView(m.getLatLng(),18,{animate:true})}}
-function cerrarSesion(){localStorage.removeItem('eagle_email');localStorage.removeItem('eagle_password');localStorage.removeItem('eagle_marca');localStorage.removeItem('eagle_tipo_gif');document.getElementById('pantalla-mapa').style.display='none';document.getElementById('pantalla-login').style.display='flex';document.getElementById('email').value='';document.getElementById('password').value='';document.getElementById('marca').value='';document.getElementById('tipo-vehiculo').value='';if(mapa){mapa.remove();mapa=null;capaMapa=null;capaGeocercas=null}marcadoresVehiculos={};marcadoresSonar={};historialRutas={};lineasRuta={};dispositivoActualId=null;mapaCentradoInicialmente=false}
-function abrirModalDescarga(){document.getElementById('modal-descarga').style.display='flex'}
-function toggleFechasPersonalizadas(){document.getElementById('fechas-personalizadas').style.display=document.getElementById('rango-descarga').value==='personalizado'?'block':'none'}
-function obtenerFechasISO(r){let f,t;const n=new Date();if(r==='hoy'){f=new Date(n.getFullYear(),n.getMonth(),n.getDate(),0,0,0);t=new Date(n.getFullYear(),n.getMonth(),n.getDate(),23,59,59)}else if(r==='ayer'){f=new Date(n.getFullYear(),n.getMonth(),n.getDate()-1,0,0,0);t=new Date(n.getFullYear(),n.getMonth(),n.getDate()-1,23,59,59)}else if(r==='semana'){f=new Date(n.getFullYear(),n.getMonth(),n.getDate()-7,0,0,0);t=new Date(n.getFullYear(),n.getMonth(),n.getDate(),23,59,59)}else{const a=document.getElementById('fecha-desde').value,b=document.getElementById('fecha-hasta').value;if(!a||!b)return null;f=new Date(a);t=new Date(b)}return{from:f.toISOString(),to:t.toISOString()}}
-async function ejecutarDescarga(){const r=document.getElementById('rango-descarga').value,f=obtenerFechasISO(r);if(!f){mostrarAlertaPersonalizada("Por favor selecciona correctamente las fechas.");return}const res=document.getElementById('resultado');res.innerText='Preparando descarga...';try{const dr=await fetch('https://whitecargps.duckdns.org/api/devices',{headers:authHeaders()});const ds=await dr.json();let csv="sep=;n";csv+="Vehiculo;Fecha/Hora;Latitud;Longitud;Velocidad (km/h);Ignicionn";let ok=false;for(const d of ds){const u=`https://whitecargps.duckdns.org/api/positions?deviceId=${d.id}&from=${encodeURIComponent(f.from)}&to=${encodeURIComponent(f.to)}`;const pr=await fetch(u,{headers:authHeaders()});if(pr.ok){const ps=await pr.json();if(ps.length>0)ok=true;ps.forEach(p=>{const v=p.speed!==undefined?(p.speed*1.852).toFixed(1):"0.0";const fl=new Date(p.deviceTime).toLocaleString().replace(/,/g,'');const ig=p.attributes?.ignition?"ENCENDIDO":"APAGADO";csv+=`"${d.name}";"${fl}";${p.latitude};${p.longitude};${v};"${ig}"n`})}}if(!ok){mostrarAlertaPersonalizada("No se encontraron posiciones en el rango seleccionado.");res.innerText='Sin datos.';return}const b=new Blob(["uFEFF"+csv],{type:'text/csv;charset=utf-8;'});const l=document.createElement("a");l.href=URL.createObjectURL(b);l.download=`Historial_GPS_${r}.csv`;document.body.appendChild(l);l.click();document.body.removeChild(l);res.innerText='Descarga completada.';cerrarModales();mostrarAlertaPersonalizada("Descarga completada. El archivo ha sido guardado.")}catch(e){mostrarAlertaPersonalizada('Error al descargar: '+e)}}
-async function abrirModalGeocerca(){document.getElementById('modal-geocerca').style.display='flex';await cargarGeocercas()}
-async function cargarGeocercas(){const c=document.getElementById('lista-geocercas');c.innerHTML='<p style="color:#fff;">Cargando...</p>';try{const r=await fetch('https://whitecargps.duckdns.org/api/geofences',{headers:authHeaders()});if(!r.ok)throw new Error();const gs=await r.json();c.innerHTML='';if(mapa&&capaGeocercas)capaGeocercas.clearLayers();if(!gs.length){c.innerHTML='<p style="color:#fff;">No hay geocercas creadas.</p>';return}gs.forEach(g=>{const d=document.createElement('div');d.style.cssText='background:#67B7EB;padding:8px;margin-bottom:6px;border:1px solid rgba(255,255,255,.6);border-radius:6px;display:flex;justify-content:space-between;align-items:center;';d.innerHTML=`<div><strong style="color:#fff;font-size:12px;">${g.name}</strong><div style="font-size:10px;color:#fff;opacity:.9;">${g.description||'Sin descripción'}</div></div><button onclick="eliminarGeocerca(${g.id})" style="background:#fff;color:#67B7EB;border:none;padding:5px 8px;border-radius:4px;cursor:pointer;"><i class="fas fa-trash"></i></button>`;c.appendChild(d);if(g.area&&g.area.startsWith('CIRCLE')&&mapa&&capaGeocercas){const m=g.area.match(/CIRCLEs*(s*(-?d+.?d*)s+(-?d+.?d*)s*,s*(-?d+.?d*)s*)/i);if(m){L.circle([parseFloat(m[1]),parseFloat(m[2])],{color:'#fff',fillColor:'#fff',fillOpacity:.25,radius:parseFloat(m[3])}).bindTooltip(g.name,{permanent:false}).addTo(capaGeocercas)}}})}catch(e){c.innerHTML='<p style="color:#fff;">Error al obtener las geocercas.</p>'}}
-async function guardarGeocerca(){const n=document.getElementById('geo-nombre').value.trim(),d=document.getElementById('geo-desc').value.trim(),r=parseFloat(document.getElementById('geo-radio').value);if(!n){mostrarAlertaPersonalizada("Por favor ingrese un nombre para la geocerca.");return}if(isNaN(r)||r<=0){mostrarAlertaPersonalizada("Por favor ingrese un radio válido en metros.");return}let la=4.60971,ln=-74.08175;if(mapa){const ce=mapa.getCenter();la=ce.lat;ln=ce.lng}try{const rs=await fetch('https://whitecargps.duckdns.org/api/geofences',{method:'POST',headers:{...authHeaders(),'Content-Type':'application/json'},body:JSON.stringify({name:n,description:d,area:`CIRCLE (${la} ${ln}, ${r})`})});if(rs.ok){const gc=await rs.json();if(dispositivoActualId){await fetch('https://whitecargps.duckdns.org/api/permissions',{method:'POST',headers:{...authHeaders(),'Content-Type':'application/json'},body:JSON.stringify({deviceId:dispositivoActualId,geofenceId:gc.id})})}document.getElementById('geo-nombre').value='';document.getElementById('geo-desc').value='';mostrarAlertaPersonalizada("Geocerca creada y asignada exitosamente.");await cargarGeocercas()}else mostrarAlertaPersonalizada("Error en el servidor al registrar la geocerca.")}catch(e){mostrarAlertaPersonalizada("Error de conexión al guardar la geocerca.")}}
-async function eliminarGeocerca(id){try{const r=await fetch(`https://whitecargps.duckdns.org/api/geofences/${id}`,{method:'DELETE',headers:authHeaders()});if(r.ok){mostrarAlertaPersonalizada("Geocerca eliminada.");await cargarGeocercas()}else mostrarAlertaPersonalizada("No se pudo eliminar la geocerca.")}catch(e){mostrarAlertaPersonalizada("Error de conexión al eliminar la geocerca.")}}
-function abrirStreetView(){if(!ultimaLatitud||!ultimaLongitud){mostrarAlertaPersonalizada("Ubicación del vehículo no disponible aún.");return}cerrarModales();window.open(`https://maps.google.com/maps?layer=c&cbll=${ultimaLatitud},${ultimaLongitud}`,'_blank')}
-console.log('GPS PRO CARGADO CORRECTAMENTE');
+/* ====================================================
+   VARIABLES GLOBALES
+   ==================================================== */
+let mapa = null;
+let capaPuntos = null;
+let capaRuta = null;
+let credenciales = { email: '', password: '' };
+let listaDispositivos = [];
+let modoDemoActivo = false;
 
-/* ===== RECORRIDOS ===== */
-let mapaRec=null,capaPuntosRec=null,capaRutaRec=null,listaDispositivosRec=[],modoDemoRec=false;
-function abrirModalRecorridos(){
-  const cur=document.getElementById('modal-recorridos').style.display;
-  document.querySelectorAll('.modal-overlay').forEach(x=>{if(x.id!=='modal-recorridos')x.style.display='none'});
-  comandoPendiente=null;
-  document.getElementById('modal-recorridos').style.display='flex';
-  establecerFechasDefaultRec();
-  setTimeout(()=>{inicializarMapaRec();cargarDispositivosRec();if(mapaRec)setTimeout(()=>mapaRec.invalidateSize(),250)},80);
+/* ====================================================
+   INICIALIZACIÓN
+   ==================================================== */
+window.addEventListener('load', () => {
+    /* Leer credenciales del localStorage (compartido con la página principal) */
+    const email = localStorage.getItem('eagle_email');
+    const password = localStorage.getItem('eagle_password');
+
+    if (!email || !password) {
+        document.getElementById('pantalla-sin-auth').classList.add('activo');
+        return;
+    }
+
+    credenciales.email = email;
+    credenciales.password = password;
+
+    inicializarMapa();
+    cargarDispositivos();
+    establecerFechasDefault();
+});
+
+/* ====================================================
+   MAPA SATELITAL
+   ==================================================== */
+function inicializarMapa() {
+    if (mapa) return;
+
+    mapa = L.map('mapa-recorrido', {
+        zoomControl: false,
+        attributionControl: false
+    }).setView([4.60971, -74.08175], 13);
+
+    /* Capa Satelital Híbrida (Fotografía satelital de alta resolución con calles y etiquetas) */
+    L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(mapa);
+
+    /* Zoom control abajo-izquierda */
+    L.control.zoom({ position: 'bottomleft' }).addTo(mapa);
+
+    capaPuntos = L.layerGroup().addTo(mapa);
+    capaRuta = L.layerGroup().addTo(mapa);
 }
-function toLocalDatetimeStringRec(f){const y=f.getFullYear(),m=String(f.getMonth()+1).padStart(2,'0'),d=String(f.getDate()).padStart(2,'0'),h=String(f.getHours()).padStart(2,'0'),mi=String(f.getMinutes()).padStart(2,'0');return `${y}-${m}-${d}T${h}:${mi}`}
-function establecerFechasDefaultRec(){
-  if(document.getElementById('rec-input-desde').value&&document.getElementById('rec-input-hasta').value)return;
-  const a=new Date(),ini=new Date(a.getFullYear(),a.getMonth(),a.getDate(),0,0,0);
-  document.getElementById('rec-input-desde').value=toLocalDatetimeStringRec(ini);
-  document.getElementById('rec-input-hasta').value=toLocalDatetimeStringRec(a);
+
+/* ====================================================
+   FECHAS POR DEFECTO (Hoy)
+   ==================================================== */
+function establecerFechasDefault() {
+    const ahora = new Date();
+    const inicioHoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), 0, 0, 0);
+
+    document.getElementById('input-desde').value = toLocalDatetimeString(inicioHoy);
+    document.getElementById('input-hasta').value = toLocalDatetimeString(ahora);
 }
-function inicializarMapaRec(){
-  if(mapaRec){setTimeout(()=>mapaRec.invalidateSize(),150);return}
-  mapaRec=L.map('rec-mapa',{zoomControl:false,attributionControl:false}).setView([4.60971,-74.08175],13);
-  L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',{maxZoom:20,subdomains:['mt0','mt1','mt2','mt3']}).addTo(mapaRec);
-  L.control.zoom({position:'bottomleft'}).addTo(mapaRec);
-  capaPuntosRec=L.layerGroup().addTo(mapaRec);
-  capaRutaRec=L.layerGroup().addTo(mapaRec);
-  setTimeout(()=>mapaRec.invalidateSize(),200);
+
+function toLocalDatetimeString(fecha) {
+    const y = fecha.getFullYear();
+    const m = String(fecha.getMonth() + 1).padStart(2, '0');
+    const d = String(fecha.getDate()).padStart(2, '0');
+    const h = String(fecha.getHours()).padStart(2, '0');
+    const min = String(fecha.getMinutes()).padStart(2, '0');
+    return `${y}-${m}-${d}T${h}:${min}`;
 }
-async function cargarDispositivosRec(){
-  const sel=document.getElementById('rec-selector-vehiculo');
-  const email=document.getElementById('email').value.trim()||localStorage.getItem('eagle_email')||'';
-  const pass=document.getElementById('password').value||localStorage.getItem('eagle_password')||'';
-  if(!email||!pass){
-    if(!listaDispositivosRec.length){sel.innerHTML='<option value="demo-1">Vehículo DEMO</option>';}
-    return;
-  }
-  try{
-    const h={'Authorization':'Basic '+btoa(email+':'+pass)};
-    const r=await fetch('https://whitecargps.duckdns.org/api/devices',{headers:h});
-    if(!r.ok)throw new Error('Error '+r.status);
-    listaDispositivosRec=await r.json();sel.innerHTML='';
-    if(!listaDispositivosRec.length){sel.innerHTML='<option value="">-- Sin vehículos --</option>';return}
-    listaDispositivosRec.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=d.name||('Vehículo #'+d.id);sel.appendChild(o)});
-  }catch(e){sel.innerHTML='<option value="">-- Error al cargar --</option>'}
+
+/* ====================================================
+   AUTH HEADERS
+   ==================================================== */
+function authHeaders() {
+    return {
+        'Authorization': 'Basic ' + btoa(credenciales.email + ':' + credenciales.password)
+    };
 }
-async function cargarRecorridoRec(){
-  if(!mapaRec)inicializarMapaRec();
-  const deviceId=document.getElementById('rec-selector-vehiculo').value;
-  const desdeVal=document.getElementById('rec-input-desde').value;
-  const hastaVal=document.getElementById('rec-input-hasta').value;
-  if(deviceId==='demo-1'||!deviceId&&modoDemoRec){generarRecorridoDemoRec();return}
-  if(!deviceId){mostrarAlertaPersonalizada('Selecciona un vehículo primero.');return}
-  if(!desdeVal||!hastaVal){mostrarAlertaPersonalizada('Selecciona el rango de fechas.');return}
-  const from=new Date(desdeVal).toISOString(),to=new Date(hastaVal).toISOString();
-  activarLoadingRec('Consultando posiciones...');
-  capaPuntosRec.clearLayers();capaRutaRec.clearLayers();
-  try{
-    const email=document.getElementById('email').value.trim()||localStorage.getItem('eagle_email');
-    const pass=document.getElementById('password').value||localStorage.getItem('eagle_password');
-    const h={'Authorization':'Basic '+btoa(email+':'+pass)};
-    const url=`https://whitecargps.duckdns.org/api/positions?deviceId=${deviceId}&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
-    const res=await fetch(url,{headers:h});
-    if(!res.ok)throw new Error('Error del servidor: '+res.status);
-    let posiciones=await res.json();
-    if(!posiciones.length){desactivarLoadingRec();mostrarAlertaPersonalizada('No se encontraron posiciones en el rango seleccionado.');actualizarEstadoRec(0,0,0,0);return}
-    posiciones.sort((a,b)=>new Date(a.deviceTime)-new Date(b.deviceTime));
-    renderizarRecorridoRec(posiciones);
-  }catch(e){desactivarLoadingRec();mostrarAlertaPersonalizada('Error al obtener posiciones: '+e.message)}
+
+/* ====================================================
+   CARGAR DISPOSITIVOS
+   ==================================================== */
+async function cargarDispositivos() {
+    const selector = document.getElementById('selector-vehiculo');
+
+    try {
+        const res = await fetch('https://whitecargps.duckdns.org/api/devices', {
+            headers: authHeaders()
+        });
+
+        if (!res.ok) throw new Error('Error ' + res.status);
+
+        listaDispositivos = await res.json();
+        selector.innerHTML = '';
+
+        if (listaDispositivos.length === 0) {
+            selector.innerHTML = '<option value="">-- Sin vehículos --</option>';
+            return;
+        }
+
+        listaDispositivos.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d.id;
+            opt.textContent = d.name || ('Vehículo #' + d.id);
+            selector.appendChild(opt);
+        });
+
+    } catch (e) {
+        selector.innerHTML = '<option value="">-- Error al cargar --</option>';
+        mostrarAlerta('No se pudieron cargar los vehículos: ' + e.message);
+    }
 }
-function renderizarRecorridoRec(posiciones){
-  const MAX=800;
-  if(posiciones.length>MAX){const paso=(posiciones.length-1)/(MAX-1);const m=[];for(let i=0;i<MAX;i++)m.push(posiciones[Math.round(i*paso)]);posiciones=m}
-  const total=posiciones.length;let mov=0,det=0,enc=0;const coords=[];
-  const fp=posiciones[0],lp=posiciones[posiciones.length-1];
-  const dLat=(fp.latitude-lp.latitude)*111000,dLng=(fp.longitude-lp.longitude)*111000*Math.cos(fp.latitude*Math.PI/180);
-  const dist=Math.sqrt(dLat*dLat+dLng*dLng);const sep=dist<60?0.00030:0;
-  posiciones.forEach((pos,idx)=>{
-    const lat=pos.latitude,lng=pos.longitude;coords.push([lat,lng]);
-    const esInicio=(idx===0),esFinal=(idx===total-1&&total>1);
-    const latFin=(esFinal&&sep>0)?lat+sep:lat,lngFin=(esFinal&&sep>0)?lng+sep:lng;
-    const ignition=pos.attributes?.ignition===true,motion=pos.attributes?.motion===true;
-    const speedKmh=(pos.speed!==undefined?(pos.speed*1.852):0).toFixed(1);
-    const fechaHora=new Date(pos.deviceTime).toLocaleString('es-ES',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    if(ignition)enc++;if(motion)mov++;else det++;
-    let colorPunto,sombra,estadoTexto,estadoClase;
-    if(!ignition){colorPunto='#ff4444';sombra='rgba(255,68,68,.6)';estadoTexto='APAGADO';estadoClase='rec-est-off'}
-    else if(motion){colorPunto='#00ff66';sombra='rgba(0,255,102,.6)';estadoTexto='EN MOVIMIENTO';estadoClase='rec-est-mov'}
-    else{colorPunto='#ffaa00';sombra='rgba(255,170,0,.6)';estadoTexto='DETENIDO';estadoClase='rec-est-det'}
-    const ignTxt=ignition?'ENCENDIDO':'APAGADO',ignCl=ignition?'rec-est-on':'rec-est-off';
-    let icono,z=100;
-    if(esInicio){z=2000;icono=L.divIcon({className:'rec-extremo-wrap',html:`<div class="rec-cont"><div class="rec-etq rec-inicio"><i class="fas fa-play" style="font-size:8px;"></i> INICIO</div><div class="rec-dot" style="background:#00ff66;box-shadow:0 0 10px #00ff66;"></div></div>`,iconSize:[70,42],iconAnchor:[35,36],popupAnchor:[0,-38]})}
-    else if(esFinal){z=2001;icono=L.divIcon({className:'rec-extremo-wrap',html:`<div class="rec-cont"><div class="rec-etq rec-final"><i class="fas fa-flag-checkered" style="font-size:9px;"></i> FINAL</div><div class="rec-dot" style="background:#ff2222;box-shadow:0 0 10px #ff2222;"></div></div>`,iconSize:[70,42],iconAnchor:[35,36],popupAnchor:[0,-38]})}
-    else{const tb=10;icono=L.divIcon({className:'punto-recorrido-icon',html:`<div style="width:${tb}px;height:${tb}px;background:${colorPunto};border:2px solid rgba(255,255,255,.7);border-radius:50%;box-shadow:0 0 8px ${sombra},0 0 2px rgba(0,0,0,.8);"></div>`,iconSize:[tb,tb],iconAnchor:[tb/2,tb/2],popupAnchor:[0,-(tb/2+4)]})}
-    const popup=construirPopupRec({index:idx+1,total,fechaHora,ignTxt,ignCl,estadoTexto,estadoClase,speedKmh,lat,lng,address:pos.address||null,esInicio,esFinal});
-    L.marker([latFin,lngFin],{icon,zIndexOffset:z}).bindPopup(popup,{maxWidth:260,minWidth:220,className:'popup-recorrido'}).addTo(capaPuntosRec);
-  });
-  if(coords.length>1)L.polyline(coords,{color:'#fff',weight:3.5,opacity:.9,lineJoin:'round',lineCap:'round'}).addTo(capaRutaRec);
-  if(coords.length>0)mapaRec.fitBounds(L.latLngBounds(coords),{padding:[60,40],maxZoom:17});
-  actualizarEstadoRec(total,mov,det,enc);
-  desactivarLoadingRec();
+
+/* ====================================================
+   CARGAR RECORRIDO
+   ==================================================== */
+async function cargarRecorrido() {
+    if (modoDemoActivo) {
+        generarRecorridoDemo();
+        return;
+    }
+
+    const deviceId = document.getElementById('selector-vehiculo').value;
+    const desdeVal = document.getElementById('input-desde').value;
+    const hastaVal = document.getElementById('input-hasta').value;
+
+    if (!deviceId) {
+        mostrarAlerta('Selecciona un vehículo primero.');
+        return;
+    }
+    if (!desdeVal || !hastaVal) {
+        mostrarAlerta('Selecciona el rango de fechas.');
+        return;
+    }
+
+    const from = new Date(desdeVal).toISOString();
+    const to = new Date(hastaVal).toISOString();
+
+    /* Mostrar loading */
+    activarLoading('Consultando posiciones...');
+
+    /* Limpiar capas */
+    capaPuntos.clearLayers();
+    capaRuta.clearLayers();
+
+    try {
+        const url = `https://whitecargps.duckdns.org/api/positions?deviceId=${deviceId}&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+
+        const res = await fetch(url, { headers: authHeaders() });
+
+        if (!res.ok) throw new Error('Error del servidor: ' + res.status);
+
+        const posiciones = await res.json();
+
+        if (!posiciones.length) {
+            desactivarLoading();
+            mostrarAlerta('No se encontraron posiciones en el rango seleccionado.');
+            actualizarEstado(0, 0, 0, 0);
+            return;
+        }
+
+        /* Ordenar por fecha ascendente */
+        posiciones.sort((a, b) => new Date(a.deviceTime) - new Date(b.deviceTime));
+
+        renderizarRecorrido(posiciones);
+
+    } catch (e) {
+        desactivarLoading();
+        mostrarAlerta('Error al obtener posiciones: ' + e.message);
+    }
 }
-function construirPopupRec(d){
-  const addr=d.address?`<div class="rec-dir"><i class="fas fa-map-marker-alt"></i><span>${d.address}</span></div>`:'';
-  let tag='';if(d.esInicio)tag='<span class="rec-badge rec-badge-ini">INICIO</span>';else if(d.esFinal)tag='<span class="rec-badge rec-badge-fin">FINAL</span>';
-  return `<div class="rec-pop-head"><div class="rec-pop-head-izq"><i class="fas fa-map-pin"></i><span class="rec-pop-titulo">Punto ${d.index} de ${d.total}</span></div>${tag}</div><div class="rec-pop-body"><div class="rec-fecha"><i class="fas fa-clock"></i><span>${d.fechaHora}</span></div><div class="rec-grid"><div class="rec-grid-item"><span class="lm"><i class="fas fa-key" style="color:#ffdd55;"></i> Ignición:</span><span class="vm ${d.ignCl}">${d.ignTxt}</span></div><div class="rec-grid-item"><span class="lm"><i class="fas fa-running" style="color:#00eaff;"></i> Estado:</span><span class="vm ${d.estadoClase}">${d.estadoTexto}</span></div><div class="rec-grid-item"><span class="lm"><i class="fas fa-tachometer-alt" style="color:#00ff66;"></i> Velocidad:</span><span class="vm" style="color:#00ff66;">${d.speedKmh} km/h</span></div><div class="rec-grid-item"><span class="lm"><i class="fas fa-crosshairs" style="color:#fff;"></i> Coords:</span><span class="vm" style="font-size:9.5px;color:#fff;">${d.lat.toFixed(4)}, ${d.lng.toFixed(4)}</span></div></div>${addr}</div>`;
+
+/* ====================================================
+   RENDERIZAR RECORRIDO
+   ==================================================== */
+function renderizarRecorrido(posiciones) {
+    /* ── Mostrar máximo 800 puntos desde el inicio hasta el final ── */
+    const MAX_PUNTOS_VISIBLES = 800;
+    if (posiciones.length > MAX_PUNTOS_VISIBLES) {
+        const paso = (posiciones.length - 1) / (MAX_PUNTOS_VISIBLES - 1);
+        const muestreadas = [];
+        for (let i = 0; i < MAX_PUNTOS_VISIBLES; i++) {
+            muestreadas.push(posiciones[Math.round(i * paso)]);
+        }
+        posiciones = muestreadas;
+    }
+
+    const totalPuntos = posiciones.length;
+    let puntosMovimiento = 0;
+    let puntosDetenidos = 0;
+    let puntosEncendidos = 0;
+    let puntosApagados = 0;
+
+    const coordsRuta = [];
+
+    /* ── Separar INICIO y FINAL cuando están muy cerca (para que se vean ambos) ── */
+    const primeraPos = posiciones[0];
+    const ultimaPos = posiciones[posiciones.length - 1];
+    const dLatM = (primeraPos.latitude - ultimaPos.latitude) * 111000;
+    const dLngM = (primeraPos.longitude - ultimaPos.longitude) * 111000 * Math.cos(primeraPos.latitude * Math.PI / 180);
+    const distInicioFinal = Math.sqrt(dLatM * dLatM + dLngM * dLngM);
+    const separacionFinal = distInicioFinal < 60 ? 0.00030 : 0; /* ~33 m hacia afuera */
+
+    posiciones.forEach((pos, index) => {
+        const lat = pos.latitude;
+        const lng = pos.longitude;
+        coordsRuta.push([lat, lng]);
+
+        const esInicio = (index === 0);
+        const esFinal = (index === totalPuntos - 1 && totalPuntos > 1);
+
+        /* El punto FINAL se desplaza levemente hacia afuera para no tapar al INICIO */
+        const latFin = (esFinal && separacionFinal > 0) ? lat + separacionFinal : lat;
+        const lngFin = (esFinal && separacionFinal > 0) ? lng + separacionFinal : lng;
+
+        /* ── Determinar estados ── */
+        const ignition = pos.attributes?.ignition === true;
+        const motion = pos.attributes?.motion === true;
+        const speed = pos.speed !== undefined ? (pos.speed * 1.852) : 0;
+        const speedKmh = speed.toFixed(1);
+        const fechaHora = new Date(pos.deviceTime).toLocaleString('es-ES', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+
+        /* Contadores */
+        if (ignition) puntosEncendidos++; else puntosApagados++;
+        if (motion) puntosMovimiento++; else puntosDetenidos++;
+
+        /* ── Color del punto según estado ── */
+        let colorPunto, sombraPunto, estadoTexto, estadoClase;
+
+        if (!ignition) {
+            colorPunto = '#ff4444';
+            sombraPunto = 'rgba(255,68,68,0.6)';
+            estadoTexto = 'APAGADO';
+            estadoClase = 'popup-estado-apagado';
+        } else if (motion) {
+            colorPunto = '#00ff66';
+            sombraPunto = 'rgba(0,255,102,0.6)';
+            estadoTexto = 'EN MOVIMIENTO';
+            estadoClase = 'popup-estado-movimiento';
+        } else {
+            colorPunto = '#ffaa00';
+            sombraPunto = 'rgba(255,170,0,0.6)';
+            estadoTexto = 'DETENIDO';
+            estadoClase = 'popup-estado-detenido';
+        }
+
+        const ignicionTexto = ignition ? 'ENCENDIDO' : 'APAGADO';
+        const ignicionClase = ignition ? 'popup-estado-encendido' : 'popup-estado-apagado';
+
+        /* ── Icono del punto: INICIO y FINAL destacados con recuadro ── */
+        let iconoPunto;
+        let zIndex = 100;
+
+        if (esInicio) {
+            zIndex = 2000;
+            iconoPunto = L.divIcon({
+                className: 'marcador-extremo-wrap',
+                html: `
+                    <div class="contenedor-recuadro">
+                        <div class="recuadro-etiqueta recuadro-inicio">
+                            <i class="fas fa-play" style="font-size:8px;"></i> INICIO
+                        </div>
+                        <div class="punto-circulo-extremo" style="background:#00ff66; box-shadow:0 0 10px #00ff66;"></div>
+                    </div>
+                `,
+                iconSize: [70, 42],
+                iconAnchor: [35, 36],
+                popupAnchor: [0, -38]
+            });
+        } else if (esFinal) {
+            zIndex = 2001;
+            iconoPunto = L.divIcon({
+                className: 'marcador-extremo-wrap',
+                html: `
+                    <div class="contenedor-recuadro">
+                        <div class="recuadro-etiqueta recuadro-final">
+                            <i class="fas fa-flag-checkered" style="font-size:9px;"></i> FINAL
+                        </div>
+                        <div class="punto-circulo-extremo" style="background:#ff2222; box-shadow:0 0 10px #ff2222;"></div>
+                    </div>
+                `,
+                iconSize: [70, 42],
+                iconAnchor: [35, 36],
+                popupAnchor: [0, -38]
+            });
+        } else {
+            const tamañoBase = 10;
+            iconoPunto = L.divIcon({
+                className: 'punto-recorrido-icon',
+                html: `<div style="
+                    width:${tamañoBase}px; height:${tamañoBase}px;
+                    background:${colorPunto};
+                    border:2px solid rgba(255,255,255,0.7);
+                    border-radius:50%;
+                    box-shadow: 0 0 8px ${sombraPunto}, 0 0 2px rgba(103,183,235,0.8);
+                "></div>`,
+                iconSize: [tamañoBase, tamañoBase],
+                iconAnchor: [tamañoBase / 2, tamañoBase / 2],
+                popupAnchor: [0, -(tamañoBase / 2 + 4)]
+            });
+        }
+
+        /* ── Contenido del popup compacto y organizado ── */
+        const popupHTML = construirPopup({
+            index: index + 1,
+            total: totalPuntos,
+            fechaHora,
+            ignicionTexto,
+            ignicionClase,
+            estadoTexto,
+            estadoClase,
+            speedKmh,
+            lat,
+            lng,
+            address: pos.address || null,
+            esInicio,
+            esFinal
+        });
+
+        /* ── Crear marcador ── */
+        const marcador = L.marker([latFin, lngFin], { 
+            icon: iconoPunto,
+            zIndexOffset: zIndex
+        }).bindPopup(popupHTML, {
+            maxWidth: 260,
+            minWidth: 220,
+            className: 'popup-recorrido'
+        });
+
+        capaPuntos.addLayer(marcador);
+    });
+
+    /* ── Dibujar línea de ruta ── */
+    if (coordsRuta.length > 1) {
+        const linea = L.polyline(coordsRuta, {
+            color: '#ff0000',
+            weight: 3.5,
+            opacity: 0.8,
+            lineJoin: 'round',
+            lineCap: 'round'
+        });
+        capaRuta.addLayer(linea);
+    }
+
+    /* ── Ajustar vista del mapa ── */
+    if (coordsRuta.length > 0) {
+        const bounds = L.latLngBounds(coordsRuta);
+        mapa.fitBounds(bounds, { padding: [60, 40], maxZoom: 17 });
+    }
+
+    /* ── Actualizar barra de estado ── */
+    actualizarEstado(totalPuntos, puntosMovimiento, puntosDetenidos, puntosEncendidos);
+
+    desactivarLoading();
 }
-function actualizarEstadoRec(total,mov,det,enc){
-  const iz=document.getElementById('rec-stat-izq'),de=document.getElementById('rec-stat-der');
-  if(total===0){iz.innerHTML='<span style="color:#fff;">Sin datos cargados</span>';de.innerHTML='';return}
-  iz.innerHTML=`<span class="stat-highlight">${total}</span> puntos &nbsp;|&nbsp; <span style="color:#00ff66;">${mov}</span> mov &nbsp; <span style="color:#ffdd55;">${det}</span> det &nbsp; <span style="color:#fff;">${total-enc}</span> apag`;
-  const ds=document.getElementById('rec-input-desde').value,hs=document.getElementById('rec-input-hasta').value;
-  de.innerHTML=`<i class="fas fa-key" style="color:#ffdd55;"></i> <span class="stat-highlight">${enc}</span> enc &nbsp;|&nbsp; <i class="fas fa-clock"></i> ${ds?new Date(ds).toLocaleDateString('es-ES'):''} - ${hs?new Date(hs).toLocaleDateString('es-ES'):''}`;
+
+/* ====================================================
+   CONSTRUIR HTML DEL POPUP COMPACTO Y ORGANIZADO
+   ==================================================== */
+function construirPopup(datos) {
+    const addressRow = datos.address
+        ? `<div class="popup-direccion-fila">
+               <i class="fas fa-map-marker-alt"></i>
+               <span>${datos.address}</span>
+           </div>`
+        : '';
+
+    let tagExtremo = '';
+    if (datos.esInicio) {
+        tagExtremo = '<span class="popup-badge-extremo popup-badge-inicio">INICIO</span>';
+    } else if (datos.esFinal) {
+        tagExtremo = '<span class="popup-badge-extremo popup-badge-final">FINAL</span>';
+    }
+
+    return `
+        <div class="popup-cabecera">
+            <div class="popup-cabecera-izq">
+                <i class="fas fa-map-pin"></i>
+                <span class="popup-titulo">Punto ${datos.index} de ${datos.total}</span>
+            </div>
+            ${tagExtremo}
+        </div>
+        <div class="popup-cuerpo">
+            <div class="popup-fecha-fila">
+                <i class="fas fa-clock"></i>
+                <span>${datos.fechaHora}</span>
+            </div>
+
+            <div class="popup-grid">
+                <div class="popup-grid-item">
+                    <span class="label-mini"><i class="fas fa-key" style="color:#ffaa00;"></i> Ignición:</span>
+                    <span class="valor-mini ${datos.ignicionClase}">${datos.ignicionTexto}</span>
+                </div>
+                <div class="popup-grid-item">
+                    <span class="label-mini"><i class="fas fa-${datos.estadoTexto === 'EN MOVIMIENTO' ? 'running' : 'hand-paper'}" style="color:#00ccff;"></i> Estado:</span>
+                    <span class="valor-mini ${datos.estadoClase}">${datos.estadoTexto}</span>
+                </div>
+                <div class="popup-grid-item">
+                    <span class="label-mini"><i class="fas fa-tachometer-alt" style="color:#00ff66;"></i> Velocidad:</span>
+                    <span class="valor-mini" style="color:#00ff66;">${datos.speedKmh} km/h</span>
+                </div>
+                <div class="popup-grid-item">
+                    <span class="label-mini"><i class="fas fa-crosshairs" style="color:#aaa;"></i> Coords:</span>
+                    <span class="valor-mini" style="font-size:9.5px; color:#ddd;">${datos.lat.toFixed(4)}, ${datos.lng.toFixed(4)}</span>
+                </div>
+            </div>
+
+            ${addressRow}
+        </div>
+    `;
 }
-function activarLoadingRec(t){document.getElementById('rec-loading-text').innerText=t||'Cargando...';document.getElementById('rec-loading').classList.add('activo')}
-function desactivarLoadingRec(){document.getElementById('rec-loading').classList.remove('activo')}
-function generarRecorridoDemoRec(){
-  activarLoadingRec('Generando recorrido de prueba...');
-  if(!mapaRec)inicializarMapaRec();
-  capaPuntosRec.clearLayers();capaRutaRec.clearLayers();
-  setTimeout(()=>{
-    const ahora=new Date();const pts=[[4.6025,-74.0850,0,false,false,"Calle 19 # 8-20, Bogotá"],[4.6042,-74.0832,18,true,true,"Carrera 10 # 21-14"],[4.6068,-74.0805,34,true,true,"Av. Jiménez con Cra 7"],[4.6095,-74.0772,42,true,true,"Carrera 7 # 28-30"],[4.6120,-74.0745,48,true,true,"Parque de la Independencia"],[4.6152,-74.0718,0,true,false,"Semáforo Calle 34"],[4.6180,-74.0685,38,true,true,"Av. Caracas con Calle 39"],[4.6225,-74.0650,45,true,true,"Calle 45 # 13-22"],[4.6270,-74.0618,52,true,true,"Carrera 13 # 53-80"],[4.6315,-74.0590,0,false,false,"Zona G, Calle 67 # 5-10"]];
-    const demo=[];pts.forEach((p,i)=>{demo.push({latitude:p[0],longitude:p[1],speed:p[2]/1.852,attributes:{ignition:p[3],motion:p[4]},deviceTime:new Date(ahora.getTime()-(pts.length-i)*300000).toISOString(),address:p[5]})});
-    renderizarRecorridoRec(demo);
-  },400);
+
+/* ====================================================
+   ACTUALIZAR BARRA DE ESTADO
+   ==================================================== */
+function actualizarEstado(total, movimiento, detenidos, encendidos) {
+    const statIzq = document.getElementById('stat-izq');
+    const statDer = document.getElementById('stat-der');
+
+    if (total === 0) {
+        statIzq.innerHTML = '<span style="color:#888;">Sin datos cargados</span>';
+        statDer.innerHTML = '';
+        return;
+    }
+
+    statIzq.innerHTML = `
+        <span class="stat-highlight">${total}</span> puntos &nbsp;|&nbsp;
+        <span style="color:#00ff66;">${movimiento}</span> mov &nbsp;
+        <span style="color:#ffaa00;">${detenidos}</span> det &nbsp;
+        <span style="color:#ff4444;">${total - encendidos}</span> apag
+    `;
+
+    const desde = document.getElementById('input-desde').value;
+    const hasta = document.getElementById('input-hasta').value;
+    statDer.innerHTML = `
+        <i class="fas fa-key" style="color:#ffaa00;"></i>
+        <span class="stat-highlight">${encendidos}</span> enc &nbsp;|&nbsp;
+        <i class="fas fa-clock" style="color:#888;"></i>
+        ${desde ? new Date(desde).toLocaleDateString('es-ES') : ''} - ${hasta ? new Date(hasta).toLocaleDateString('es-ES') : ''}
+    `;
 }
+
+/* ====================================================
+   UTILIDADES
+   ==================================================== */
+function mostrarAlerta(mensaje) {
+    document.getElementById('texto-alerta').innerText = mensaje;
+    document.getElementById('modal-alerta').classList.add('activo');
+}
+
+function activarLoading(texto) {
+    document.getElementById('loading-text').innerText = texto || 'Cargando...';
+    document.getElementById('loading-overlay').classList.add('activo');
+}
+
+function desactivarLoading() {
+    document.getElementById('loading-overlay').classList.remove('activo');
+}
+
+/* ====================================================
+   MODO DEMO / VISTA PREVIA
+   ==================================================== */
+function iniciarModoDemo() {
+    modoDemoActivo = true;
+    document.getElementById('pantalla-sin-auth').classList.remove('activo');
+    
+    inicializarMapa();
+    establecerFechasDefault();
+
+    const selector = document.getElementById('selector-vehiculo');
+    selector.innerHTML = `
+        <option value="demo-1">Chevrolet Aveo [DEMO-01]</option>
+        <option value="demo-2">Toyota Hilux [DEMO-02]</option>
+    `;
+
+    generarRecorridoDemo();
+}
+
+function generarRecorridoDemo() {
+    activarLoading('Generando recorrido de prueba...');
+    capaPuntos.clearLayers();
+    capaRuta.clearLayers();
+
+    setTimeout(() => {
+        const baseLat = 4.60971;
+        const baseLng = -74.08175;
+        const ahora = new Date();
+        const listaDemo = [];
+
+        const puntosCoords = [
+            [4.6025, -74.0850, 0, false, false, "Calle 19 # 8-20, Bogotá"],
+            [4.6042, -74.0832, 18, true, true, "Carrera 10 # 21-14"],
+            [4.6068, -74.0805, 34, true, true, "Av. Jiménez con Cra 7"],
+            [4.6095, -74.0772, 42, true, true, "Carrera 7 # 28-30"],
+            [4.6120, -74.0745, 48, true, true, "Parque de la Independencia"],
+            [4.6152, -74.0718, 0, true, false, "Semáforo Calle 34"],
+            [4.6180, -74.0685, 38, true, true, "Av. Caracas con Calle 39"],
+            [4.6225, -74.0650, 45, true, true, "Calle 45 # 13-22"],
+            [4.6270, -74.0618, 52, true, true, "Carrera 13 # 53-80"],
+            [4.6315, -74.0590, 0, false, false, "Zona G, Calle 67 # 5-10"]
+        ];
+
+        puntosCoords.forEach((p, idx) => {
+            const fechaPunto = new Date(ahora.getTime() - (puntosCoords.length - idx) * 300000);
+            listaDemo.push({
+                latitude: p[0],
+                longitude: p[1],
+                speed: p[2] / 1.852,
+                attributes: {
+                    ignition: p[3],
+                    motion: p[4]
+                },
+                deviceTime: fechaPunto.toISOString(),
+                address: p[5]
+            });
+        });
+
+        renderizarRecorrido(listaDemo);
+    }, 400);
+}
+</script>
+</body>
+</html></textarea>
+
+<!-- SCRIPTS UNIFICADOS -->
+<script>
+    const videoIntro = document.querySelector('#intro-video video');
+    const pantallaIntro = document.getElementById('intro-video');
+
+    videoIntro.addEventListener('ended', () => {
+        pantallaIntro.classList.add('saliendo');
+        setTimeout(() => {
+            pantallaIntro.style.display = 'none';
+        }, 800);
+    });
+  
+    // Variables Globales del Mapa y Dispositivos
+    let mapa = null;
+    let capaMapa = null;
+    let capaGeocercas = null;
+    let estiloMapaActual = 'satelite'; 
+    let marcadoresVehiculos = {};
+    let marcadoresSonar = {};
+    let historialRutas = {};
+    let lineasRuta = {};
+    
+    let dispositivoActualId = null;
+    let comandoPendiente = null;
+    let ultimaLatitud = null;
+    let ultimaLongitud = null;
+  
+    let mapaCentradoInicialmente = false;
+
+    window.addEventListener('load', () => {
+        const emailGuardado = localStorage.getItem('eagle_email');
+        const passwordGuardado = localStorage.getItem('eagle_password');
+        const marcaGuardada = localStorage.getItem('eagle_marca');
+        const tipoGuardado = localStorage.getItem('eagle_tipo_gif');
+
+        if (marcaGuardada) document.getElementById('marca').value = marcaGuardada;
+        if (tipoGuardado) document.getElementById('tipo-vehiculo').value = tipoGuardado;
+
+        if (emailGuardado && passwordGuardado && marcaGuardada && tipoGuardado) {
+            document.getElementById('email').value = emailGuardado;
+            document.getElementById('password').value = passwordGuardado;
+            
+            document.getElementById('pantalla-login').style.display = 'none';
+            document.getElementById('pantalla-mapa').style.display = 'block';
+            crearMapaReal();
+        }
+    });
+
+    setInterval(() => {
+        obtenerPosicionActual();
+    }, 10000);
+
+    function authHeaders() {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        return {
+            'Authorization': 'Basic ' + btoa(email + ':' + password)
+        };
+    }
+    
+    // Función central para reemplazar todos los alerts nativos
+    function mostrarAlertaPersonalizada(mensaje) {
+        cerrarModales(); 
+        document.getElementById('texto-alerta').innerText = mensaje;
+        document.getElementById('modal-alerta').style.display = 'flex';
+    }
+    function abrirConfirmacionSesion() {
+    cerrarModales();
+    document.getElementById('modal-confirmar-sesion').style.display = 'flex';
+}
+    function confirmarCerrarSesion() {
+    cerrarSesion();
+}
+
+    function cerrarModales() {
+        const modales = document.querySelectorAll('.modal-overlay');
+        modales.forEach(modal => modal.style.display = 'none');
+        cerrarModalRecorridos();
+        comandoPendiente = null;
+    }
+    
+    function entrarAlMapa() {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const marca = document.getElementById('marca').value.trim();
+        const tipoVehiculo = document.getElementById('tipo-vehiculo').value;
+
+        if (!email || !password || !marca || !tipoVehiculo) {
+            mostrarAlertaPersonalizada("Por favor, completa todos los campos.");
+            return;
+        }
+
+        localStorage.setItem('eagle_email', email);
+        localStorage.setItem('eagle_password', password);
+        localStorage.setItem('eagle_marca', marca);
+        localStorage.setItem('eagle_tipo_gif', tipoVehiculo);
+
+        document.getElementById('pantalla-login').style.display = 'none';
+        document.getElementById('pantalla-mapa').style.display = 'block';
+
+        crearMapaReal();
+    }
+  
+    async function obtenerPosicionActual() {
+        const resultado = document.getElementById('resultado');
+        resultado.innerText = 'Consultando posiciones...';
+
+        try {
+            const dispositivosResponse = await fetch('https://whitecargps.duckdns.org/api/devices', {
+                headers: authHeaders()
+            });
+
+            const dispositivos = await dispositivosResponse.json();
+
+            for (const dispositivo of dispositivos) {
+                const positionId = dispositivo.positionId;
+                if (!positionId) continue;
+
+                const posicionResponse = await fetch('https://whitecargps.duckdns.org/api/positions?id=' + positionId, {
+                    headers: authHeaders()
+                });
+
+                const posiciones = await posicionResponse.json();
+                if (!posiciones.length) continue;
+
+                const posicion = posiciones[0];
+                actualizarMapa(posicion, dispositivo);
+            }
+        } catch (error) {
+            resultado.innerText = 'ERROR: ' + error;
+        }
+    }
+
+    function crearMapaReal() {
+        const contenedor = document.getElementById('mapa2');
+        contenedor.style.display = 'block';
+
+        if (mapa) {
+            mapa.remove();
+            mapa = null;
+            capaMapa = null;
+            capaGeocercas = null;
+        }
+        mapaCentradoInicialmente = false;
+        marcadoresVehiculos = {};
+        marcadoresSonar = {};
+        historialRutas = {};
+        lineasRuta = {};
+
+        contenedor.innerHTML = '';
+        mapa = L.map('mapa2', { zoomControl: false }).setView([4.60971, -74.08175], 12);
+        
+        capaGeocercas = L.layerGroup().addTo(mapa);
+
+        aplicarEstiloMapa(estiloMapaActual);
+    }
+
+    // GESTIÓN DE MAPAS
+    function aplicarEstiloMapa(estilo) {
+        if (capaMapa) {
+            mapa.removeLayer(capaMapa);
+        }
+        
+        let url = '';
+        if (estilo === 'satelite') {
+            url = 'https://mt1.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}';
+        } else if (estilo === 'normal') {
+            url = 'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
+        } else if (estilo === 'oscuro') {
+            url = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+        }
+
+        capaMapa = L.tileLayer(url, { maxZoom: 20, attribution: '&copy; MapData' }).addTo(mapa);
+        estiloMapaActual = estilo;
+    }
+
+    function cambiarMapa(estilo) {
+        aplicarEstiloMapa(estilo);
+        cerrarModales();
+    }
+
+    // FUNCIONES DE CONTROL DE MOTOR
+    function iniciarComando(tipo) {
+        if (!dispositivoActualId) {
+            mostrarAlertaPersonalizada("No se ha detectado ningún dispositivo activo.");
+            return;
+        }
+        comandoPendiente = tipo;
+        document.getElementById('modal-menu-motor').style.display = 'none';
+        document.getElementById('modal-confirmacion-motor').style.display = 'flex';
+    }
+
+    async function confirmarComando() {
+        if (!dispositivoActualId || !comandoPendiente) return;
+        
+        document.getElementById('modal-confirmacion-motor').style.display = 'none';
+        
+        try {
+            const response = await fetch('https://whitecargps.duckdns.org/api/commands/send', {
+                method: 'POST',
+                headers: {
+                    ...authHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    deviceId: dispositivoActualId,
+                    type: comandoPendiente
+                })
+            });
+
+            if (response.ok) {
+                mostrarAlertaPersonalizada('Comando enviado con éxito al vehículo.');
+            } else {
+                mostrarAlertaPersonalizada(`Error al enviar. Estado del servidor: ${response.status}`);
+            }
+        } catch (error) {
+            mostrarAlertaPersonalizada('Error de conexión al enviar el comando.');
+        }
+        comandoPendiente = null;
+    }
+
+    async function obtenerNombreLugar(latitude, longitude) {     
+        try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`);
+            const datos = await response.json();
+            const direccion = datos.address || {};
+            const partes = [
+                direccion.city, direccion.town, direccion.municipality,
+                direccion.suburb, direccion.neighbourhood, direccion.road, direccion.building
+            ].filter(Boolean);
+
+            return partes.length ? partes.join(', ') : 'Ubicación desconocida';
+        } catch (error) {
+            return 'Ubicación desconocida';
+        }
+    }  
+  
+    function actualizarMapa(posicion, dispositivo) {
+        if (!mapa) {
+            crearMapaReal();
+        }
+        
+        const lat = posicion.latitude;
+        const lng = posicion.longitude;
+        const idDispositivo = dispositivo.id;
+        
+        dispositivoActualId = idDispositivo;
+        ultimaLatitud = lat;
+        ultimaLongitud = lng;
+        
+        if (!mapaCentradoInicialmente) {
+            mapa.setView([lat, lng], 16);
+            mapaCentradoInicialmente = true;
+        }
+
+        if (!historialRutas[idDispositivo]) {
+            historialRutas[idDispositivo] = [];
+        }
+        historialRutas[idDispositivo].push([lat, lng]);
+
+        if (!lineasRuta[idDispositivo]) {
+            lineasRuta[idDispositivo] = L.polyline(historialRutas[idDispositivo], {
+                color: '#ffffff',
+                weight: 4,
+                opacity: 0.7,
+                lineJoin: 'round'
+            }).addTo(mapa);
+        } else {
+            lineasRuta[idDispositivo].setLatLngs(historialRutas[idDispositivo]);
+        }
+
+        const placaVehiculo = dispositivo.name || 'SIN PLACA';
+        const estadoMovimiento = posicion.attributes?.motion === true ? 'EN MOVIMIENTO' : 'DETENIDO';
+        const colorMovimiento = posicion.attributes?.motion === true ? '#00ff00' : '#ffffff';
+        // 1. Mantenemos tu icono de vehículo ORIGINAL intacto
+        const iconoGPS = L.icon({
+            iconUrl: 'https://i.imgur.com/ovIjZz9.png',
+            iconSize: [95, 95],
+            iconAnchor: [47.5, 75],
+            tooltipAnchor: [0, -55],
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+            shadowSize: [95, 95],
+            shadowAnchor: [47.5, 75]
+        });
+
+        // 2. Icono exclusivo para el pulso Sonar
+        const iconoSonar = L.divIcon({
+            className: 'gps-sonar-wave-icon',
+            html: '<div class="sonar-wave"></div>',
+            iconSize: [0, 0],
+            iconAnchor: [0, 0]
+        });
+
+        // 3. Crear o mover el SONAR (debajo del vehículo)
+        if (!marcadoresSonar[idDispositivo]) {
+            marcadoresSonar[idDispositivo] = L.marker([lat, lng], {
+                icon: iconoSonar,
+                zIndexOffset: -1000,
+                interactive: false
+            }).addTo(mapa);
+        } else {
+            marcadoresSonar[idDispositivo].setLatLng([lat, lng]);
+        }
+
+        // 4. Crear o mover el VEHÍCULO (tu código original)
+        const tooltipHTML = `
+            <div>
+                <div class="gps-placa">${placaVehiculo}</div>
+                <div class="gps-estado-movimiento">
+                    <span class="gps-punto-movimiento" style="color:${colorMovimiento} !important;">●</span>
+                    <span class="gps-texto-movimiento">${estadoMovimiento}</span>
+                </div>
+            </div>
+        `;
+
+        if (!marcadoresVehiculos[idDispositivo]) {
+            let nuevoMarcador = L.marker([lat, lng], {
+                icon: iconoGPS
+            }).addTo(mapa);
+            nuevoMarcador.bindTooltip(tooltipHTML, {
+                permanent: true,
+                direction: 'top',
+                offset: [0, -25],
+                className: 'gps-placa-estado'
+            });
+            marcadoresVehiculos[idDispositivo] = nuevoMarcador;
+        } else {
+            let marcadorExistente = marcadoresVehiculos[idDispositivo];
+            marcadorExistente.setLatLng([lat, lng]);
+            marcadorExistente.setTooltipContent(tooltipHTML);
+        }
+
+        const velocidadKmh = posicion.speed !== undefined ? (posicion.speed * 1.852).toFixed(1) : '0.0';
+
+        let velocidadDestacada = `
+            <div class="velocidad-destacada">
+                <div style="display:flex; align-items:center; justify-content:center; gap:5px;">
+                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter:brightness(0) invert(1);">
+                    <div style="color:#ffffff; font-size:18px; font-weight:bold; line-height:1;">
+                        ${velocidadKmh}
+                    </div>
+                    <div style="color:#ccc; font-size:10px; margin-top:5px;">km/h</div>
+                </div>
+                <div style="color:#ffffff; font-size:9px; margin-top:5px; letter-spacing:1px; font-weight:bold;">
+                    VELOCIDAD
+                </div>
+            </div>
+        `;
+        
+        let ignicionDestacada = '';
+        const ignicion = posicion.attributes?.ignition === true || (posicion.speed && posicion.speed > 0);
+
+        if (ignicion) {
+            ignicionDestacada = `
+                <div class="ignicion-destacada">
+                    <img src="https://i.imgur.com/LQHjXWa.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto;">
+                    <div style="color:#00ff66; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">ENCENDIDO</div>
+                </div>
+            `;
+        } else {
+            ignicionDestacada = `
+                <div class="ignicion-destacada">
+                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter:brightness(0) invert(1);">
+                    <div style="color:#ffffff; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">APAGADO</div>
+                </div>
+            `;
+        }      
+
+        obtenerNombreLugar(lat, lng).then(nombreLugar => {
+            document.getElementById('ubicacion-flotante').innerHTML = `
+                <div class="ubicacion-destacada">
+                    <img src="https://i.imgur.com/1VCjVnA.gif" style="width:35px; height:35px; object-fit:contain; flex-shrink:0;">
+                    <div style="color:#ffffff; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
+                        ${nombreLugar}
+                    </div>
+                </div>
+            `;
+        });
+
+        const marcaGuardada = localStorage.getItem('eagle_marca') || 'SIN MARCA';
+        const gifGuardado = localStorage.getItem('eagle_tipo_gif') || 'https://i.imgur.com/v8fX3x1.gif';
+
+        document.getElementById('tarjeta-gps').innerHTML = `
+            <div class="gps-tarjeta-cabecera">
+                <img src="${gifGuardado}" class="gps-vehiculo-img" alt="Vehículo">
+                <div class="gps-vehiculo-info">
+                    <div class="gps-vehiculo">${dispositivo.name || 'SIN PLACA'}</div>
+                    <div class="gps-vehiculo-marca">${marcaGuardada}</div>
+                    <div class="gps-estado ${posicion.valid ? 'gps-ok' : 'gps-error'}">
+                        ● ${posicion.valid ? 'GPS ACTIVO' : 'GPS SIN SEÑAL'}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('velocidad-flotante').innerHTML = velocidadDestacada;
+        document.getElementById('ignicion-flotante').innerHTML = ignicionDestacada;
+    }
+    function volverAlVehiculo() {
+        if (!mapa || !dispositivoActualId) {
+            mostrarAlertaPersonalizada("No se ha detectado ningún vehículo.");
+            return;
+        }
+
+        const marcador = marcadoresVehiculos[dispositivoActualId];
+
+        if (marcador) {
+            const posicion = marcador.getLatLng();
+
+            mapa.setView(posicion, 18, {
+                animate: true
+            });
+        }
+    }
+    function cerrarSesion() {
+        localStorage.removeItem('eagle_email');
+        localStorage.removeItem('eagle_password');
+        localStorage.removeItem('eagle_marca');
+        localStorage.removeItem('eagle_tipo_gif');
+
+        document.getElementById('pantalla-mapa').style.display = 'none';
+        document.getElementById('pantalla-login').style.display = 'flex';
+
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('marca').value = '';
+        document.getElementById('tipo-vehiculo').value = '';
+
+        if (mapa) {
+            mapa.remove();
+            mapa = null;
+            capaMapa = null;
+            capaGeocercas = null;
+        }
+        
+        marcadoresVehiculos = {};
+        marcadoresSonar = {};
+        historialRutas = {};
+        lineasRuta = {};
+        dispositivoActualId = null;
+        mapaCentradoInicialmente = false;
+    }
+
+    function abrirModalDescarga() {
+        document.getElementById('modal-descarga').style.display = 'flex';
+    }
+
+    function toggleFechasPersonalizadas() {
+        const rango = document.getElementById('rango-descarga').value;
+        document.getElementById('fechas-personalizadas').style.display = rango === 'personalizado' ? 'block' : 'none';
+    }
+
+    function obtenerFechasISO(rango) {
+        let fromDate, toDate;
+        const now = new Date();
+        
+        if (rango === 'hoy') {
+            fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+            toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+        } else if (rango === 'ayer') {
+            fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0);
+            toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59);
+        } else if (rango === 'semana') {
+            fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7, 0, 0, 0);
+            toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+        } else {
+            const valDesde = document.getElementById('fecha-desde').value;
+            const valHasta = document.getElementById('fecha-hasta').value;
+            if (!valDesde || !valHasta) return null;
+            fromDate = new Date(valDesde);
+            toDate = new Date(valHasta);
+        }
+        return { from: fromDate.toISOString(), to: toDate.toISOString() };
+    }
+
+    async function ejecutarDescarga() {
+        const rango = document.getElementById('rango-descarga').value;
+        const fechas = obtenerFechasISO(rango);
+
+        if (!fechas) {
+            mostrarAlertaPersonalizada("Por favor selecciona correctamente las fechas.");
+            return;
+        }
+
+        const resultado = document.getElementById('resultado');
+        resultado.innerText = 'Preparando descarga de historial...';
+        
+        try {
+            const dispResp = await fetch('https://whitecargps.duckdns.org/api/devices', { headers: authHeaders() });
+            const dispositivos = await dispResp.json();
+
+            let csvContent = "sep=;\n"; 
+            csvContent += "Vehiculo;Fecha/Hora;Latitud;Longitud;Velocidad (km/h);Ignicion\n";
+            let datosEncontrados = false;
+
+            for (const disp of dispositivos) {
+                const url = `https://whitecargps.duckdns.org/api/positions?deviceId=${disp.id}&from=${encodeURIComponent(fechas.from)}&to=${encodeURIComponent(fechas.to)}`;
+                const posResp = await fetch(url, { headers: authHeaders() });
+
+                if (posResp.ok) {
+                    const posiciones = await posResp.json();
+                    if (posiciones.length > 0) datosEncontrados = true;
+                    
+                    posiciones.forEach(p => {
+                        const velocidadKmh = p.speed !== undefined ? (p.speed * 1.852).toFixed(1) : "0.0";
+                        const fechaLocal = new Date(p.deviceTime).toLocaleString().replace(/,/g, '');
+                        const ignicionTxt = p.attributes?.ignition ? "ENCENDIDO" : "APAGADO";
+                        
+                        csvContent += `"${disp.name}";"${fechaLocal}";${p.latitude};${p.longitude};${velocidadKmh};"${ignicionTxt}"\n`;
+                    });
+                }
+            }
+
+            if (!datosEncontrados) {
+                mostrarAlertaPersonalizada("No se encontraron posiciones en el rango seleccionado.");
+                resultado.innerText = 'Sin datos para descargar.';
+                return;
+            }
+
+            const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const urlBlob = URL.createObjectURL(blob);
+            link.setAttribute("href", urlBlob);
+            link.setAttribute("download", `Historial_GPS_${rango}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            resultado.innerText = 'Descarga completada con éxito.';
+            cerrarModales();
+            mostrarAlertaPersonalizada("Descarga completada. El archivo ha sido guardado.");
+
+        } catch (e) {
+            mostrarAlertaPersonalizada('Error al descargar los datos: ' + e);
+            resultado.innerText = 'Error en la descarga: ' + e;
+        }
+    }
+
+    /* ==============================================
+       GESTOR DE GEOCERCAS (TRACCAR COMPATIBLE)
+       ============================================== */
+    async function abrirModalGeocerca() {
+        document.getElementById('modal-geocerca').style.display = 'flex';
+        await cargarGeocercas();
+    }
+
+    async function cargarGeocercas() {
+        const contenedor = document.getElementById('lista-geocercas');
+        contenedor.innerHTML = '<p style="color: #ccc;">Cargando...</p>';
+        
+        try {
+            const res = await fetch('https://whitecargps.duckdns.org/api/geofences', { headers: authHeaders() });
+            if (!res.ok) throw new Error('Error al obtener geocercas');
+            
+            const geocercas = await res.json();
+            contenedor.innerHTML = '';
+            
+            if (mapa && capaGeocercas) {
+                capaGeocercas.clearLayers();
+            }
+
+            if (geocercas.length === 0) {
+                contenedor.innerHTML = '<p style="color: #888;">No hay geocercas creadas.</p>';
+                return;
+            }
+
+            geocercas.forEach(g => {
+                const div = document.createElement('div');
+                div.style.cssText = 'background: #67B7EB; padding: 8px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;';
+                div.innerHTML = `
+                    <div>
+                        <strong style="color: #ffffff; font-size: 12px;">${g.name}</strong>
+                        <div style="font-size: 10px; color: #aaa;">${g.description || 'Sin descripción'}</div>
+                    </div>
+                    <button onclick="eliminarGeocerca(${g.id})" style="background: #ffffff; color: #67B7EB; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                contenedor.appendChild(div);
+
+                if (g.area && g.area.startsWith('CIRCLE') && mapa && capaGeocercas) {
+                    const match = g.area.match(/CIRCLE\s*\(\s*(-?\d+\.?\d*)\s+(-?\d+\.?\d*)\s*,\s*(-?\d+\.?\d*)\s*\)/i);
+                    if (match) {
+                        const lat = parseFloat(match[1]);
+                        const lng = parseFloat(match[2]);
+                        const rad = parseFloat(match[3]);
+                        L.circle([lat, lng], {
+                            color: '#ffffff',
+                            fillColor: '#ffffff',
+                            fillOpacity: 0.25,
+                            radius: rad
+                        }).bindTooltip(g.name, { permanent: false }).addTo(capaGeocercas);
+                    }
+                }
+            });
+        } catch (e) {
+            contenedor.innerHTML = '<p style="color: #ffffff;">Error al obtener las geocercas.</p>';
+        }
+    }
+
+    async function guardarGeocerca() {
+        const nombre = document.getElementById('geo-nombre').value.trim();
+        const desc = document.getElementById('geo-desc').value.trim();
+        const radio = parseFloat(document.getElementById('geo-radio').value);
+
+        if (!nombre) {
+            mostrarAlertaPersonalizada("Por favor ingrese un nombre para la geocerca.");
+            return;
+        }
+
+        if (isNaN(radio) || radio <= 0) {
+            mostrarAlertaPersonalizada("Por favor ingrese un radio válido en metros.");
+            return;
+        }
+
+        let lat = 4.60971, lng = -74.08175;
+        if (mapa) {
+            const center = mapa.getCenter();
+            lat = center.lat;
+            lng = center.lng;
+        }
+
+        const areaWKT = `CIRCLE (${lat} ${lng}, ${radio})`;
+
+        try {
+            const res = await fetch('https://whitecargps.duckdns.org/api/geofences', {
+                method: 'POST',
+                headers: {
+                    ...authHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: nombre,
+                    description: desc,
+                    area: areaWKT
+                })
+            });
+
+            if (res.ok) {
+                const geofenceCreada = await res.json();
+                
+                if (dispositivoActualId) {
+                    await fetch('https://whitecargps.duckdns.org/api/permissions', {
+                        method: 'POST',
+                        headers: {
+                            ...authHeaders(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            deviceId: dispositivoActualId,
+                            geofenceId: geofenceCreada.id
+                        })
+                    });
+                }
+
+                document.getElementById('geo-nombre').value = '';
+                document.getElementById('geo-desc').value = '';
+                mostrarAlertaPersonalizada("Geocerca creada y asignada exitosamente.");
+                await cargarGeocercas();
+            } else {
+                mostrarAlertaPersonalizada("Error en el servidor al registrar la geocerca.");
+            }
+        } catch (e) {
+            mostrarAlertaPersonalizada("Error de conexión al guardar la geocerca.");
+        }
+    }
+
+    async function eliminarGeocerca(id) {
+        try {
+            const res = await fetch(`https://whitecargps.duckdns.org/api/geofences/${id}`, {
+                method: 'DELETE',
+                headers: authHeaders()
+            });
+
+            if (res.ok) {
+                mostrarAlertaPersonalizada("Geocerca eliminada.");
+                await cargarGeocercas();
+            } else {
+                mostrarAlertaPersonalizada("No se pudo eliminar la geocerca.");
+            }
+        } catch (e) {
+            mostrarAlertaPersonalizada("Error de conexión al eliminar la geocerca.");
+        }
+    }
+    
+    function abrirStreetView() {
+        if (!ultimaLatitud || !ultimaLongitud) {
+            mostrarAlertaPersonalizada("Ubicación del vehículo no disponible aún.");
+            return;
+        }
+        cerrarModales();
+        window.open(`https://maps.google.com/maps?layer=c&cbll=${ultimaLatitud},${ultimaLongitud}`, '_blank');
+    }
+
+    function abrirModalRecorridos() {
+        const modal = document.getElementById('modal-recorridos');
+        const iframe = document.getElementById('iframe-recorridos');
+        const contenido = document.getElementById('recorridos-html').value;
+
+        iframe.srcdoc = contenido;
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function cerrarModalRecorridos() {
+        const modal = document.getElementById('modal-recorridos');
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.getElementById('iframe-recorridos').srcdoc = '';
+    }
+
+    window.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && document.getElementById('modal-recorridos').style.display === 'flex') {
+            cerrarModalRecorridos();
+        }
+    });
+
+    console.log('GPS PRO CARGADO CORRECTAMENTE');  
 </script>
 </body>
 </html>
