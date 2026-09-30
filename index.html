@@ -243,12 +243,17 @@ html, body {
     width: 170px;
     height: auto;
     max-height: 90px; 
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     object-fit: contain;
     background: transparent;
     border: none;
     padding: 0;
     box-shadow: none;
     flex-shrink: 0;
+    backface-visibility: hidden;
+    animation-play-state: running !important;
     filter: drop-shadow(0 4px 6px rgba(103, 183, 235, 0.5));
     transform: scale(1.6); 
     transform-origin: center left; 
@@ -808,6 +813,7 @@ html, body {
         width: 92vw;
         height: 86vh;
     }
+
 }
 
 @keyframes animacionSonar {
@@ -1175,22 +1181,28 @@ html, body {
 
 /* ── LOGO DEL VEHÍCULO ── */
 .logo-vehiculo {
-    width: 34px;
-    height: 34px;
+    width: 46px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
+    overflow: hidden;
     flex-shrink: 0;
-    margin-left: 18px;
-    margin-right: 10px;
+    margin-left: 8px;
+    margin-right: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.25), inset 0 0 14px rgba(255, 255, 255, 0.12);
 }
 
 .logo-vehiculo img {
-    width: 300%;
-    height: 300%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    transform: translate(30px, 5px);
+    transform: none;
 }
 
 .logo-vehiculo i {
@@ -2297,20 +2309,20 @@ body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at
 body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,0,55,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,55,.025) 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
 .container{width:100%;max-width:900px;margin:0 auto;padding:50px 20px 40px;text-align:center}
 .logo-area{margin-bottom:45px;animation:fadeDown 1s ease forwards}
-.logo-icon{width:150px;height:150px;margin:0 auto 25px;border:none;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;color:#ff174f;font-size:32px;font-weight:bold;box-shadow:0 0 12px #ff174f,0 0 35px rgba(255,23,79,.55),inset 0 0 20px rgba(255,23,79,.25)}
-.logo-icon img{width:165%;height:165%;object-fit:contain;border-radius:0;padding:0;transform:scale(1.12)}
+.logo-icon{width:150px;height:150px;margin:0 auto 25px;border:1px solid rgba(255,255,255,.72);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;font-size:32px;font-weight:bold;box-shadow:0 0 24px rgba(103,183,235,.55),inset 0 0 26px rgba(255,255,255,.2)}
+.logo-icon img{width:100%;height:100%;object-fit:contain;border-radius:0;padding:0;transform:none}
 .logo-area h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.2),0 0 20px rgba(255,23,79,.25)}
 .logo-area h1 span{color:#ff174f}
 .logo-area p{margin-top:10px;color:#a7a7a7;font-size:14px}
 .section-title{font-size:15px;color:#c9c9c9;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px}
 .policy-buttons{display:flex;flex-direction:column;gap:18px}
-.policy-btn{width:100%;min-height:78px;border:1px solid rgba(255,23,79,.8);border-radius:18px;background:linear-gradient(145deg,rgba(255,23,79,.12),rgba(255,23,79,.03));color:#fff;padding:20px 25px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;letter-spacing:.5px;cursor:pointer;box-shadow:0 0 8px rgba(255,23,79,.25),inset 0 0 20px rgba(255,23,79,.03);transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;opacity:0;transform:translateY(30px);animation:buttonAppear .75s ease forwards}
+.policy-btn{width:100%;min-height:78px;border:1px solid rgba(255,255,255,.62);border-radius:18px;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;padding:20px 25px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;letter-spacing:.5px;cursor:pointer;box-shadow:0 0 12px rgba(255,255,255,.16),inset 0 0 20px rgba(255,255,255,.08);transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;opacity:0;transform:translateY(30px);animation:buttonAppear .75s ease forwards}
 .policy-btn:nth-child(2){animation-delay:.18s}
-.policy-btn:hover{transform:translateY(-4px) scale(1.01);border-color:#ff174f;background:linear-gradient(145deg,rgba(255,23,79,.22),rgba(255,23,79,.06));box-shadow:0 0 10px rgba(255,23,79,.65),0 0 30px rgba(255,23,79,.18),inset 0 0 20px rgba(255,23,79,.06)}
+.policy-btn:hover{transform:translateY(-4px) scale(1.01);border-color:#fff;background:rgba(255,255,255,.28);box-shadow:0 0 16px rgba(255,255,255,.42),0 0 30px rgba(103,183,235,.28),inset 0 0 20px rgba(255,255,255,.12)}
 .policy-btn:active{transform:scale(.98)}
 .btn-icon{width:40px;height:40px;margin-right:15px;border-radius:12px;border:1px solid rgba(255,23,79,.6);display:flex;align-items:center;justify-content:center;color:#ff174f;font-size:20px;box-shadow:0 0 10px rgba(255,23,79,.2)}
 .divider{width:100%;height:1px;margin:38px 0;background:linear-gradient(90deg,transparent,rgba(255,23,79,.7),transparent)}
-.accept-btn{width:100%;padding:20px 24px;border:none;border-radius:18px;background:#ff174f;color:#fff;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer;box-shadow:0 0 10px rgba(255,23,79,.9),0 0 30px rgba(255,23,79,.4),0 0 70px rgba(255,23,79,.18);transition:transform .25s ease,box-shadow .25s ease;animation:pulseNeon 2.5s infinite}
+.accept-btn{width:100%;padding:20px 24px;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer;box-shadow:0 0 14px rgba(255,255,255,.34),0 0 38px rgba(103,183,235,.32),inset 0 0 24px rgba(255,255,255,.1);transition:transform .25s ease,box-shadow .25s ease;animation:pulseNeon 2.5s infinite}
 .accept-btn:hover{transform:translateY(-3px);box-shadow:0 0 15px rgba(255,23,79,1),0 0 40px rgba(255,23,79,.7),0 0 90px rgba(255,23,79,.3)}
 .footer{margin-top:35px;color:#777;font-size:12px;line-height:1.7}
 .footer strong{color:#ff174f}
@@ -2320,7 +2332,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;background:li
 .modal.active .modal-content{transform:translateY(0) scale(1)}
 .modal-header{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;background:#101010;z-index:2}
 .modal-title{color:#fff;font-size:18px;font-weight:900;line-height:1.35}
-.modal-title span{color:#ff174f}
+.modal-title span{color:#ffffff}
 .close-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,23,79,.55);background:rgba(255,23,79,.08);color:#fff;font-size:22px;cursor:pointer;transition:.25s}
 .close-btn:hover{background:#ff174f;box-shadow:0 0 20px rgba(255,23,79,.5)}
 .modal-body{padding:25px;max-height:calc(90vh - 85px);height:calc(90vh - 85px);overflow-y:auto;text-align:left;scrollbar-width:thin;scrollbar-color:#ff174f #151515}
@@ -2349,14 +2361,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;background:li
 @keyframes fadeDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:translateY(0)}}
 @keyframes buttonAppear{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulseNeon{0%,100%{box-shadow:0 0 10px rgba(255,23,79,.9),0 0 30px rgba(255,23,79,.4),0 0 70px rgba(255,23,79,.18)}50%{box-shadow:0 0 15px rgba(255,23,79,1),0 0 42px rgba(255,23,79,.6),0 0 90px rgba(255,23,79,.25)}}
-@media(max-width:600px){.container{padding:35px 15px 30px}.logo-area h1{font-size:26px}.logo-icon{width:100px;height:100px;font-size:27px}.logo-icon img{width:165%;height:165%}.policy-btn{min-height:72px;font-size:13px;padding:16px}.btn-icon{width:36px;height:36px;min-width:36px;margin-right:12px}.modal{padding:10px}.modal-content{max-height:96vh;height:96vh;border-radius:18px}.modal-header{padding:14px 17px}.modal-body{padding:18px;max-height:calc(96vh - 75px);height:auto;overflow-y:auto;-webkit-overflow-scrolling:touch}.modal-title{font-size:15px}.accept-btn{font-size:13px;padding:18px 15px}}
+@media(max-width:600px){.container{padding:35px 15px 30px}.logo-area h1{font-size:26px}.logo-icon{width:100px;height:100px;font-size:27px}.logo-icon img{width:100%;height:100%}.policy-btn{min-height:72px;font-size:13px;padding:16px}.btn-icon{width:36px;height:36px;min-width:36px;margin-right:12px}.modal{padding:10px}.modal-content{max-height:96vh;height:96vh;border-radius:18px}.modal-header{padding:14px 17px}.modal-body{padding:18px;max-height:calc(96vh - 75px);height:auto;overflow-y:auto;-webkit-overflow-scrolling:touch}.modal-title{font-size:15px}.accept-btn{font-size:13px;padding:18px 15px}}
 </style>
 </head>
 <body>
 <div class="container">
     <div class="logo-area">
-        <div class="logo-icon"><img src="https://i.imgur.com/fp4GnRx.png" alt="EAGLE TRACK GPS"></div>
-        <h1>EAGLE <span>TRACK</span> GPS</h1>
+        <div class="logo-icon"><img src="https://i.imgur.com/nq80xwL.png" alt="WHITE CAR GPS"></div>
         <p>Monitoreo inteligente · Localización · Control vehicular</p>
     </div>
     <div class="section-title">Información legal y condiciones del servicio</div>
@@ -2564,6 +2575,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     const EMAIL_ADMINISTRADOR = 'whitecarappcelphone@gmail.com';
     let mapa = null;
     let capaMapa = null;
+    let capaMapaReferencia = null;
     let capaGeocercas = null;
     let estiloMapaActual = 'normal'; 
     let marcadoresVehiculos = {};
@@ -2889,6 +2901,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             mapa.remove();
             mapa = null;
             capaMapa = null;
+            capaMapaReferencia = null;
             capaGeocercas = null;
         }
         mapaCentradoInicialmente = false;
@@ -2912,6 +2925,10 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         if (capaMapa) {
             mapa.removeLayer(capaMapa);
         }
+        if (capaMapaReferencia) {
+            mapa.removeLayer(capaMapaReferencia);
+            capaMapaReferencia = null;
+        }
         
         let url = '';
         if (estilo === 'satelite') {
@@ -2924,6 +2941,12 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
         const atribucion = estilo === 'oscuro' ? 'Tiles &copy; Esri' : '&copy; MapData';
         capaMapa = L.tileLayer(url, { maxZoom: 20, attribution: atribucion }).addTo(mapa);
+        if (estilo === 'oscuro') {
+            capaMapaReferencia = L.tileLayer(
+                'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+                { maxZoom: 20, attribution: 'Labels &copy; Esri', pane: 'overlayPane' }
+            ).addTo(mapa);
+        }
         estiloMapaActual = estilo;
     }
 
@@ -3138,19 +3161,41 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
         const marcaGuardada = localStorage.getItem('eagle_marca') || 'SIN MARCA';
         const gifGuardado = localStorage.getItem('eagle_tipo_gif') || 'https://i.imgur.com/v8fX3x1.gif';
+        const tarjetaGps = document.getElementById('tarjeta-gps');
 
-        document.getElementById('tarjeta-gps').innerHTML = `
-            <div class="gps-tarjeta-cabecera">
-                <img src="${gifGuardado}" class="gps-vehiculo-img" alt="Vehículo">
-                <div class="gps-vehiculo-info">
-                    <div class="gps-vehiculo">${dispositivo.name || 'SIN PLACA'}</div>
-                    <div class="gps-vehiculo-marca">${marcaGuardada}</div>
-                    <div class="gps-estado ${posicion.valid ? 'gps-ok' : 'gps-error'}">
-                        ● ${posicion.valid ? 'GPS ACTIVO' : 'GPS SIN SEÑAL'}
+        // Build the vehicle card once so periodic GPS updates do not restart the selected GIF.
+        if (!tarjetaGps.querySelector('.gps-tarjeta-cabecera')) {
+            tarjetaGps.innerHTML = `
+                <div class="gps-tarjeta-cabecera">
+                    <img class="gps-vehiculo-img" alt="Vehículo">
+                    <div class="gps-vehiculo-info">
+                        <div class="gps-vehiculo"></div>
+                        <div class="gps-vehiculo-marca"></div>
+                        <div class="gps-estado"></div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
+
+        const imagenVehiculo = tarjetaGps.querySelector('.gps-vehiculo-img');
+        if (imagenVehiculo.dataset.gif !== gifGuardado) {
+            imagenVehiculo.dataset.gif = gifGuardado;
+            imagenVehiculo.src = gifGuardado;
+        }
+        imagenVehiculo.style.display = 'block';
+        imagenVehiculo.style.visibility = 'visible';
+        imagenVehiculo.style.opacity = '1';
+        imagenVehiculo.onerror = () => {
+            imagenVehiculo.style.display = 'block';
+            imagenVehiculo.style.visibility = 'visible';
+            imagenVehiculo.style.opacity = '1';
+        };
+
+        tarjetaGps.querySelector('.gps-vehiculo').textContent = dispositivo.name || 'SIN PLACA';
+        tarjetaGps.querySelector('.gps-vehiculo-marca').textContent = marcaGuardada;
+        const estadoGps = tarjetaGps.querySelector('.gps-estado');
+        estadoGps.className = `gps-estado ${posicion.valid ? 'gps-ok' : 'gps-error'}`;
+        estadoGps.textContent = `● ${posicion.valid ? 'GPS ACTIVO' : 'GPS SIN SEÑAL'}`;
         
         document.getElementById('velocidad-flotante').innerHTML = velocidadDestacada;
         document.getElementById('ignicion-flotante').innerHTML = ignicionDestacada;
@@ -3189,6 +3234,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             mapa.remove();
             mapa = null;
             capaMapa = null;
+            capaMapaReferencia = null;
             capaGeocercas = null;
         }
         
