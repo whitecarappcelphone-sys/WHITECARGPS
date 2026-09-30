@@ -264,25 +264,55 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.35); 
 }
 
-.gps-vehiculo-img {
+.gps-vehiculo-media {
+    position: relative;
     width: 170px;
-    height: auto;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    flex: 0 0 170px;
+    margin-left: -50px;
+    transform: scale(1.6);
+    transform-origin: center left;
+}
+
+.gps-vehiculo-arrow {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 22px;
+    line-height: 1;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    animation: flechaVehiculoContinua 0.9s ease-in-out infinite;
+}
+
+.gps-vehiculo-img {
+    width: 145px;
+    height: 90px;
     max-height: 90px; 
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     object-fit: contain;
+    position: relative;
+    z-index: 1;
     background: transparent;
     border: none;
     padding: 0;
     box-shadow: none;
-    flex-shrink: 0;
+    flex: 0 0 145px;
+    margin-left: 25px;
     backface-visibility: hidden;
     animation-play-state: running !important;
     filter: drop-shadow(0 4px 6px rgba(103, 183, 235, 0.5));
-    transform: scale(1.6); 
-    transform-origin: center left; 
-    margin-left: -50px;
+}
+
+@keyframes flechaVehiculoContinua {
+    0%, 100% { transform: translate3d(0, -50%, 0); opacity: 0.82; }
+    50% { transform: translate3d(5px, -50%, 0); opacity: 1; }
 }
 
 .gps-vehiculo-info {
@@ -833,6 +863,138 @@ html, body {
 
 }
 
+#install-prompt {
+    z-index: 1300000;
+    padding: 18px;
+    background: rgba(103, 183, 235, 0.78);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+#install-prompt.visible {
+    display: flex;
+}
+
+.install-prompt-box {
+    width: min(100%, 390px);
+    padding: 26px 24px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 22px;
+    background: rgba(103, 183, 235, 0.82);
+    color: #ffffff;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(30, 111, 164, 0.28), inset 0 0 28px rgba(255, 255, 255, 0.14);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    animation: installPromptAppear 0.35s ease-out both;
+}
+
+@keyframes installPromptAppear {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.install-prompt-icon {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 15px;
+    padding: 9px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 22px rgba(255, 255, 255, 0.24), inset 0 0 18px rgba(255, 255, 255, 0.15);
+}
+
+.install-prompt-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.install-prompt-box h2 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.install-prompt-copy {
+    margin: 0 0 18px;
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+#install-instructions {
+    display: none;
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    text-align: left;
+}
+
+#install-instructions.visible {
+    display: block;
+}
+
+#install-instructions ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+#install-instructions li {
+    margin: 5px 0;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.install-prompt-actions {
+    display: grid;
+    gap: 9px;
+}
+
+.install-prompt-button {
+    min-height: 46px;
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid #ffffff;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #348dc4;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.install-prompt-button:hover {
+    background: #f3fbff;
+    transform: translateY(-1px);
+}
+
+.install-prompt-button.secondary {
+    min-height: 40px;
+    border-color: rgba(255, 255, 255, 0.48);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.install-prompt-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 480px) {
+    #install-prompt { padding: 14px; }
+    .install-prompt-box { padding: 23px 18px 18px; }
+}
+
 @keyframes animacionSonar {
     0% {
         transform: scale(0.2);
@@ -1111,6 +1273,24 @@ html, body {
             </button>
         </div>
         <iframe id="iframe-politicas" title="Políticas y condiciones de WHITE CAR GPS"></iframe>
+    </div>
+</div>
+
+<!-- INVITACION DE INSTALACION PWA -->
+<div id="install-prompt" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="install-prompt-title">
+    <div class="install-prompt-box">
+        <div class="install-prompt-icon">
+            <img src="https://i.imgur.com/nq80xwL.png" alt="Icono White Car GPS">
+        </div>
+        <h2 id="install-prompt-title">Instala White Car GPS</h2>
+        <p id="install-prompt-copy" class="install-prompt-copy">Agrega la app a tu pantalla de inicio para abrirla facilmente cuando la necesites.</p>
+        <div id="install-instructions" aria-live="polite">
+            <ol id="install-instructions-list"></ol>
+        </div>
+        <div class="install-prompt-actions">
+            <button id="install-action" type="button" class="install-prompt-button">INSTALAR APP</button>
+            <button id="install-dismiss" type="button" class="install-prompt-button secondary">AHORA NO</button>
+        </div>
     </div>
 </div>
 
@@ -2579,13 +2759,144 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 <script>
     const videoIntro = document.querySelector('#intro-video video');
     const pantallaIntro = document.getElementById('intro-video');
+    let deferredInstallPrompt = null;
+    let introCompletionStarted = false;
+    let installInstructionsShown = false;
 
-    videoIntro.addEventListener('ended', () => {
+    function esDispositivoAppleMovil() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+
+    function esAplicacionInstalada() {
+        return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    }
+
+    function instalacionDescartadaEnEstaSesion() {
+        try {
+            return sessionStorage.getItem('whitecar_install_prompt_dismissed') === 'yes';
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function cerrarOfertaInstalacion(descartada = false) {
+        const modal = document.getElementById('install-prompt');
+        modal.classList.remove('visible');
+        modal.setAttribute('aria-hidden', 'true');
+        installInstructionsShown = false;
+        if (descartada) {
+            try {
+                sessionStorage.setItem('whitecar_install_prompt_dismissed', 'yes');
+            } catch (error) {
+                // The offer still closes if browser storage is unavailable.
+            }
+        }
+    }
+
+    function mostrarInstruccionesInstalacion(tipo) {
+        const instrucciones = document.getElementById('install-instructions');
+        const lista = document.getElementById('install-instructions-list');
+        const boton = document.getElementById('install-action');
+        const esApple = tipo === 'ios';
+
+        lista.innerHTML = esApple
+            ? '<li>Abre esta página en Safari. Si llegaste desde WhatsApp, abre el menú de compartir y elige Safari.</li><li>Toca el botón Compartir de Safari (cuadrado con flecha hacia arriba).</li><li>Desplázate y selecciona "Agregar a pantalla de inicio".</li><li>Confirma con "Agregar".</li>'
+            : '<li>Abre el menú del navegador (tres puntos en Chrome).</li><li>Elige "Instalar app" o "Agregar a pantalla de inicio".</li><li>Confirma la instalación.</li>';
+        instrucciones.classList.add('visible');
+        installInstructionsShown = true;
+        boton.textContent = 'CERRAR INSTRUCCIONES';
+        boton.dataset.action = 'close';
+    }
+
+    function mostrarOfertaInstalacion() {
+        if (esAplicacionInstalada() || instalacionDescartadaEnEstaSesion()) return;
+
+        const modal = document.getElementById('install-prompt');
+        const copy = document.getElementById('install-prompt-copy');
+        const boton = document.getElementById('install-action');
+        const esApple = esDispositivoAppleMovil();
+        installInstructionsShown = false;
+        document.getElementById('install-instructions').classList.remove('visible');
+        boton.dataset.action = esApple ? 'ios' : 'install';
+
+        if (esApple) {
+            copy.textContent = 'Instala White Car GPS en tu iPhone o iPad desde el menu Compartir y agregala a tu pantalla de inicio.';
+            boton.textContent = 'COMO INSTALAR EN IPHONE';
+        } else {
+            copy.textContent = 'Agrega White Car GPS a tu pantalla de inicio para abrirla rapidamente como una app.';
+            boton.textContent = 'INSTALAR APP';
+        }
+
+        modal.classList.add('visible');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    async function ejecutarInstalacion() {
+        const boton = document.getElementById('install-action');
+        const accion = boton.dataset.action;
+        if (accion === 'close') {
+            cerrarOfertaInstalacion(false);
+            return;
+        }
+        if (accion === 'ios') {
+            mostrarInstruccionesInstalacion('ios');
+            return;
+        }
+
+        if (deferredInstallPrompt) {
+            const eventoInstalacion = deferredInstallPrompt;
+            deferredInstallPrompt = null;
+            try {
+                await eventoInstalacion.prompt();
+                const eleccion = await eventoInstalacion.userChoice;
+                if (eleccion.outcome === 'accepted') {
+                    cerrarOfertaInstalacion(false);
+                } else {
+                    mostrarInstruccionesInstalacion('android');
+                }
+            } catch (error) {
+                mostrarInstruccionesInstalacion('android');
+            }
+            return;
+        }
+
+        mostrarInstruccionesInstalacion('android');
+    }
+
+    window.addEventListener('beforeinstallprompt', event => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        const boton = document.getElementById('install-action');
+        if (boton && boton.dataset.action === 'install' && !installInstructionsShown) {
+            boton.textContent = 'INSTALAR APP';
+        }
+    });
+
+    window.addEventListener('appinstalled', () => cerrarOfertaInstalacion(false));
+    document.getElementById('install-action').addEventListener('click', ejecutarInstalacion);
+    document.getElementById('install-dismiss').addEventListener('click', () => cerrarOfertaInstalacion(true));
+    window.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && document.getElementById('install-prompt').classList.contains('visible')) {
+            cerrarOfertaInstalacion(true);
+        }
+    });
+
+    function terminarIntro() {
+        if (introCompletionStarted) return;
+        introCompletionStarted = true;
         pantallaIntro.classList.add('saliendo');
         setTimeout(() => {
             pantallaIntro.style.display = 'none';
+            mostrarOfertaInstalacion();
         }, 800);
-    });
+    }
+
+    videoIntro.addEventListener('ended', terminarIntro);
+    videoIntro.addEventListener('error', terminarIntro);
+    setTimeout(() => {
+        if (!introCompletionStarted && (videoIntro.paused || videoIntro.readyState < 2)) terminarIntro();
+    }, 10000);
   
     // Variables Globales del Mapa y Dispositivos
     const EMAIL_ADMINISTRADOR = 'whitecarappcelphone@gmail.com';
@@ -3228,7 +3539,10 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         if (!tarjetaGps.querySelector('.gps-tarjeta-cabecera')) {
             tarjetaGps.innerHTML = `
                 <div class="gps-tarjeta-cabecera">
-                    <img class="gps-vehiculo-img" alt="Vehículo">
+                    <div class="gps-vehiculo-media">
+                        <i class="fas fa-long-arrow-alt-right gps-vehiculo-arrow" aria-hidden="true"></i>
+                        <img class="gps-vehiculo-img" alt="Vehículo">
+                    </div>
                     <div class="gps-vehiculo-info">
                         <div class="gps-vehiculo"></div>
                         <div class="gps-vehiculo-marca"></div>
