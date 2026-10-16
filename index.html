@@ -247,22 +247,22 @@ html, body {
 /* 1. TARJETA CABECERA */
 #tarjeta-gps {
     width: 100%;
-    background: rgba(103, 183, 235, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
     border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(103, 183, 235, 0.6), 0 0 8px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 22px rgba(103, 183, 235, 0.35), 0 0 8px rgba(103, 183, 235, 0.15);
     overflow: visible; 
 }
 
 .gps-tarjeta-cabecera {
     padding: 6px 15px; 
-    background: rgba(103, 183, 235, 0.65);
+    background: linear-gradient(145deg, #ffffff, #f2f9fe);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     border-radius: 16px; 
-    border: 1px solid rgba(255, 255, 255, 0.35); 
+    border: 1px solid rgba(103, 183, 235, 0.35); 
 }
 
 .gps-vehiculo-media {
@@ -282,10 +282,10 @@ html, body {
     left: 12px;
     top: 50%;
     z-index: 2;
-    color: #ffffff;
+    color: #67B7EB;
     font-size: 22px;
     line-height: 1;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 8px rgba(103, 183, 235, 0.6);
     pointer-events: none;
     animation: flechaVehiculoContinua 0.9s ease-in-out infinite;
 }
@@ -325,14 +325,14 @@ html, body {
 }
 
 .gps-vehiculo {
-    color: #ffffff;
+    color: #1e6fa4;
     font-size: 20px; 
     font-weight: bold;
     line-height: 1.1;
 }
 
 .gps-vehiculo-marca {
-    color: #cccccc;
+    color: #4a7ca0;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -345,18 +345,18 @@ html, body {
     font-weight: bold;
     letter-spacing: 0.5px;
 }
-.gps-ok { color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.6); }
-.gps-error { color: #ffffff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.6); }
+.gps-ok { color: #00a344; text-shadow: 0 0 5px rgba(0, 163, 68, 0.3); }
+.gps-error { color: #e05555; text-shadow: 0 0 5px rgba(224, 85, 85, 0.3); }
 
 /* 2. TARJETA UBICACIÓN */
 .ubicacion-destacada {
     width: 100%;
     min-height: 50px;
-    background: rgba(103, 183, 235, 0.90);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     padding: 8px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.5);
+    border: 1.5px solid rgba(103, 183, 235, 0.45);
+    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -379,12 +379,12 @@ html, body {
 .velocidad-destacada, 
 .ignicion-destacada {
     width: 100%;
-    background: rgba(103, 183, 235, 0.90);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     padding: 10px 6px;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.5);
+    border: 1.5px solid rgba(103, 183, 235, 0.45);
+    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -401,13 +401,13 @@ html, body {
 
 .btn-extra {
     flex: 1;
-    background: rgba(103, 183, 235, 0.90);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid rgba(103, 183, 235, 0.5);
     border-radius: 12px;
-    color: #ffffff;
+    color: #348dc4;
     font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(103, 183, 235, 0.5);
+    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -415,11 +415,15 @@ html, body {
 }
 
 .btn-extra:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #ffffff;
+    background: #67B7EB;
+    border-color: #67B7EB;
+    color: #ffffff;
+}
+.btn-extra:hover i {
+    color: #ffffff !important;
 }
 .btn-extra i.fa-key {
-    color: #ffffff !important;
+    color: #348dc4 !important;
     font-size: 20px;
 }
 
@@ -456,16 +460,16 @@ html, body {
     display: none;
     width: min(245px, calc(100vw - 90px));
     padding: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
     border-radius: 12px;
-    background: rgba(103, 183, 235, 0.96);
-    box-shadow: 0 4px 14px rgba(103, 183, 235, 0.55);
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 8px 20px rgba(103, 183, 235, 0.35);
 }
 
 #admin-vehicle-panel label {
     display: block;
     margin-bottom: 7px;
-    color: #ffffff;
+    color: #1e6fa4;
     font-size: 10px;
     font-weight: bold;
     letter-spacing: 0.6px;
@@ -482,22 +486,22 @@ html, body {
     flex: 1;
     height: 34px;
     padding: 0 9px;
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
     border-radius: 7px;
     outline: none;
-    background: rgba(103, 183, 235, 0.85);
-    color: #ffffff;
+    background: #ffffff;
+    color: #1e5a82;
     font: inherit;
     font-size: 11px;
 }
 
 #admin-vehicle-search::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+    color: #8fb6d2;
 }
 
 #admin-vehicle-search:focus {
-    border-color: #ffffff;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.45);
+    border-color: #67B7EB;
+    box-shadow: 0 0 6px rgba(103, 183, 235, 0.45);
 }
 
 .admin-search-submit {
@@ -507,10 +511,10 @@ html, body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ffffff;
+    border: 1px solid #67B7EB;
     border-radius: 7px;
-    background: #ffffff;
-    color: #67B7EB;
+    background: linear-gradient(135deg, #67B7EB, #4fa3dd);
+    color: #ffffff;
     cursor: pointer;
 }
 
@@ -519,9 +523,9 @@ html, body {
     max-height: 220px;
     margin-top: 6px;
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(103, 183, 235, 0.45);
     border-radius: 7px;
-    background: rgba(103, 183, 235, 0.98);
+    background: #ffffff;
 }
 
 #admin-vehicle-options.visible {
@@ -533,9 +537,9 @@ html, body {
     display: block;
     padding: 8px 9px;
     border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    border-bottom: 1px solid rgba(103, 183, 235, 0.22);
     background: transparent;
-    color: #ffffff;
+    color: #1e6fa4;
     text-align: left;
     font: inherit;
     font-size: 11px;
@@ -545,11 +549,11 @@ html, body {
 .admin-vehicle-option:hover,
 .admin-vehicle-option:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(103, 183, 235, 0.15);
 }
 
 .admin-vehicle-empty {
-    color: #ffffff;
+    color: #4a7ca0;
     font-size: 10px;
 }
 
@@ -563,37 +567,38 @@ html, body {
    POPUP Y MARCADORES GPS 
    ================================ */
 .gps-popup .leaflet-popup-content-wrapper {
-    background: rgba(103, 183, 235, 0.65) !important;
-    color: #ffffff !important;
-    border: 2px solid #ffffff !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    color: #1e6fa4 !important;
+    border: 2px solid #67B7EB !important;
     border-radius: 16px !important;
-    box-shadow: 0 0 6px #ffffff, 0 0 15px rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 0 6px rgba(103, 183, 235, 0.6), 0 8px 22px rgba(103, 183, 235, 0.4) !important;
 }
 .gps-popup .leaflet-popup-tip {
-    background: #67B7EB !important;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
+    background: #ffffff !important;
+    border-right: 2px solid #67B7EB;
+    border-bottom: 2px solid #67B7EB;
 }
 .gps-placa {
     display: flex !important;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    background: #67B7EB !important;
-    color: #ffffff !important;
-    border: 1px solid #ffffff !important;
+    background: #ffffff !important;
+    color: #1e6fa4 !important;
+    border: 1.5px solid #67B7EB !important;
     border-radius: 6px !important;
     padding: 4px 8px !important;
     font-size: 12px !important;
     font-weight: bold !important;
+    box-shadow: 0 4px 12px rgba(103, 183, 235, 0.35) !important;
 }
 .gps-estado-movimiento {
-    color: #ffffff !important;
+    color: #4a7ca0 !important;
     font-size: 10px !important;
     font-weight: bold !important;
     margin-top: 1px !important;
     text-align: center !important;
-    text-shadow: 0 0 4px rgba(103, 183, 235, 0.8);
+    text-shadow: none;
 }
 .gps-placa-estado {
     background: transparent !important;
@@ -610,38 +615,41 @@ html, body {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(103, 183, 235, 0.85);
+    background: rgba(103, 183, 235, 0.45);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     z-index: 1000000;
     align-items: center;
     justify-content: center;
 }
 
 .modal-box {
-    background: #67B7EB;
-    border: 2px solid #ffffff;
+    background: linear-gradient(145deg, #ffffff, #f2f9fe);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
     padding: 25px;
     border-radius: 18px;
     width: 90%;
     max-width: 400px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-    color: #ffffff;
+    box-shadow: 0 18px 50px rgba(103, 183, 235, 0.4);
+    color: #3c6b8e;
     text-align: center;
 }
 
-.modal-box h3 { color: #ffffff; margin-top: 0; margin-bottom: 20px; }
-.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #ffffff; }
+.modal-box h3 { color: #1e6fa4; margin-top: 0; margin-bottom: 20px; }
+.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #1e6fa4; font-weight: bold; }
 .modal-box select, .modal-box input {
     width: 100%; padding: 10px; margin-bottom: 15px;
-    background: #67B7EB; color: #ffffff; border: 1px solid #ffffff;
+    background: #ffffff; color: #1e5a82; border: 1.5px solid rgba(103, 183, 235, 0.5);
     border-radius: 8px; outline: none;
 }
-.modal-box select:focus, .modal-box input:focus { box-shadow: 0 0 5px #ffffff; }
+.modal-box select:focus, .modal-box input:focus { border-color: #67B7EB; box-shadow: 0 0 8px rgba(103, 183, 235, 0.35); }
 .modal-box button.btn-descargar {
-    background: #ffffff; color: #67B7EB; border: none; padding: 12px 20px;
+    background: linear-gradient(135deg, #67B7EB, #4fa3dd); color: #ffffff; border: none; padding: 12px 20px;
     border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 10px;
+    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.4);
 }
 .modal-box button.btn-cancelar {
-    background: #67B7EB; color: #ffffff; border: none; padding: 12px 20px;
+    background: #ffffff; color: #348dc4; border: 1.5px solid rgba(103, 183, 235, 0.55); padding: 12px 20px;
     border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;
 }
 .modal-box button:hover { opacity: 0.9; }
@@ -659,41 +667,41 @@ html, body {
     padding: 4px 2px !important;
     margin: 0 !important;
 
-    background: rgba(103, 183, 235, 0.90) !important;
-    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1.5px solid rgba(103, 183, 235, 0.5) !important;
     border-radius: 10px !important;
 
-    color: #67B7EB !important;
+    color: #348dc4 !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 2px !important;
 
-    box-shadow: 0 3px 8px rgba(103, 183, 235, 0.5) !important;
+    box-shadow: 0 5px 14px rgba(103, 183, 235, 0.3) !important;
     cursor: pointer;
-    transition: transform 0.1s ease, border-color 0.2s ease;
+    transition: transform 0.1s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
 .btn-actualizar:hover {
-    border-color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.85) !important; /* Fondo blanco visible */
+    border-color: #67B7EB !important;
+    background: #67B7EB !important; /* Azul al pasar el cursor */
 }
 
 .btn-actualizar:hover i,
 .btn-actualizar:hover span,
 .btn-actualizar:active i,
 .btn-actualizar:active span {
-    color: #67B7EB !important;
+    color: #ffffff !important;
 }
 
 .btn-actualizar i {
     font-size: 16px !important;
-    color: #ffffff !important;
+    color: #348dc4 !important;
 }
 
 .btn-actualizar span {
-    color: #ffffff !important;
+    color: #1e6fa4 !important;
     font-size: 6.5px !important;
     font-weight: bold;
     letter-spacing: 0.3px;
@@ -705,7 +713,7 @@ html, body {
 
 .btn-actualizar:active {
     transform: scale(0.92);
-    background: rgba(255, 255, 255, 0.95) !important; /* Color firme al presionar */
+    background: #4fa3dd !important; /* Azul firme al presionar */
 }
 
 .btn-actualizar:active i {
@@ -747,10 +755,10 @@ html, body {
     flex-direction: column;
     overflow: hidden;
     padding: 0;
-    background: #67B7EB;
-    border: 2px solid #ffffff;
+    background: #ffffff;
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
     border-radius: 14px;
-    box-shadow: 0 0 18px rgba(255, 255, 255, 0.55);
+    box-shadow: 0 18px 50px rgba(103, 183, 235, 0.4);
 }
 
 .modal-recorridos-header {
@@ -760,9 +768,9 @@ html, body {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    background: #67B7EB;
-    color: #ffffff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    background: #eaf5fd;
+    color: #1e6fa4;
+    border-bottom: 1.5px solid rgba(103, 183, 235, 0.3);
 }
 
 .modal-recorridos-header strong {
@@ -776,10 +784,10 @@ html, body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ffffff;
+    border: 1px solid #67B7EB;
     border-radius: 8px;
-    background: #ffffff;
-    color: #67B7EB;
+    background: linear-gradient(135deg, #67B7EB, #4fa3dd);
+    color: #ffffff;
     cursor: pointer;
 }
 
@@ -820,21 +828,21 @@ html, body {
     align-items: center;
     gap: 12px;
     padding: 14px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
     border-radius: 12px;
-    background: rgba(103, 183, 235, 0.94);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.96);
+    color: #1e6fa4;
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 1.5px;
-    box-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
+    box-shadow: 0 12px 30px rgba(103, 183, 235, 0.35);
 }
 
 .cargando-vehiculo-indicador {
     width: 22px;
     height: 22px;
-    border: 3px solid rgba(255, 255, 255, 0.35);
-    border-top-color: #ffffff;
+    border: 3px solid rgba(103, 183, 235, 0.3);
+    border-top-color: #67B7EB;
     border-radius: 50%;
     animation: girarCargaVehiculo 0.8s linear infinite;
 }
@@ -1069,7 +1077,7 @@ html, body {
             <!-- COLUMNA BOTONES EXTRA (MOTOR Y MAPA) -->
             <div id="controles-extra-flotantes">
                 <button onclick="document.getElementById('modal-menu-motor').style.display='flex'" class="btn-extra" title="Control de Motor">
-                    <i class="fas fa-key" style="color: #ffffff;"></i>
+                    <i class="fas fa-key"></i>
                 </button>
                 <button onclick="document.getElementById('modal-menu-mapa').style.display='flex'" class="btn-extra" title="Cambiar Mapa">
                     <i class="fas fa-map"></i>
@@ -1139,7 +1147,7 @@ html, body {
 <div id="modal-alerta" class="modal-overlay">
     <div class="modal-box">
         <h3>Notificación</h3>
-        <p id="texto-alerta" style="margin-bottom:20px; color:#ffffff;"></p>
+        <p id="texto-alerta" style="margin-bottom:20px; color:#3c6b8e;"></p>
         <button class="btn-descargar" onclick="cerrarModales()">ACEPTAR</button>
     </div>
 </div>
@@ -1152,7 +1160,7 @@ html, body {
             CERRAR SESIÓN
         </h3>
 
-        <p style="margin-bottom:20px; font-weight:bold; color:#ffffff; font-size:15px;">
+        <p style="margin-bottom:20px; font-weight:bold; color:#1e6fa4; font-size:15px;">
             ¿ESTÁ SEGURO DE CERRAR SESIÓN?
         </p>
 
@@ -1171,8 +1179,8 @@ html, body {
 <div id="modal-menu-motor" class="modal-overlay">
     <div class="modal-box">
         <h3>Control de Motor</h3>
-        <button class="btn-descargar" onclick="iniciarComando('engineStop')" style="background:#ffffff; border:1px solid #ffffff;">APAGAR VEHÍCULO</button>
-        <button class="btn-descargar" onclick="iniciarComando('engineResume')" style="background:#007722; border:1px solid #00ff66;">ENCENDER VEHÍCULO</button>
+        <button class="btn-descargar" onclick="iniciarComando('engineStop')" style="background:linear-gradient(135deg,#e05555,#d04040); border:none;">APAGAR VEHÍCULO</button>
+        <button class="btn-descargar" onclick="iniciarComando('engineResume')" style="background:linear-gradient(135deg,#2eb85c,#24a04e); border:none;">ENCENDER VEHÍCULO</button>
         <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
     </div>
 </div>
@@ -1180,8 +1188,8 @@ html, body {
 <!-- MODAL CONFIRMACION MOTOR -->
 <div id="modal-confirmacion-motor" class="modal-overlay">
     <div class="modal-box">
-        <h3 style="color:#ffcc00;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3>
-        <p style="margin-bottom:20px; font-weight:bold; color:#ffffff; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
+        <h3 style="color:#e0a800;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3>
+        <p style="margin-bottom:20px; font-weight:bold; color:#1e6fa4; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
         <button class="btn-descargar" onclick="confirmarComando()">ACEPTAR</button>
         <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
     </div>
@@ -1226,8 +1234,8 @@ html, body {
     <div class="modal-box" style="max-width: 420px; max-height: 85vh; overflow-y: auto;">
         <h3><i class="fas fa-draw-polygon"></i> Gestión de Geocercas</h3>
         
-        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px;">
-            <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 8px;">Nueva Geocerca</strong>
+        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1.5px solid rgba(103,183,235,0.35); padding-bottom: 10px;">
+            <strong style="color: #1e6fa4; font-size: 14px; display: block; margin-bottom: 8px;">Nueva Geocerca</strong>
             
             <label>Nombre de la Geocerca:</label>
             <input type="text" id="geo-nombre" placeholder="Ej: Zona Residencial / Oficina">
@@ -1242,9 +1250,9 @@ html, body {
         </div>
 
         <div style="text-align: left;">
-            <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 8px;">Geocercas Registradas</strong>
+            <strong style="color: #1e6fa4; font-size: 14px; display: block; margin-bottom: 8px;">Geocercas Registradas</strong>
             <div id="lista-geocercas" style="max-height: 160px; overflow-y: auto; font-size: 12px;">
-                <p style="color: #888;">Cargando geocercas...</p>
+                <p style="color: #4a7ca0;">Cargando geocercas...</p>
             </div>
         </div>
 
@@ -3446,9 +3454,9 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
         if (!lineasRuta[idDispositivo]) {
             lineasRuta[idDispositivo] = L.polyline(historialRutas[idDispositivo], {
-                color: '#ffffff',
+                color: '#348dc4',
                 weight: 4,
-                opacity: 0.7,
+                opacity: 0.8,
                 lineJoin: 'round'
             }).addTo(mapa);
         } else {
@@ -3457,7 +3465,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
         const placaVehiculo = dispositivo.name || 'SIN PLACA';
         const estadoMovimiento = posicion.attributes?.motion === true ? 'EN MOVIMIENTO' : 'DETENIDO';
-        const colorMovimiento = posicion.attributes?.motion === true ? '#00ff00' : '#ffffff';
+        const colorMovimiento = posicion.attributes?.motion === true ? '#00a344' : '#e0a800';
         // 1. Mantenemos tu icono de vehículo ORIGINAL intacto
         const iconoGPS = L.icon({
             iconUrl: 'https://i.imgur.com/Ga8uSGQ.png',
@@ -3523,13 +3531,13 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         let velocidadDestacada = `
             <div class="velocidad-destacada">
                 <div style="display:flex; align-items:center; justify-content:center; gap:5px;">
-                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter:brightness(0) invert(1);">
-                    <div style="color:#ffffff; font-size:18px; font-weight:bold; line-height:1;">
+                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter:brightness(0) saturate(100%) invert(62%) sepia(38%) saturate(640%) hue-rotate(170deg) brightness(95%);">
+                    <div style="color:#1e6fa4; font-size:18px; font-weight:bold; line-height:1;">
                         ${velocidadKmh}
                     </div>
-                    <div style="color:#ccc; font-size:10px; margin-top:5px;">km/h</div>
+                    <div style="color:#4a7ca0; font-size:10px; margin-top:5px;">km/h</div>
                 </div>
-                <div style="color:#ffffff; font-size:9px; margin-top:5px; letter-spacing:1px; font-weight:bold;">
+                <div style="color:#348dc4; font-size:9px; margin-top:5px; letter-spacing:1px; font-weight:bold;">
                     VELOCIDAD
                 </div>
             </div>
@@ -3542,14 +3550,14 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             ignicionDestacada = `
                 <div class="ignicion-destacada">
                     <img src="https://i.imgur.com/LQHjXWa.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto;">
-                    <div style="color:#00ff66; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">ENCENDIDO</div>
+                    <div style="color:#00a344; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">ENCENDIDO</div>
                 </div>
             `;
         } else {
             ignicionDestacada = `
                 <div class="ignicion-destacada">
-                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter:brightness(0) invert(1);">
-                    <div style="color:#ffffff; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">APAGADO</div>
+                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter:brightness(0) saturate(100%) invert(62%) sepia(38%) saturate(640%) hue-rotate(170deg) brightness(95%);">
+                    <div style="color:#e05555; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">APAGADO</div>
                 </div>
             `;
         }      
@@ -3558,7 +3566,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             document.getElementById('ubicacion-flotante').innerHTML = `
                 <div class="ubicacion-destacada">
                     <img src="https://i.imgur.com/1VCjVnA.gif" style="width:35px; height:35px; object-fit:contain; flex-shrink:0;">
-                    <div style="color:#ffffff; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
+                    <div style="color:#1e6fa4; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
                         ${nombreLugar}
                     </div>
                 </div>
@@ -3764,7 +3772,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
     async function cargarGeocercas() {
         const contenedor = document.getElementById('lista-geocercas');
-        contenedor.innerHTML = '<p style="color: #ccc;">Cargando...</p>';
+        contenedor.innerHTML = '<p style="color: #4a7ca0;">Cargando...</p>';
         
         try {
             const res = await fetch('https://whitecargps.duckdns.org/api/geofences', { headers: authHeaders() });
@@ -3778,19 +3786,19 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             }
 
             if (geocercas.length === 0) {
-                contenedor.innerHTML = '<p style="color: #888;">No hay geocercas creadas.</p>';
+                contenedor.innerHTML = '<p style="color: #4a7ca0;">No hay geocercas creadas.</p>';
                 return;
             }
 
             geocercas.forEach(g => {
                 const div = document.createElement('div');
-                div.style.cssText = 'background: #67B7EB; padding: 8px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;';
+                div.style.cssText = 'background: #ffffff; padding: 8px; margin-bottom: 6px; border: 1.5px solid rgba(103,183,235,0.45); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 10px rgba(103,183,235,0.2);';
                 div.innerHTML = `
                     <div>
-                        <strong style="color: #ffffff; font-size: 12px;">${g.name}</strong>
-                        <div style="font-size: 10px; color: #aaa;">${g.description || 'Sin descripción'}</div>
+                        <strong style="color: #1e6fa4; font-size: 12px;">${g.name}</strong>
+                        <div style="font-size: 10px; color: #4a7ca0;">${g.description || 'Sin descripción'}</div>
                     </div>
-                    <button onclick="eliminarGeocerca(${g.id})" style="background: #ffffff; color: #67B7EB; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
+                    <button onclick="eliminarGeocerca(${g.id})" style="background: linear-gradient(135deg,#67B7EB,#4fa3dd); color: #ffffff; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-trash"></i>
                     </button>
                 `;
@@ -3803,8 +3811,8 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
                         const lng = parseFloat(match[2]);
                         const rad = parseFloat(match[3]);
                         L.circle([lat, lng], {
-                            color: '#ffffff',
-                            fillColor: '#ffffff',
+                            color: '#348dc4',
+                            fillColor: '#67B7EB',
                             fillOpacity: 0.25,
                             radius: rad
                         }).bindTooltip(g.name, { permanent: false }).addTo(capaGeocercas);
@@ -3812,7 +3820,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
                 }
             });
         } catch (e) {
-            contenedor.innerHTML = '<p style="color: #ffffff;">Error al obtener las geocercas.</p>';
+            contenedor.innerHTML = '<p style="color: #e05555;">Error al obtener las geocercas.</p>';
         }
     }
 
