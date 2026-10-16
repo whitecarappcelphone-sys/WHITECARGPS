@@ -247,22 +247,23 @@ html, body {
 /* 1. TARJETA CABECERA */
 #tarjeta-gps {
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    background: #121212;
+    border: 1.5px solid rgba(103, 183, 235, 0.65);
     border-radius: 16px;
-    box-shadow: 0 8px 22px rgba(103, 183, 235, 0.35), 0 0 8px rgba(103, 183, 235, 0.15);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 14px rgba(103, 183, 235, 0.35), inset 0 0 18px rgba(103, 183, 235, 0.14);
     overflow: visible; 
 }
 
 .gps-tarjeta-cabecera {
     padding: 6px 15px; 
-    background: linear-gradient(145deg, #ffffff, #f2f9fe);
+    background: #121212;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     border-radius: 16px; 
-    border: 1px solid rgba(103, 183, 235, 0.35); 
+    border: 1px solid rgba(103, 183, 235, 0.4); 
+    box-shadow: inset 0 0 16px rgba(103, 183, 235, 0.12);
 }
 
 .gps-vehiculo-media {
@@ -282,10 +283,10 @@ html, body {
     left: 12px;
     top: 50%;
     z-index: 2;
-    color: #67B7EB;
+    color: #ffffff;
     font-size: 22px;
     line-height: 1;
-    text-shadow: 0 0 8px rgba(103, 183, 235, 0.6);
+    text-shadow: 0 0 8px rgba(103, 183, 235, 0.8);
     pointer-events: none;
     animation: flechaVehiculoContinua 0.9s ease-in-out infinite;
 }
@@ -325,19 +326,20 @@ html, body {
 }
 
 .gps-vehiculo {
-    color: #1e6fa4;
+    color: #ffffff;
     font-size: 20px; 
     font-weight: bold;
     line-height: 1.1;
 }
 
 .gps-vehiculo-marca {
-    color: #4a7ca0;
+    color: #ffffff;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin: 2px 0; 
+    margin: 2px 0;
+    opacity: 0.85;
 }
 
 .gps-estado {
@@ -345,18 +347,18 @@ html, body {
     font-weight: bold;
     letter-spacing: 0.5px;
 }
-.gps-ok { color: #00a344; text-shadow: 0 0 5px rgba(0, 163, 68, 0.3); }
-.gps-error { color: #e05555; text-shadow: 0 0 5px rgba(224, 85, 85, 0.3); }
+.gps-ok { color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.6); }
+.gps-error { color: #ff5555; text-shadow: 0 0 5px rgba(255, 85, 85, 0.6); }
 
 /* 2. TARJETA UBICACIÓN */
 .ubicacion-destacada {
     width: 100%;
     min-height: 50px;
-    background: rgba(255, 255, 255, 0.95);
+    background: #121212;
     border-radius: 12px;
     padding: 8px 12px;
-    border: 1.5px solid rgba(103, 183, 235, 0.45);
-    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.3);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 0 14px rgba(103, 183, 235, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -379,12 +381,12 @@ html, body {
 .velocidad-destacada, 
 .ignicion-destacada {
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: #121212;
     border-radius: 12px;
     padding: 10px 6px;
     text-align: center;
-    border: 1.5px solid rgba(103, 183, 235, 0.45);
-    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.3);
+    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 0 14px rgba(103, 183, 235, 0.12);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -401,13 +403,13 @@ html, body {
 
 .btn-extra {
     flex: 1;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1.5px solid rgba(103, 183, 235, 0.5);
+    background: #121212;
+    border: 1.5px solid rgba(103, 183, 235, 0.6);
     border-radius: 12px;
-    color: #348dc4;
+    color: #ffffff;
     font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(103, 183, 235, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -418,12 +420,13 @@ html, body {
     background: #67B7EB;
     border-color: #67B7EB;
     color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(255, 255, 255, 0.25);
 }
 .btn-extra:hover i {
     color: #ffffff !important;
 }
 .btn-extra i.fa-key {
-    color: #348dc4 !important;
+    color: #ffffff !important;
     font-size: 20px;
 }
 
@@ -460,16 +463,16 @@ html, body {
     display: none;
     width: min(245px, calc(100vw - 90px));
     padding: 10px;
-    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    border: 1.5px solid rgba(103, 183, 235, 0.6);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.97);
-    box-shadow: 0 8px 20px rgba(103, 183, 235, 0.35);
+    background: #121212;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65), inset 0 0 14px rgba(103, 183, 235, 0.12);
 }
 
 #admin-vehicle-panel label {
     display: block;
     margin-bottom: 7px;
-    color: #1e6fa4;
+    color: #ffffff;
     font-size: 10px;
     font-weight: bold;
     letter-spacing: 0.6px;
@@ -486,22 +489,23 @@ html, body {
     flex: 1;
     height: 34px;
     padding: 0 9px;
-    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    border: 1.5px solid rgba(103, 183, 235, 0.6);
     border-radius: 7px;
     outline: none;
-    background: #ffffff;
-    color: #1e5a82;
+    background: #121212;
+    color: #ffffff;
     font: inherit;
     font-size: 11px;
+    box-shadow: inset 0 0 10px rgba(103, 183, 235, 0.1);
 }
 
 #admin-vehicle-search::placeholder {
-    color: #8fb6d2;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 #admin-vehicle-search:focus {
     border-color: #67B7EB;
-    box-shadow: 0 0 6px rgba(103, 183, 235, 0.45);
+    box-shadow: 0 0 8px rgba(103, 183, 235, 0.55), inset 0 0 10px rgba(103, 183, 235, 0.15);
 }
 
 .admin-search-submit {
@@ -511,11 +515,12 @@ html, body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #67B7EB;
+    border: 1.5px solid rgba(103, 183, 235, 0.7);
     border-radius: 7px;
-    background: linear-gradient(135deg, #67B7EB, #4fa3dd);
+    background: #121212;
     color: #ffffff;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55), inset 0 0 10px rgba(103, 183, 235, 0.18);
 }
 
 #admin-vehicle-options {
@@ -523,9 +528,10 @@ html, body {
     max-height: 220px;
     margin-top: 6px;
     overflow-y: auto;
-    border: 1px solid rgba(103, 183, 235, 0.45);
+    border: 1px solid rgba(103, 183, 235, 0.5);
     border-radius: 7px;
-    background: #ffffff;
+    background: #121212;
+    box-shadow: inset 0 0 12px rgba(103, 183, 235, 0.1);
 }
 
 #admin-vehicle-options.visible {
@@ -537,9 +543,9 @@ html, body {
     display: block;
     padding: 8px 9px;
     border: 0;
-    border-bottom: 1px solid rgba(103, 183, 235, 0.22);
+    border-bottom: 1px solid rgba(103, 183, 235, 0.25);
     background: transparent;
-    color: #1e6fa4;
+    color: #ffffff;
     text-align: left;
     font: inherit;
     font-size: 11px;
@@ -549,11 +555,11 @@ html, body {
 .admin-vehicle-option:hover,
 .admin-vehicle-option:focus {
     outline: none;
-    background: rgba(103, 183, 235, 0.15);
+    background: rgba(103, 183, 235, 0.25);
 }
 
 .admin-vehicle-empty {
-    color: #4a7ca0;
+    color: #ffffff;
     font-size: 10px;
 }
 
@@ -567,14 +573,14 @@ html, body {
    POPUP Y MARCADORES GPS 
    ================================ */
 .gps-popup .leaflet-popup-content-wrapper {
-    background: rgba(255, 255, 255, 0.96) !important;
-    color: #1e6fa4 !important;
+    background: #121212 !important;
+    color: #ffffff !important;
     border: 2px solid #67B7EB !important;
     border-radius: 16px !important;
-    box-shadow: 0 0 6px rgba(103, 183, 235, 0.6), 0 8px 22px rgba(103, 183, 235, 0.4) !important;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 12px rgba(103, 183, 235, 0.45), inset 0 0 16px rgba(103, 183, 235, 0.12) !important;
 }
 .gps-popup .leaflet-popup-tip {
-    background: #ffffff !important;
+    background: #121212 !important;
     border-right: 2px solid #67B7EB;
     border-bottom: 2px solid #67B7EB;
 }
@@ -583,17 +589,17 @@ html, body {
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    background: #ffffff !important;
-    color: #1e6fa4 !important;
+    background: #121212 !important;
+    color: #ffffff !important;
     border: 1.5px solid #67B7EB !important;
     border-radius: 6px !important;
     padding: 4px 8px !important;
     font-size: 12px !important;
     font-weight: bold !important;
-    box-shadow: 0 4px 12px rgba(103, 183, 235, 0.35) !important;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(103, 183, 235, 0.15) !important;
 }
 .gps-estado-movimiento {
-    color: #4a7ca0 !important;
+    color: #ffffff !important;
     font-size: 10px !important;
     font-weight: bold !important;
     margin-top: 1px !important;
@@ -615,7 +621,7 @@ html, body {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(103, 183, 235, 0.45);
+    background: rgba(0, 0, 0, 0.7);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     z-index: 1000000;
@@ -624,35 +630,37 @@ html, body {
 }
 
 .modal-box {
-    background: linear-gradient(145deg, #ffffff, #f2f9fe);
-    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    background: #121212;
+    border: 1.5px solid rgba(103, 183, 235, 0.65);
     padding: 25px;
     border-radius: 18px;
     width: 90%;
     max-width: 400px;
-    box-shadow: 0 18px 50px rgba(103, 183, 235, 0.4);
-    color: #3c6b8e;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.75), 0 0 18px rgba(103, 183, 235, 0.35), inset 0 0 22px rgba(103, 183, 235, 0.12);
+    color: #ffffff;
     text-align: center;
 }
 
-.modal-box h3 { color: #1e6fa4; margin-top: 0; margin-bottom: 20px; }
-.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #1e6fa4; font-weight: bold; }
+.modal-box h3 { color: #ffffff; margin-top: 0; margin-bottom: 20px; }
+.modal-box label { display: block; text-align: left; margin-bottom: 5px; font-size: 13px; color: #ffffff; font-weight: bold; }
 .modal-box select, .modal-box input {
     width: 100%; padding: 10px; margin-bottom: 15px;
-    background: #ffffff; color: #1e5a82; border: 1.5px solid rgba(103, 183, 235, 0.5);
+    background: #121212; color: #ffffff; border: 1.5px solid rgba(103, 183, 235, 0.55);
     border-radius: 8px; outline: none;
+    box-shadow: inset 0 0 10px rgba(103, 183, 235, 0.1);
 }
-.modal-box select:focus, .modal-box input:focus { border-color: #67B7EB; box-shadow: 0 0 8px rgba(103, 183, 235, 0.35); }
+.modal-box select:focus, .modal-box input:focus { border-color: #67B7EB; box-shadow: 0 0 10px rgba(103, 183, 235, 0.45), inset 0 0 10px rgba(103, 183, 235, 0.15); }
 .modal-box button.btn-descargar {
-    background: linear-gradient(135deg, #67B7EB, #4fa3dd); color: #ffffff; border: none; padding: 12px 20px;
+    background: #121212; color: #ffffff; border: 1.5px solid #67B7EB; padding: 12px 20px;
     border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 10px;
-    box-shadow: 0 6px 16px rgba(103, 183, 235, 0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), 0 0 10px rgba(103, 183, 235, 0.3), inset 0 0 12px rgba(103, 183, 235, 0.18);
 }
 .modal-box button.btn-cancelar {
-    background: #ffffff; color: #348dc4; border: 1.5px solid rgba(103, 183, 235, 0.55); padding: 12px 20px;
+    background: #121212; color: #ffffff; border: 1.5px solid rgba(103, 183, 235, 0.45); padding: 12px 20px;
     border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 0 10px rgba(103, 183, 235, 0.1);
 }
-.modal-box button:hover { opacity: 0.9; }
+.modal-box button:hover { background: #67B7EB; border-color: #67B7EB; color: #ffffff; opacity: 1; }
 .leaflet-marker-shadow {
     filter: brightness(0) invert(1);
 }
@@ -667,18 +675,18 @@ html, body {
     padding: 4px 2px !important;
     margin: 0 !important;
 
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1.5px solid rgba(103, 183, 235, 0.5) !important;
+    background: #121212 !important;
+    border: 1.5px solid rgba(103, 183, 235, 0.6) !important;
     border-radius: 10px !important;
 
-    color: #348dc4 !important;
+    color: #ffffff !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 2px !important;
 
-    box-shadow: 0 5px 14px rgba(103, 183, 235, 0.3) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(103, 183, 235, 0.14) !important;
     cursor: pointer;
     transition: transform 0.1s ease, border-color 0.2s ease, background 0.2s ease;
 }
@@ -686,6 +694,7 @@ html, body {
 .btn-actualizar:hover {
     border-color: #67B7EB !important;
     background: #67B7EB !important; /* Azul al pasar el cursor */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(255, 255, 255, 0.25) !important;
 }
 
 .btn-actualizar:hover i,
@@ -697,11 +706,11 @@ html, body {
 
 .btn-actualizar i {
     font-size: 16px !important;
-    color: #348dc4 !important;
+    color: #ffffff !important;
 }
 
 .btn-actualizar span {
-    color: #1e6fa4 !important;
+    color: #ffffff !important;
     font-size: 6.5px !important;
     font-weight: bold;
     letter-spacing: 0.3px;
@@ -755,10 +764,10 @@ html, body {
     flex-direction: column;
     overflow: hidden;
     padding: 0;
-    background: #ffffff;
-    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    background: #121212;
+    border: 1.5px solid rgba(103, 183, 235, 0.65);
     border-radius: 14px;
-    box-shadow: 0 18px 50px rgba(103, 183, 235, 0.4);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.75), 0 0 18px rgba(103, 183, 235, 0.35), inset 0 0 22px rgba(103, 183, 235, 0.1);
 }
 
 .modal-recorridos-header {
@@ -768,9 +777,10 @@ html, body {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    background: #eaf5fd;
-    color: #1e6fa4;
-    border-bottom: 1.5px solid rgba(103, 183, 235, 0.3);
+    background: #121212;
+    color: #ffffff;
+    border-bottom: 1.5px solid rgba(103, 183, 235, 0.4);
+    box-shadow: inset 0 0 14px rgba(103, 183, 235, 0.1);
 }
 
 .modal-recorridos-header strong {
@@ -784,11 +794,12 @@ html, body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #67B7EB;
+    border: 1.5px solid #67B7EB;
     border-radius: 8px;
-    background: linear-gradient(135deg, #67B7EB, #4fa3dd);
+    background: #121212;
     color: #ffffff;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55), inset 0 0 10px rgba(103, 183, 235, 0.18);
 }
 
 #iframe-recorridos {
@@ -796,7 +807,7 @@ html, body {
     width: 100%;
     min-height: 0;
     border: 0;
-    background: #ffffff;
+    background: #121212;
 }
 
 @media (max-width: 600px) {
@@ -828,14 +839,14 @@ html, body {
     align-items: center;
     gap: 12px;
     padding: 14px 20px;
-    border: 1.5px solid rgba(103, 183, 235, 0.55);
+    border: 1.5px solid rgba(103, 183, 235, 0.6);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.96);
-    color: #1e6fa4;
+    background: #121212;
+    color: #ffffff;
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 1.5px;
-    box-shadow: 0 12px 30px rgba(103, 183, 235, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65), 0 0 14px rgba(103, 183, 235, 0.35), inset 0 0 14px rgba(103, 183, 235, 0.12);
 }
 
 .cargando-vehiculo-indicador {
@@ -861,7 +872,7 @@ html, body {
     width: 100%;
     min-height: 0;
     border: 0;
-    background: #ffffff;
+    background: #121212;
 }
 
 @media (max-width: 600px) {
@@ -875,7 +886,7 @@ html, body {
 #install-prompt {
     z-index: 1300000;
     padding: 18px;
-    background: rgba(103, 183, 235, 0.78);
+    background: rgba(0, 0, 0, 0.72);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
 }
@@ -887,14 +898,12 @@ html, body {
 .install-prompt-box {
     width: min(100%, 390px);
     padding: 26px 24px 22px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(103, 183, 235, 0.65);
     border-radius: 22px;
-    background: rgba(103, 183, 235, 0.82);
+    background: #121212;
     color: #ffffff;
     text-align: center;
-    box-shadow: 0 12px 40px rgba(30, 111, 164, 0.28), inset 0 0 28px rgba(255, 255, 255, 0.14);
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.75), 0 0 18px rgba(103, 183, 235, 0.35), inset 0 0 28px rgba(103, 183, 235, 0.12);
     animation: installPromptAppear 0.35s ease-out both;
 }
 
@@ -911,10 +920,10 @@ html, body {
     display: grid;
     place-items: center;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.82);
+    border: 1.5px solid rgba(103, 183, 235, 0.65);
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 22px rgba(255, 255, 255, 0.24), inset 0 0 18px rgba(255, 255, 255, 0.15);
+    background: #121212;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 16px rgba(103, 183, 235, 0.3), inset 0 0 18px rgba(103, 183, 235, 0.15);
 }
 
 .install-prompt-icon img {
@@ -941,9 +950,10 @@ html, body {
     display: none;
     margin: 0 0 16px;
     padding: 12px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(103, 183, 235, 0.5);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(103, 183, 235, 0.12);
+    box-shadow: inset 0 0 12px rgba(103, 183, 235, 0.1);
     text-align: left;
 }
 
@@ -972,31 +982,33 @@ html, body {
     min-height: 46px;
     width: 100%;
     padding: 11px 16px;
-    border: 1px solid #ffffff;
+    border: 1.5px solid #67B7EB;
     border-radius: 11px;
-    background: #ffffff;
-    color: #348dc4;
+    background: #121212;
+    color: #ffffff;
     font: inherit;
     font-size: 13px;
     font-weight: 800;
     cursor: pointer;
     transition: transform 0.18s ease, background 0.18s ease;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), 0 0 10px rgba(103, 183, 235, 0.3), inset 0 0 12px rgba(103, 183, 235, 0.15);
 }
 
 .install-prompt-button:hover {
-    background: #f3fbff;
+    background: #67B7EB;
     transform: translateY(-1px);
 }
 
 .install-prompt-button.secondary {
     min-height: 40px;
-    border-color: rgba(255, 255, 255, 0.48);
-    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(103, 183, 235, 0.45);
+    background: #121212;
     color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 0 10px rgba(103, 183, 235, 0.1);
 }
 
 .install-prompt-button.secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(103, 183, 235, 0.3);
 }
 
 @media (max-width: 480px) {
@@ -1147,7 +1159,7 @@ html, body {
 <div id="modal-alerta" class="modal-overlay">
     <div class="modal-box">
         <h3>Notificación</h3>
-        <p id="texto-alerta" style="margin-bottom:20px; color:#3c6b8e;"></p>
+        <p id="texto-alerta" style="margin-bottom:20px; color:#ffffff;"></p>
         <button class="btn-descargar" onclick="cerrarModales()">ACEPTAR</button>
     </div>
 </div>
@@ -1160,7 +1172,7 @@ html, body {
             CERRAR SESIÓN
         </h3>
 
-        <p style="margin-bottom:20px; font-weight:bold; color:#1e6fa4; font-size:15px;">
+        <p style="margin-bottom:20px; font-weight:bold; color:#ffffff; font-size:15px;">
             ¿ESTÁ SEGURO DE CERRAR SESIÓN?
         </p>
 
@@ -1179,8 +1191,8 @@ html, body {
 <div id="modal-menu-motor" class="modal-overlay">
     <div class="modal-box">
         <h3>Control de Motor</h3>
-        <button class="btn-descargar" onclick="iniciarComando('engineStop')" style="background:linear-gradient(135deg,#e05555,#d04040); border:none;">APAGAR VEHÍCULO</button>
-        <button class="btn-descargar" onclick="iniciarComando('engineResume')" style="background:linear-gradient(135deg,#2eb85c,#24a04e); border:none;">ENCENDER VEHÍCULO</button>
+        <button class="btn-descargar" onclick="iniciarComando('engineStop')" style="background:#121212; border:1.5px solid #ff5555; color:#ffffff; box-shadow:0 6px 16px rgba(0,0,0,0.55), 0 0 10px rgba(255,85,85,0.35), inset 0 0 12px rgba(255,85,85,0.15);">APAGAR VEHÍCULO</button>
+        <button class="btn-descargar" onclick="iniciarComando('engineResume')" style="background:#121212; border:1.5px solid #00ff66; color:#ffffff; box-shadow:0 6px 16px rgba(0,0,0,0.55), 0 0 10px rgba(0,255,102,0.35), inset 0 0 12px rgba(0,255,102,0.15);">ENCENDER VEHÍCULO</button>
         <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
     </div>
 </div>
@@ -1188,8 +1200,8 @@ html, body {
 <!-- MODAL CONFIRMACION MOTOR -->
 <div id="modal-confirmacion-motor" class="modal-overlay">
     <div class="modal-box">
-        <h3 style="color:#e0a800;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3>
-        <p style="margin-bottom:20px; font-weight:bold; color:#1e6fa4; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
+        <h3 style="color:#ffcc00;"><i class="fas fa-exclamation-triangle"></i> ATENCIÓN</h3>
+        <p style="margin-bottom:20px; font-weight:bold; color:#ffffff; font-size:15px;">¿ESTÁ SEGURO DE ENVIAR EL COMANDO?</p>
         <button class="btn-descargar" onclick="confirmarComando()">ACEPTAR</button>
         <button class="btn-cancelar" onclick="cerrarModales()">CANCELAR</button>
     </div>
@@ -1234,8 +1246,8 @@ html, body {
     <div class="modal-box" style="max-width: 420px; max-height: 85vh; overflow-y: auto;">
         <h3><i class="fas fa-draw-polygon"></i> Gestión de Geocercas</h3>
         
-        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1.5px solid rgba(103,183,235,0.35); padding-bottom: 10px;">
-            <strong style="color: #1e6fa4; font-size: 14px; display: block; margin-bottom: 8px;">Nueva Geocerca</strong>
+        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1.5px solid rgba(103,183,235,0.4); padding-bottom: 10px;">
+            <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 8px;">Nueva Geocerca</strong>
             
             <label>Nombre de la Geocerca:</label>
             <input type="text" id="geo-nombre" placeholder="Ej: Zona Residencial / Oficina">
@@ -1250,9 +1262,9 @@ html, body {
         </div>
 
         <div style="text-align: left;">
-            <strong style="color: #1e6fa4; font-size: 14px; display: block; margin-bottom: 8px;">Geocercas Registradas</strong>
+            <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 8px;">Geocercas Registradas</strong>
             <div id="lista-geocercas" style="max-height: 160px; overflow-y: auto; font-size: 12px;">
-                <p style="color: #4a7ca0;">Cargando geocercas...</p>
+                <p style="color: #ffffff;">Cargando geocercas...</p>
             </div>
         </div>
 
@@ -2506,66 +2518,66 @@ function generarRecorridoDemo() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EAGLE TRACK GPS | Políticas y Condiciones</title>
-<meta name="theme-color" content="#67B7EB">
+<meta name="theme-color" content="#121212">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,rgba(103,183,235,.25),transparent 40%),radial-gradient(circle at bottom,rgba(103,183,235,.16),transparent 45%),#f5faff;color:#1e5a82;min-height:100vh;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(103,183,235,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(103,183,235,.08) 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
+body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,rgba(103,183,235,.14),transparent 40%),radial-gradient(circle at bottom,rgba(103,183,235,.1),transparent 45%),#121212;color:#ffffff;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(103,183,235,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(103,183,235,.06) 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
 .container{width:100%;max-width:900px;margin:0 auto;padding:50px 20px 40px;text-align:center}
 .logo-area{margin-bottom:45px;animation:fadeDown 1s ease forwards}
-.logo-icon{width:150px;height:150px;margin:0 auto 25px;border:2px solid rgba(103,183,235,.55);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#ffffff;color:#348dc4;font-size:32px;font-weight:bold;box-shadow:0 10px 30px rgba(103,183,235,.35),inset 0 0 26px rgba(103,183,235,.1)}
+.logo-icon{width:150px;height:150px;margin:0 auto 25px;border:2px solid rgba(103,183,235,.65);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#121212;color:#ffffff;font-size:32px;font-weight:bold;box-shadow:0 10px 30px rgba(0,0,0,.7),0 0 22px rgba(103,183,235,.4),inset 0 0 26px rgba(103,183,235,.15)}
 .logo-icon img{width:100%;height:100%;object-fit:contain;border-radius:0;padding:0;transform:none}
-.logo-area h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#1e6fa4;text-shadow:0 1px 0 #ffffff,0 0 20px rgba(103,183,235,.35)}
+.logo-area h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#ffffff;text-shadow:0 0 8px rgba(103,183,235,.4),0 0 20px rgba(103,183,235,.3)}
 .logo-area h1 span{color:#67B7EB}
-.logo-area p{margin-top:10px;color:#4a7ca0;font-size:14px}
-.section-title{font-size:15px;color:#35739c;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px}
+.logo-area p{margin-top:10px;color:#ffffff;opacity:.8;font-size:14px}
+.section-title{font-size:15px;color:#ffffff;opacity:.85;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px}
 .policy-buttons{display:flex;flex-direction:column;gap:18px}
-.policy-btn{width:100%;min-height:78px;border:1.5px solid rgba(103,183,235,.55);border-radius:18px;background:#ffffff;color:#1e6fa4;padding:20px 25px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;letter-spacing:.5px;cursor:pointer;box-shadow:0 8px 22px rgba(103,183,235,.25),inset 0 0 20px rgba(103,183,235,.05);transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;opacity:0;transform:translateY(30px);animation:buttonAppear .75s ease forwards}
+.policy-btn{width:100%;min-height:78px;border:1.5px solid rgba(103,183,235,.6);border-radius:18px;background:#121212;color:#ffffff;padding:20px 25px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;letter-spacing:.5px;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.6),0 0 12px rgba(103,183,235,.25),inset 0 0 20px rgba(103,183,235,.1);transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;opacity:0;transform:translateY(30px);animation:buttonAppear .75s ease forwards}
 .policy-btn:nth-child(2){animation-delay:.18s}
-.policy-btn:hover{transform:translateY(-4px) scale(1.01);border-color:#67B7EB;background:#f0f8fe;box-shadow:0 12px 28px rgba(103,183,235,.4),inset 0 0 20px rgba(103,183,235,.08)}
+.policy-btn:hover{transform:translateY(-4px) scale(1.01);border-color:#67B7EB;background:#1a1a1a;box-shadow:0 12px 28px rgba(0,0,0,.7),0 0 20px rgba(103,183,235,.45),inset 0 0 20px rgba(103,183,235,.15)}
 .policy-btn:active{transform:scale(.98)}
-.btn-icon{width:40px;height:40px;margin-right:15px;border-radius:12px;border:1.5px solid rgba(103,183,235,.6);display:flex;align-items:center;justify-content:center;color:#348dc4;font-size:20px;background:#f0f8fe;box-shadow:0 0 10px rgba(103,183,235,.2)}
+.btn-icon{width:40px;height:40px;margin-right:15px;border-radius:12px;border:1.5px solid rgba(103,183,235,.65);display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:20px;background:#121212;box-shadow:0 0 10px rgba(103,183,235,.25),inset 0 0 10px rgba(103,183,235,.12)}
 .divider{width:100%;height:1px;margin:38px 0;background:linear-gradient(90deg,transparent,rgba(103,183,235,.8),transparent)}
-.accept-btn{width:100%;padding:20px 24px;border:2px solid #ffffff;border-radius:18px;background:linear-gradient(135deg,#67B7EB,#4fa3dd);color:#ffffff;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer;box-shadow:0 10px 28px rgba(103,183,235,.45),inset 0 0 24px rgba(255,255,255,.18);transition:transform .25s ease,box-shadow .25s ease;animation:pulseNeon 2.5s infinite;text-shadow:0 1px 2px rgba(30,111,164,.4)}
-.accept-btn:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(103,183,235,.6),0 0 40px rgba(103,183,235,.45),inset 0 0 24px rgba(255,255,255,.25)}
-.footer{margin-top:35px;color:#6b94b3;font-size:12px;line-height:1.7}
-.footer strong{color:#348dc4}
-.modal{position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:rgba(103,183,235,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+.accept-btn{width:100%;padding:20px 24px;border:2px solid #67B7EB;border-radius:18px;background:#121212;color:#ffffff;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.7),0 0 18px rgba(103,183,235,.4),inset 0 0 24px rgba(103,183,235,.14);transition:transform .25s ease,box-shadow .25s ease;animation:pulseNeon 2.5s infinite}
+.accept-btn:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.75),0 0 40px rgba(103,183,235,.55),inset 0 0 24px rgba(103,183,235,.2)}
+.footer{margin-top:35px;color:#ffffff;opacity:.7;font-size:12px;line-height:1.7}
+.footer strong{color:#67B7EB}
+.modal{position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
 .modal.active{opacity:1;visibility:visible}
-.modal-content{width:100%;max-width:850px;max-height:90vh;background:linear-gradient(145deg,#ffffff,#f2f9fe);border:1.5px solid rgba(103,183,235,.55);border-radius:22px;box-shadow:0 18px 50px rgba(103,183,235,.4),0 0 50px rgba(103,183,235,.15);overflow:hidden;transform:translateY(25px) scale(.97);transition:transform .35s ease}
+.modal-content{width:100%;max-width:850px;max-height:90vh;background:#121212;border:1.5px solid rgba(103,183,235,.65);border-radius:22px;box-shadow:0 18px 50px rgba(0,0,0,.8),0 0 50px rgba(103,183,235,.22),inset 0 0 30px rgba(103,183,235,.08);overflow:hidden;transform:translateY(25px) scale(.97);transition:transform .35s ease}
 .modal.active .modal-content{transform:translateY(0) scale(1)}
-.modal-header{padding:22px 24px;border-bottom:1.5px solid rgba(103,183,235,.3);display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;background:#eaf5fd;z-index:2}
-.modal-title{color:#1e6fa4;font-size:18px;font-weight:900;line-height:1.35}
+.modal-header{padding:22px 24px;border-bottom:1.5px solid rgba(103,183,235,.4);display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;background:#121212;z-index:2;box-shadow:inset 0 0 14px rgba(103,183,235,.1)}
+.modal-title{color:#ffffff;font-size:18px;font-weight:900;line-height:1.35}
 .modal-title span{color:#67B7EB}
-.close-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(103,183,235,.6);background:#ffffff;color:#348dc4;font-size:22px;cursor:pointer;transition:.25s}
+.close-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(103,183,235,.65);background:#121212;color:#ffffff;font-size:22px;cursor:pointer;transition:.25s;box-shadow:0 4px 10px rgba(0,0,0,.55),inset 0 0 10px rgba(103,183,235,.15)}
 .close-btn:hover{background:#67B7EB;color:#ffffff;box-shadow:0 0 20px rgba(103,183,235,.5)}
-.modal-body{padding:25px;max-height:calc(90vh - 85px);height:calc(90vh - 85px);overflow-y:auto;text-align:left;scrollbar-width:thin;scrollbar-color:#67B7EB #eaf4fb}
+.modal-body{padding:25px;max-height:calc(90vh - 85px);height:calc(90vh - 85px);overflow-y:auto;text-align:left;scrollbar-width:thin;scrollbar-color:#67B7EB #1a1a1a}
 .modal-body::-webkit-scrollbar{width:7px}
-.modal-body::-webkit-scrollbar-track{background:#eaf4fb}
+.modal-body::-webkit-scrollbar-track{background:#1a1a1a}
 .modal-body::-webkit-scrollbar-thumb{background:#67B7EB;border-radius:10px}
 .modal-body::after{content:"";display:block;height:30px}
-.modal-body h2{color:#2b86c0;font-size:19px;margin:25px 0 12px}
+.modal-body h2{color:#67B7EB;font-size:19px;margin:25px 0 12px}
 .modal-body h2:first-child{margin-top:0}
-.modal-body h3{color:#1e6fa4;font-size:15px;margin:22px 0 10px}
-.modal-body p{color:#3c6b8e;font-size:14px;line-height:1.75;margin-bottom:13px}
+.modal-body h3{color:#ffffff;font-size:15px;margin:22px 0 10px}
+.modal-body p{color:#ffffff;opacity:.88;font-size:14px;line-height:1.75;margin-bottom:13px}
 .modal-body ul{margin:8px 0 17px 20px}
-.modal-body li{color:#3c6b8e;font-size:14px;line-height:1.7;margin-bottom:7px}
-.modal-body strong{color:#174f78}
+.modal-body li{color:#ffffff;opacity:.88;font-size:14px;line-height:1.7;margin-bottom:7px}
+.modal-body strong{color:#ffffff;opacity:1}
 .form-modal{max-width:500px}
 .form-body{padding:25px}
-.form-intro{color:#3c6b8e;font-size:14px;line-height:1.7;margin-bottom:22px;text-align:center}
+.form-intro{color:#ffffff;opacity:.88;font-size:14px;line-height:1.7;margin-bottom:22px;text-align:center}
 .field{margin-bottom:18px}
-.field label{display:block;color:#1e6fa4;font-size:13px;font-weight:700;margin-bottom:8px}
-.field input{width:100%;border:1.5px solid rgba(103,183,235,.5);background:#ffffff;color:#1e5a82;padding:15px 16px;border-radius:12px;outline:none;font-size:14px;transition:border-color .25s,box-shadow .25s,background .25s}
-.field input:focus{border-color:#67B7EB;background:#f7fbff;box-shadow:0 0 12px rgba(103,183,235,.3)}
-.field input::placeholder{color:#8fb6d2}
-.send-whatsapp{width:100%;padding:16px;border:none;border-radius:13px;background:linear-gradient(135deg,#67B7EB,#4fa3dd);color:#ffffff;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 8px 22px rgba(103,183,235,.45);transition:.25s;text-shadow:0 1px 2px rgba(30,111,164,.4)}
-.send-whatsapp:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(103,183,235,.6)}
-.form-note{text-align:center;color:#6b94b3;font-size:11px;line-height:1.6;margin-top:15px}
+.field label{display:block;color:#ffffff;font-size:13px;font-weight:700;margin-bottom:8px}
+.field input{width:100%;border:1.5px solid rgba(103,183,235,.55);background:#121212;color:#ffffff;padding:15px 16px;border-radius:12px;outline:none;font-size:14px;transition:border-color .25s,box-shadow .25s,background .25s;box-shadow:inset 0 0 10px rgba(103,183,235,.08)}
+.field input:focus{border-color:#67B7EB;background:#1a1a1a;box-shadow:0 0 12px rgba(103,183,235,.35),inset 0 0 10px rgba(103,183,235,.12)}
+.field input::placeholder{color:rgba(255,255,255,.5)}
+.send-whatsapp{width:100%;padding:16px;border:1.5px solid #67B7EB;border-radius:13px;background:#121212;color:#ffffff;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.6),0 0 14px rgba(103,183,235,.35),inset 0 0 14px rgba(103,183,235,.15);transition:.25s}
+.send-whatsapp:hover{transform:translateY(-2px);background:#67B7EB;box-shadow:0 12px 30px rgba(0,0,0,.65),0 0 24px rgba(103,183,235,.55)}
+.form-note{text-align:center;color:#ffffff;opacity:.65;font-size:11px;line-height:1.6;margin-top:15px}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:translateY(0)}}
 @keyframes buttonAppear{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulseNeon{0%,100%{box-shadow:0 8px 24px rgba(103,183,235,.55),0 0 30px rgba(103,183,235,.3),0 0 70px rgba(103,183,235,.15)}50%{box-shadow:0 10px 30px rgba(103,183,235,.75),0 0 42px rgba(103,183,235,.5),0 0 90px rgba(103,183,235,.25)}}
+@keyframes pulseNeon{0%,100%{box-shadow:0 8px 24px rgba(0,0,0,.7),0 0 30px rgba(103,183,235,.3),inset 0 0 24px rgba(103,183,235,.12)}50%{box-shadow:0 10px 30px rgba(0,0,0,.75),0 0 42px rgba(103,183,235,.55),inset 0 0 24px rgba(103,183,235,.18)}}
 @media(max-width:600px){.container{padding:35px 15px 30px}.logo-area h1{font-size:26px}.logo-icon{width:100px;height:100px;font-size:27px}.logo-icon img{width:100%;height:100%}.policy-btn{min-height:72px;font-size:13px;padding:16px}.btn-icon{width:36px;height:36px;min-width:36px;margin-right:12px}.modal{padding:10px}.modal-content{max-height:96vh;height:96vh;border-radius:18px}.modal-header{padding:14px 17px}.modal-body{padding:18px;max-height:calc(96vh - 75px);height:auto;overflow-y:auto;-webkit-overflow-scrolling:touch}.modal-title{font-size:15px}.accept-btn{font-size:13px;padding:18px 15px}}
 </style>
 </head>
@@ -3531,13 +3543,13 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         let velocidadDestacada = `
             <div class="velocidad-destacada">
                 <div style="display:flex; align-items:center; justify-content:center; gap:5px;">
-                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter:brightness(0) saturate(100%) invert(62%) sepia(38%) saturate(640%) hue-rotate(170deg) brightness(95%);">
-                    <div style="color:#1e6fa4; font-size:18px; font-weight:bold; line-height:1;">
+                    <img src="https://i.imgur.com/sOMm2Fr.gif" style="width:60px; height:45px; object-fit:contain; filter:brightness(0) invert(1);">
+                    <div style="color:#ffffff; font-size:18px; font-weight:bold; line-height:1;">
                         ${velocidadKmh}
                     </div>
-                    <div style="color:#4a7ca0; font-size:10px; margin-top:5px;">km/h</div>
+                    <div style="color:#ffffff; font-size:10px; margin-top:5px; opacity:0.8;">km/h</div>
                 </div>
-                <div style="color:#348dc4; font-size:9px; margin-top:5px; letter-spacing:1px; font-weight:bold;">
+                <div style="color:#ffffff; font-size:9px; margin-top:5px; letter-spacing:1px; font-weight:bold;">
                     VELOCIDAD
                 </div>
             </div>
@@ -3556,8 +3568,8 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         } else {
             ignicionDestacada = `
                 <div class="ignicion-destacada">
-                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter:brightness(0) saturate(100%) invert(62%) sepia(38%) saturate(640%) hue-rotate(170deg) brightness(95%);">
-                    <div style="color:#e05555; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">APAGADO</div>
+                    <img src="https://i.imgur.com/Jrl77a5.png" style="width:50px; height:30px; object-fit:contain; display:block; margin:auto; filter:brightness(0) invert(1);">
+                    <div style="color:#ff5555; font-size:11px; font-weight:bold; margin-top:6px; letter-spacing:1px;">APAGADO</div>
                 </div>
             `;
         }      
@@ -3566,7 +3578,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             document.getElementById('ubicacion-flotante').innerHTML = `
                 <div class="ubicacion-destacada">
                     <img src="https://i.imgur.com/1VCjVnA.gif" style="width:35px; height:35px; object-fit:contain; flex-shrink:0;">
-                    <div style="color:#1e6fa4; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
+                    <div style="color:#ffffff; font-size:11px; font-weight:bold; line-height:1.3; text-align:center; word-wrap:break-word;">
                         ${nombreLugar}
                     </div>
                 </div>
@@ -3772,7 +3784,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
     async function cargarGeocercas() {
         const contenedor = document.getElementById('lista-geocercas');
-        contenedor.innerHTML = '<p style="color: #4a7ca0;">Cargando...</p>';
+        contenedor.innerHTML = '<p style="color: #ffffff;">Cargando...</p>';
         
         try {
             const res = await fetch('https://whitecargps.duckdns.org/api/geofences', { headers: authHeaders() });
@@ -3786,19 +3798,19 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             }
 
             if (geocercas.length === 0) {
-                contenedor.innerHTML = '<p style="color: #4a7ca0;">No hay geocercas creadas.</p>';
+                contenedor.innerHTML = '<p style="color: #ffffff;">No hay geocercas creadas.</p>';
                 return;
             }
 
             geocercas.forEach(g => {
                 const div = document.createElement('div');
-                div.style.cssText = 'background: #ffffff; padding: 8px; margin-bottom: 6px; border: 1.5px solid rgba(103,183,235,0.45); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 10px rgba(103,183,235,0.2);';
+                div.style.cssText = 'background: #121212; padding: 8px; margin-bottom: 6px; border: 1.5px solid rgba(103,183,235,0.5); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.55), inset 0 0 10px rgba(103,183,235,0.1);';
                 div.innerHTML = `
                     <div>
-                        <strong style="color: #1e6fa4; font-size: 12px;">${g.name}</strong>
-                        <div style="font-size: 10px; color: #4a7ca0;">${g.description || 'Sin descripción'}</div>
+                        <strong style="color: #ffffff; font-size: 12px;">${g.name}</strong>
+                        <div style="font-size: 10px; color: #ffffff; opacity: 0.75;">${g.description || 'Sin descripción'}</div>
                     </div>
-                    <button onclick="eliminarGeocerca(${g.id})" style="background: linear-gradient(135deg,#67B7EB,#4fa3dd); color: #ffffff; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer;">
+                    <button onclick="eliminarGeocerca(${g.id})" style="background: #121212; color: #ffffff; border: 1.5px solid #67B7EB; padding: 5px 8px; border-radius: 4px; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.5), inset 0 0 8px rgba(103,183,235,0.15);">
                         <i class="fas fa-trash"></i>
                     </button>
                 `;
@@ -3820,7 +3832,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
                 }
             });
         } catch (e) {
-            contenedor.innerHTML = '<p style="color: #e05555;">Error al obtener las geocercas.</p>';
+            contenedor.innerHTML = '<p style="color: #ff5555;">Error al obtener las geocercas.</p>';
         }
     }
 
