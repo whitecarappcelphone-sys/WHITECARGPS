@@ -1269,7 +1269,7 @@ html, body {
     <div class="modal-recorridos-box modal-politicas-box">
         <div class="modal-recorridos-header">
             <strong><i class="fas fa-file-contract"></i> POLÍTICAS Y CONDICIONES</strong>
-            <button type="button" class="modal-recorridos-close" onclick="cerrarModalPoliticas()" aria-label="Cerrar políticas">
+            <button type="button" id="btn-cerrar-politicas" class="modal-recorridos-close" onclick="cerrarModalPoliticas()" aria-label="Cerrar políticas">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -2498,66 +2498,66 @@ function generarRecorridoDemo() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EAGLE TRACK GPS | Políticas y Condiciones</title>
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#67B7EB">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,rgba(255,0,55,.12),transparent 35%),radial-gradient(circle at bottom,rgba(255,0,55,.07),transparent 40%),#070707;color:#fff;min-height:100vh;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,0,55,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,55,.025) 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
+body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,rgba(103,183,235,.25),transparent 40%),radial-gradient(circle at bottom,rgba(103,183,235,.16),transparent 45%),#f5faff;color:#1e5a82;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(103,183,235,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(103,183,235,.08) 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
 .container{width:100%;max-width:900px;margin:0 auto;padding:50px 20px 40px;text-align:center}
 .logo-area{margin-bottom:45px;animation:fadeDown 1s ease forwards}
-.logo-icon{width:150px;height:150px;margin:0 auto 25px;border:1px solid rgba(255,255,255,.72);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;font-size:32px;font-weight:bold;box-shadow:0 0 24px rgba(103,183,235,.55),inset 0 0 26px rgba(255,255,255,.2)}
+.logo-icon{width:150px;height:150px;margin:0 auto 25px;border:2px solid rgba(103,183,235,.55);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#ffffff;color:#348dc4;font-size:32px;font-weight:bold;box-shadow:0 10px 30px rgba(103,183,235,.35),inset 0 0 26px rgba(103,183,235,.1)}
 .logo-icon img{width:100%;height:100%;object-fit:contain;border-radius:0;padding:0;transform:none}
-.logo-area h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.2),0 0 20px rgba(255,23,79,.25)}
-.logo-area h1 span{color:#ff174f}
-.logo-area p{margin-top:10px;color:#a7a7a7;font-size:14px}
-.section-title{font-size:15px;color:#c9c9c9;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px}
+.logo-area h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#1e6fa4;text-shadow:0 1px 0 #ffffff,0 0 20px rgba(103,183,235,.35)}
+.logo-area h1 span{color:#67B7EB}
+.logo-area p{margin-top:10px;color:#4a7ca0;font-size:14px}
+.section-title{font-size:15px;color:#35739c;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px}
 .policy-buttons{display:flex;flex-direction:column;gap:18px}
-.policy-btn{width:100%;min-height:78px;border:1px solid rgba(255,255,255,.62);border-radius:18px;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;padding:20px 25px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;letter-spacing:.5px;cursor:pointer;box-shadow:0 0 12px rgba(255,255,255,.16),inset 0 0 20px rgba(255,255,255,.08);transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;opacity:0;transform:translateY(30px);animation:buttonAppear .75s ease forwards}
+.policy-btn{width:100%;min-height:78px;border:1.5px solid rgba(103,183,235,.55);border-radius:18px;background:#ffffff;color:#1e6fa4;padding:20px 25px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;letter-spacing:.5px;cursor:pointer;box-shadow:0 8px 22px rgba(103,183,235,.25),inset 0 0 20px rgba(103,183,235,.05);transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;opacity:0;transform:translateY(30px);animation:buttonAppear .75s ease forwards}
 .policy-btn:nth-child(2){animation-delay:.18s}
-.policy-btn:hover{transform:translateY(-4px) scale(1.01);border-color:#fff;background:rgba(255,255,255,.28);box-shadow:0 0 16px rgba(255,255,255,.42),0 0 30px rgba(103,183,235,.28),inset 0 0 20px rgba(255,255,255,.12)}
+.policy-btn:hover{transform:translateY(-4px) scale(1.01);border-color:#67B7EB;background:#f0f8fe;box-shadow:0 12px 28px rgba(103,183,235,.4),inset 0 0 20px rgba(103,183,235,.08)}
 .policy-btn:active{transform:scale(.98)}
-.btn-icon{width:40px;height:40px;margin-right:15px;border-radius:12px;border:1px solid rgba(255,23,79,.6);display:flex;align-items:center;justify-content:center;color:#ff174f;font-size:20px;box-shadow:0 0 10px rgba(255,23,79,.2)}
-.divider{width:100%;height:1px;margin:38px 0;background:linear-gradient(90deg,transparent,rgba(255,23,79,.7),transparent)}
-.accept-btn{width:100%;padding:20px 24px;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer;box-shadow:0 0 14px rgba(255,255,255,.34),0 0 38px rgba(103,183,235,.32),inset 0 0 24px rgba(255,255,255,.1);transition:transform .25s ease,box-shadow .25s ease;animation:pulseNeon 2.5s infinite}
-.accept-btn:hover{transform:translateY(-3px);box-shadow:0 0 15px rgba(255,23,79,1),0 0 40px rgba(255,23,79,.7),0 0 90px rgba(255,23,79,.3)}
-.footer{margin-top:35px;color:#777;font-size:12px;line-height:1.7}
-.footer strong{color:#ff174f}
-.modal{position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:rgba(0,0,0,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+.btn-icon{width:40px;height:40px;margin-right:15px;border-radius:12px;border:1.5px solid rgba(103,183,235,.6);display:flex;align-items:center;justify-content:center;color:#348dc4;font-size:20px;background:#f0f8fe;box-shadow:0 0 10px rgba(103,183,235,.2)}
+.divider{width:100%;height:1px;margin:38px 0;background:linear-gradient(90deg,transparent,rgba(103,183,235,.8),transparent)}
+.accept-btn{width:100%;padding:20px 24px;border:2px solid #ffffff;border-radius:18px;background:linear-gradient(135deg,#67B7EB,#4fa3dd);color:#ffffff;font-size:14px;font-weight:900;line-height:1.5;cursor:pointer;box-shadow:0 10px 28px rgba(103,183,235,.45),inset 0 0 24px rgba(255,255,255,.18);transition:transform .25s ease,box-shadow .25s ease;animation:pulseNeon 2.5s infinite;text-shadow:0 1px 2px rgba(30,111,164,.4)}
+.accept-btn:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(103,183,235,.6),0 0 40px rgba(103,183,235,.45),inset 0 0 24px rgba(255,255,255,.25)}
+.footer{margin-top:35px;color:#6b94b3;font-size:12px;line-height:1.7}
+.footer strong{color:#348dc4}
+.modal{position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:rgba(103,183,235,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
 .modal.active{opacity:1;visibility:visible}
-.modal-content{width:100%;max-width:850px;max-height:90vh;background:linear-gradient(145deg,#121212,#090909);border:1px solid rgba(255,23,79,.55);border-radius:22px;box-shadow:0 0 15px rgba(255,23,79,.35),0 0 50px rgba(255,23,79,.12);overflow:hidden;transform:translateY(25px) scale(.97);transition:transform .35s ease}
+.modal-content{width:100%;max-width:850px;max-height:90vh;background:linear-gradient(145deg,#ffffff,#f2f9fe);border:1.5px solid rgba(103,183,235,.55);border-radius:22px;box-shadow:0 18px 50px rgba(103,183,235,.4),0 0 50px rgba(103,183,235,.15);overflow:hidden;transform:translateY(25px) scale(.97);transition:transform .35s ease}
 .modal.active .modal-content{transform:translateY(0) scale(1)}
-.modal-header{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;background:#101010;z-index:2}
-.modal-title{color:#fff;font-size:18px;font-weight:900;line-height:1.35}
-.modal-title span{color:#ffffff}
-.close-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,23,79,.55);background:rgba(255,23,79,.08);color:#fff;font-size:22px;cursor:pointer;transition:.25s}
-.close-btn:hover{background:#ff174f;box-shadow:0 0 20px rgba(255,23,79,.5)}
-.modal-body{padding:25px;max-height:calc(90vh - 85px);height:calc(90vh - 85px);overflow-y:auto;text-align:left;scrollbar-width:thin;scrollbar-color:#ff174f #151515}
+.modal-header{padding:22px 24px;border-bottom:1.5px solid rgba(103,183,235,.3);display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;background:#eaf5fd;z-index:2}
+.modal-title{color:#1e6fa4;font-size:18px;font-weight:900;line-height:1.35}
+.modal-title span{color:#67B7EB}
+.close-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(103,183,235,.6);background:#ffffff;color:#348dc4;font-size:22px;cursor:pointer;transition:.25s}
+.close-btn:hover{background:#67B7EB;color:#ffffff;box-shadow:0 0 20px rgba(103,183,235,.5)}
+.modal-body{padding:25px;max-height:calc(90vh - 85px);height:calc(90vh - 85px);overflow-y:auto;text-align:left;scrollbar-width:thin;scrollbar-color:#67B7EB #eaf4fb}
 .modal-body::-webkit-scrollbar{width:7px}
-.modal-body::-webkit-scrollbar-track{background:#151515}
-.modal-body::-webkit-scrollbar-thumb{background:#ff174f;border-radius:10px}
+.modal-body::-webkit-scrollbar-track{background:#eaf4fb}
+.modal-body::-webkit-scrollbar-thumb{background:#67B7EB;border-radius:10px}
 .modal-body::after{content:"";display:block;height:30px}
-.modal-body h2{color:#ff174f;font-size:19px;margin:25px 0 12px}
+.modal-body h2{color:#2b86c0;font-size:19px;margin:25px 0 12px}
 .modal-body h2:first-child{margin-top:0}
-.modal-body h3{color:#fff;font-size:15px;margin:22px 0 10px}
-.modal-body p{color:#c9c9c9;font-size:14px;line-height:1.75;margin-bottom:13px}
+.modal-body h3{color:#1e6fa4;font-size:15px;margin:22px 0 10px}
+.modal-body p{color:#3c6b8e;font-size:14px;line-height:1.75;margin-bottom:13px}
 .modal-body ul{margin:8px 0 17px 20px}
-.modal-body li{color:#c9c9c9;font-size:14px;line-height:1.7;margin-bottom:7px}
-.modal-body strong{color:#fff}
+.modal-body li{color:#3c6b8e;font-size:14px;line-height:1.7;margin-bottom:7px}
+.modal-body strong{color:#174f78}
 .form-modal{max-width:500px}
 .form-body{padding:25px}
-.form-intro{color:#bdbdbd;font-size:14px;line-height:1.7;margin-bottom:22px;text-align:center}
+.form-intro{color:#3c6b8e;font-size:14px;line-height:1.7;margin-bottom:22px;text-align:center}
 .field{margin-bottom:18px}
-.field label{display:block;color:#fff;font-size:13px;font-weight:700;margin-bottom:8px}
-.field input{width:100%;border:1px solid rgba(255,23,79,.35);background:#0b0b0b;color:#fff;padding:15px 16px;border-radius:12px;outline:none;font-size:14px;transition:border-color .25s,box-shadow .25s,background .25s}
-.field input:focus{border-color:#ff174f;background:#101010;box-shadow:0 0 12px rgba(255,23,79,.18)}
-.field input::placeholder{color:#666}
-.send-whatsapp{width:100%;padding:16px;border:none;border-radius:13px;background:#ff174f;color:#fff;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 0 15px rgba(255,23,79,.45);transition:.25s}
-.send-whatsapp:hover{transform:translateY(-2px);box-shadow:0 0 25px rgba(255,23,79,.65)}
-.form-note{text-align:center;color:#727272;font-size:11px;line-height:1.6;margin-top:15px}
+.field label{display:block;color:#1e6fa4;font-size:13px;font-weight:700;margin-bottom:8px}
+.field input{width:100%;border:1.5px solid rgba(103,183,235,.5);background:#ffffff;color:#1e5a82;padding:15px 16px;border-radius:12px;outline:none;font-size:14px;transition:border-color .25s,box-shadow .25s,background .25s}
+.field input:focus{border-color:#67B7EB;background:#f7fbff;box-shadow:0 0 12px rgba(103,183,235,.3)}
+.field input::placeholder{color:#8fb6d2}
+.send-whatsapp{width:100%;padding:16px;border:none;border-radius:13px;background:linear-gradient(135deg,#67B7EB,#4fa3dd);color:#ffffff;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 8px 22px rgba(103,183,235,.45);transition:.25s;text-shadow:0 1px 2px rgba(30,111,164,.4)}
+.send-whatsapp:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(103,183,235,.6)}
+.form-note{text-align:center;color:#6b94b3;font-size:11px;line-height:1.6;margin-top:15px}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:translateY(0)}}
 @keyframes buttonAppear{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulseNeon{0%,100%{box-shadow:0 0 10px rgba(255,23,79,.9),0 0 30px rgba(255,23,79,.4),0 0 70px rgba(255,23,79,.18)}50%{box-shadow:0 0 15px rgba(255,23,79,1),0 0 42px rgba(255,23,79,.6),0 0 90px rgba(255,23,79,.25)}}
+@keyframes pulseNeon{0%,100%{box-shadow:0 8px 24px rgba(103,183,235,.55),0 0 30px rgba(103,183,235,.3),0 0 70px rgba(103,183,235,.15)}50%{box-shadow:0 10px 30px rgba(103,183,235,.75),0 0 42px rgba(103,183,235,.5),0 0 90px rgba(103,183,235,.25)}}
 @media(max-width:600px){.container{padding:35px 15px 30px}.logo-area h1{font-size:26px}.logo-icon{width:100px;height:100px;font-size:27px}.logo-icon img{width:100%;height:100%}.policy-btn{min-height:72px;font-size:13px;padding:16px}.btn-icon{width:36px;height:36px;min-width:36px;margin-right:12px}.modal{padding:10px}.modal-content{max-height:96vh;height:96vh;border-radius:18px}.modal-header{padding:14px 17px}.modal-body{padding:18px;max-height:calc(96vh - 75px);height:auto;overflow-y:auto;-webkit-overflow-scrolling:touch}.modal-title{font-size:15px}.accept-btn{font-size:13px;padding:18px 15px}}
 </style>
 </head>
@@ -2748,7 +2748,7 @@ function openModal(id){const modal=document.getElementById(id);if(!modal)return;
 function closeModal(id){const modal=document.getElementById(id);if(!modal)return;modal.classList.remove("active");setTimeout(()=>{if(!document.querySelector(".modal.active"))document.body.style.overflow=""},300)}
 function closeOutside(event,id){if(event.target.id===id)closeModal(id)}
 document.addEventListener("keydown",event=>{if(event.key==="Escape"){document.querySelectorAll(".modal.active").forEach(modal=>closeModal(modal.id))}});
-function sendWhatsApp(){const nombre=document.getElementById("nombre").value.trim();const documento=document.getElementById("documento").value.trim();const placa=document.getElementById("placa").value.trim().toUpperCase();if(nombre===""){alert("Por favor escriba su nombre completo.");document.getElementById("nombre").focus();return}if(documento===""){alert("Por favor escriba su número de identificación.");document.getElementById("documento").focus();return}if(placa===""){alert("Por favor escriba la placa del vehículo.");document.getElementById("placa").focus();return}const mensaje="Yo - "+nombre+" identificado con número de documento - "+documento+" tengo un vehículo de placa - "+placa+" - ACEPTO LOS TÉRMINOS Y CONDICIONES DE USO DEL SERVICIO DE EAGLE TRACK GPS Y LA POLÍTICA DE PRIVACIDAD Y TRATAMIENTO DE DATOS.";const url="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(mensaje);window.open(url,"_blank");closeModal("acceptModal")}
+function sendWhatsApp(){const nombre=document.getElementById("nombre").value.trim();const documento=document.getElementById("documento").value.trim();const placa=document.getElementById("placa").value.trim().toUpperCase();if(nombre===""){alert("Por favor escriba su nombre completo.");document.getElementById("nombre").focus();return}if(documento===""){alert("Por favor escriba su número de identificación.");document.getElementById("documento").focus();return}if(placa===""){alert("Por favor escriba la placa del vehículo.");document.getElementById("placa").focus();return}const mensaje="Yo - "+nombre+" identificado con número de documento - "+documento+" tengo un vehículo de placa - "+placa+" - ACEPTO LOS TÉRMINOS Y CONDICIONES DE USO DEL SERVICIO DE EAGLE TRACK GPS Y LA POLÍTICA DE PRIVACIDAD Y TRATAMIENTO DE DATOS.";const url="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(mensaje);window.open(url,"_blank");try{window.parent.postMessage("whitecar-politicas-aceptadas","*")}catch(e){}closeModal("acceptModal")}
 document.getElementById("nombre").addEventListener("keydown",event=>{if(event.key==="Enter")document.getElementById("documento").focus()});
 document.getElementById("documento").addEventListener("keydown",event=>{if(event.key==="Enter")document.getElementById("placa").focus()});
 document.getElementById("placa").addEventListener("keydown",event=>{if(event.key==="Enter")sendWhatsApp()});
@@ -2919,6 +2919,38 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
   
     let mapaCentradoInicialmente = false;
 
+    // ============================================
+    // POLÍTICAS OBLIGATORIAS AL INICIAR SESIÓN
+    // ============================================
+    let politicasObligatorias = false;
+
+    function politicasYaAceptadas() {
+        try {
+            return localStorage.getItem('whitecar_politicas_aceptadas') === 'yes';
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function exigirAceptacionPoliticas() {
+        if (politicasYaAceptadas()) return;
+        abrirModalPoliticas(true);
+    }
+
+    // Escucha la confirmación enviada desde el iframe de políticas (al enviar el mensaje de aceptación)
+    window.addEventListener('message', event => {
+        if (event.data === 'whitecar-politicas-aceptadas') {
+            try {
+                localStorage.setItem('whitecar_politicas_aceptadas', 'yes');
+            } catch (error) {
+                // Si el almacenamiento no está disponible, igual se libera el mapa en esta sesión.
+            }
+            politicasObligatorias = false;
+            cerrarModalPoliticas();
+            mostrarAlertaPersonalizada('Gracias. Has aceptado las políticas y condiciones. Ya puedes usar el mapa.');
+        }
+    });
+
     window.addEventListener('load', () => {
         const emailGuardado = localStorage.getItem('eagle_email');
         const passwordGuardado = localStorage.getItem('eagle_password');
@@ -2937,6 +2969,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
             document.getElementById('pantalla-mapa').style.display = 'block';
             crearMapaReal();
             obtenerPosicionActual();
+            exigirAceptacionPoliticas();
         }
     });
 
@@ -3159,7 +3192,10 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
     function cerrarModales() {
         const modales = document.querySelectorAll('.modal-overlay');
-        modales.forEach(modal => modal.style.display = 'none');
+        modales.forEach(modal => {
+            if (modal.id === 'modal-politicas' && politicasObligatorias) return;
+            modal.style.display = 'none';
+        });
         cerrarModalRecorridos();
         cerrarModalPoliticas();
         comandoPendiente = null;
@@ -3187,6 +3223,7 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
 
         crearMapaReal();
         obtenerPosicionActual();
+        exigirAceptacionPoliticas();
     }
   
     async function obtenerPosicionActual() {
@@ -3890,18 +3927,18 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
         document.getElementById('iframe-recorridos').srcdoc = '';
     }
 
-    function abrirModalPoliticas() {
+    function abrirModalPoliticas(obligatorio = false) {
         const modal = document.getElementById('modal-politicas');
         const iframe = document.getElementById('iframe-politicas');
+        const botonCerrar = document.getElementById('btn-cerrar-politicas');
+        // El documento de políticas ya usa la paleta clara (blanco predominante + azul #67B7EB).
         const contenido = document.getElementById('politicas-html').value
             .replace(/EAGLE TRACK GPS/gi, 'WHITE CAR GPS')
-            .replace(/https:\/\/i\.imgur\.com\/fp4GnRx\.png/g, 'https://i.imgur.com/Ga8uSGQ.png')
-            .replace(/#ff174f/gi, '#67B7EB')
-            .replace(/rgba\(\s*255\s*,\s*23\s*,\s*79\s*,\s*([^)]+)\)/gi, 'rgba(103,183,235,$1)')
-            .replace(/rgba\(\s*255\s*,\s*0\s*,\s*55\s*,\s*([^)]+)\)/gi, 'rgba(103,183,235,$1)')
-            .replace(/#(?:080808|070707|121212|090909|101010|151515|0b0b0b)\b/gi, '#67B7EB')
-            .replace(/rgba\(\s*0\s*,\s*0\s*,\s*0\s*,\s*\.78\s*\)/gi, 'rgba(103,183,235,.88)')
-            .replace(/#(?:a7a7a7|c9c9c9|bdbdbd|727272|777|666|999|888)\b/gi, '#ffffff');
+            .replace(/https:\/\/i\.imgur\.com\/fp4GnRx\.png/g, 'https://i.imgur.com/Ga8uSGQ.png');
+
+        // Modo obligatorio: solo se libera al enviar la aceptación por WhatsApp.
+        politicasObligatorias = !!obligatorio && !politicasYaAceptadas();
+        botonCerrar.style.display = politicasObligatorias ? 'none' : 'inline-flex';
 
         iframe.srcdoc = contenido;
         modal.style.display = 'flex';
@@ -3911,6 +3948,8 @@ document.getElementById("placa").addEventListener("keydown",event=>{if(event.key
     function cerrarModalPoliticas() {
         const modal = document.getElementById('modal-politicas');
         if (!modal) return;
+        // Bloqueado: no se puede cerrar hasta aceptar y enviar las políticas.
+        if (politicasObligatorias) return;
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
         document.getElementById('iframe-politicas').srcdoc = '';
